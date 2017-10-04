@@ -1,0 +1,349 @@
+PODS:
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - FBSDKCoreKit (4.27.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.27.0):
+    - FBSDKCoreKit
+  - Firebase/AdMob (4.2.0):
+    - Firebase/Core
+    - Google-Mobile-Ads-SDK (= 7.24.0)
+  - Firebase/Auth (4.2.0):
+    - Firebase/Core
+    - FirebaseAuth (= 4.2.0)
+  - Firebase/Core (4.2.0):
+    - FirebaseAnalytics (= 4.0.3)
+    - FirebaseCore (= 4.0.7)
+  - Firebase/Database (4.2.0):
+    - Firebase/Core
+    - FirebaseDatabase (= 4.0.3)
+  - Firebase/Invites (4.2.0):
+    - Firebase/Core
+    - FirebaseInvites (= 2.0.1)
+  - Firebase/Messaging (4.2.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 2.0.3)
+  - Firebase/RemoteConfig (4.2.0):
+    - Firebase/Core
+    - FirebaseRemoteConfig (= 2.0.3)
+  - Firebase/Storage (4.2.0):
+    - Firebase/Core
+    - FirebaseStorage (= 2.0.2)
+  - FirebaseAnalytics (4.0.3):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseAuth (4.2.0):
+    - FirebaseAnalytics (~> 4.0)
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseCore (4.0.7):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseDatabase (4.0.3):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - leveldb-library (~> 1.18)
+  - FirebaseDynamicLinks (2.1.0):
+    - FirebaseAnalytics (~> 4.0)
+  - FirebaseInstanceID (2.0.3)
+  - FirebaseInvites (2.0.1):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseDynamicLinks (~> 2.1)
+    - GoogleAPIClientForREST (~> 1.0)
+    - GoogleSignIn (~> 4.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/StringEncoding (~> 2.1)
+    - GoogleToolboxForMac/URLBuilder (~> 2.1)
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+    - GTMSessionFetcher/Full (~> 1.1)
+    - Protobuf (~> 3.1)
+  - FirebaseMessaging (2.0.3):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
+  - FirebaseRemoteConfig (2.0.3):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - Protobuf (~> 3.1)
+  - FirebaseStorage (2.0.2):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseUI (4.3.1):
+    - FirebaseUI/All (= 4.3.1)
+  - FirebaseUI/All (4.3.1):
+    - FirebaseUI/Auth
+    - FirebaseUI/Database
+    - FirebaseUI/Facebook
+    - FirebaseUI/Google
+    - FirebaseUI/Phone
+    - FirebaseUI/Storage
+    - FirebaseUI/Twitter
+  - FirebaseUI/Auth (4.3.1):
+    - Firebase/Auth (~> 4.2)
+  - FirebaseUI/Database (4.3.1):
+    - Firebase/Database (~> 4.0)
+  - FirebaseUI/Facebook (4.3.1):
+    - FBSDKLoginKit (~> 4.0)
+    - FirebaseUI/Auth
+  - FirebaseUI/Google (4.3.1):
+    - FirebaseUI/Auth
+    - GoogleSignIn (~> 4.0)
+  - FirebaseUI/Phone (4.3.1):
+    - FirebaseUI/Auth
+  - FirebaseUI/Storage (4.3.1):
+    - Firebase/Storage (~> 4.0)
+    - SDWebImage (~> 4.0)
+  - FirebaseUI/Twitter (4.3.1):
+    - FirebaseUI/Auth
+    - TwitterKit (~> 3.0)
+  - Google-Mobile-Ads-SDK (7.24.0)
+  - GoogleAPIClientForREST (1.3.1):
+    - GoogleAPIClientForREST/Core (= 1.3.1)
+    - GTMSessionFetcher (>= 1.1.7)
+  - GoogleAPIClientForREST/Core (1.3.1):
+    - GTMSessionFetcher (>= 1.1.7)
+  - GoogleSignIn (4.1.0):
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/Core (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/DebugUtils (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.1):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.1)
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
+  - GoogleToolboxForMac/StringEncoding (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/URLBuilder (2.1.1):
+    - GoogleToolboxForMac/Core (= 2.1.1)
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+    - GoogleToolboxForMac/NSDictionary+URLArguments (= 2.1.1)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
+  - GTMOAuth2 (1.1.5):
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.1.12):
+    - GTMSessionFetcher/Full (= 1.1.12)
+  - GTMSessionFetcher/Core (1.1.12)
+  - GTMSessionFetcher/Full (1.1.12):
+    - GTMSessionFetcher/Core (= 1.1.12)
+  - leveldb-library (1.18.3)
+  - MaterialComponents/AppBar (35.2.0):
+    - MaterialComponents/AppBar/ColorThemer (= 35.2.0)
+    - MaterialComponents/AppBar/Component (= 35.2.0)
+  - MaterialComponents/AppBar/ColorThemer (35.2.0):
+    - MaterialComponents/AppBar/Component
+    - MaterialComponents/Themes
+  - MaterialComponents/AppBar/Component (35.2.0):
+    - MaterialComponents/FlexibleHeader
+    - MaterialComponents/HeaderStackView
+    - MaterialComponents/NavigationBar
+    - MaterialComponents/private/Icons/ic_arrow_back
+    - MaterialComponents/private/RTL
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+  - MaterialComponents/ButtonBar/Component (35.2.0):
+    - MaterialComponents/Buttons
+    - MaterialComponents/private/RTL
+  - MaterialComponents/Buttons (35.2.0):
+    - MaterialComponents/Buttons/ColorThemer (= 35.2.0)
+    - MaterialComponents/Buttons/Component (= 35.2.0)
+    - MaterialComponents/Buttons/TitleColorAccessibilityMutator (= 35.2.0)
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+    - MDFTextAccessibility
+  - MaterialComponents/Buttons/ColorThemer (35.2.0):
+    - MaterialComponents/Buttons/Component
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Themes
+    - MaterialComponents/Typography
+    - MDFTextAccessibility
+  - MaterialComponents/Buttons/Component (35.2.0):
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+    - MDFTextAccessibility
+  - MaterialComponents/Buttons/TitleColorAccessibilityMutator (35.2.0):
+    - MaterialComponents/Buttons/Component
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+    - MDFTextAccessibility
+  - MaterialComponents/CollectionCells (35.2.0):
+    - MaterialComponents/CollectionLayoutAttributes
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Icons/ic_check
+    - MaterialComponents/private/Icons/ic_check_circle
+    - MaterialComponents/private/Icons/ic_chevron_right
+    - MaterialComponents/private/Icons/ic_info
+    - MaterialComponents/private/Icons/ic_radio_button_unchecked
+    - MaterialComponents/private/Icons/ic_reorder
+    - MaterialComponents/private/Math
+    - MaterialComponents/private/RTL
+    - MaterialComponents/Typography
+  - MaterialComponents/CollectionLayoutAttributes (35.2.0)
+  - MaterialComponents/Collections (35.2.0):
+    - MaterialComponents/CollectionCells
+    - MaterialComponents/CollectionLayoutAttributes
+    - MaterialComponents/Ink
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+  - MaterialComponents/FlexibleHeader (35.2.0):
+    - MaterialComponents/FlexibleHeader/ColorThemer (= 35.2.0)
+    - MaterialComponents/FlexibleHeader/Component (= 35.2.0)
+    - MaterialComponents/private/Application
+    - MDFTextAccessibility
+  - MaterialComponents/FlexibleHeader/ColorThemer (35.2.0):
+    - MaterialComponents/FlexibleHeader/Component
+    - MaterialComponents/private/Application
+    - MaterialComponents/Themes
+    - MDFTextAccessibility
+  - MaterialComponents/FlexibleHeader/Component (35.2.0):
+    - MaterialComponents/private/Application
+    - MDFTextAccessibility
+  - MaterialComponents/HeaderStackView (35.2.0):
+    - MaterialComponents/HeaderStackView/ColorThemer (= 35.2.0)
+    - MaterialComponents/HeaderStackView/Component (= 35.2.0)
+  - MaterialComponents/HeaderStackView/ColorThemer (35.2.0):
+    - MaterialComponents/HeaderStackView/Component
+    - MaterialComponents/Themes
+  - MaterialComponents/HeaderStackView/Component (35.2.0)
+  - MaterialComponents/Ink (35.2.0):
+    - MaterialComponents/Ink/ColorThemer (= 35.2.0)
+    - MaterialComponents/Ink/Component (= 35.2.0)
+  - MaterialComponents/Ink/ColorThemer (35.2.0):
+    - MaterialComponents/Ink/Component
+    - MaterialComponents/Themes
+  - MaterialComponents/Ink/Component (35.2.0)
+  - MaterialComponents/NavigationBar (35.2.0):
+    - MaterialComponents/NavigationBar/ColorThemer (= 35.2.0)
+    - MaterialComponents/NavigationBar/Component (= 35.2.0)
+  - MaterialComponents/NavigationBar/ColorThemer (35.2.0):
+    - MaterialComponents/NavigationBar/Component
+    - MaterialComponents/Themes
+  - MaterialComponents/NavigationBar/Component (35.2.0):
+    - MaterialComponents/ButtonBar/Component
+    - MaterialComponents/private/Math
+    - MaterialComponents/private/RTL
+    - MaterialComponents/Typography
+    - MDFTextAccessibility
+  - MaterialComponents/private/Application (35.2.0)
+  - MaterialComponents/private/Icons/Base (35.2.0)
+  - MaterialComponents/private/Icons/ic_arrow_back (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Icons/ic_check (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Icons/ic_check_circle (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Icons/ic_chevron_right (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Icons/ic_info (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Icons/ic_radio_button_unchecked (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Icons/ic_reorder (35.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Math (35.2.0)
+  - MaterialComponents/private/RTL (35.2.0)
+  - MaterialComponents/ShadowElevations (35.2.0)
+  - MaterialComponents/ShadowLayer (35.2.0)
+  - MaterialComponents/Themes (35.2.0)
+  - MaterialComponents/Typography (35.2.0):
+    - MaterialComponents/private/Application
+  - MDFTextAccessibility (1.2.0)
+  - MHPrettyDate (1.1.1)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
+  - Protobuf (3.4.0)
+  - SDWebImage (4.1.0):
+    - SDWebImage/Core (= 4.1.0)
+  - SDWebImage/Core (4.1.0)
+  - TwitterCore (3.0.1)
+  - TwitterKit (3.1.1):
+    - TwitterCore (>= 3.0.1)
+
+DEPENDENCIES:
+  - Firebase/AdMob
+  - Firebase/Auth
+  - Firebase/Database
+  - Firebase/Invites
+  - Firebase/Messaging
+  - Firebase/RemoteConfig
+  - Firebase/Storage
+  - FirebaseUI
+  - MaterialComponents/AppBar
+  - MaterialComponents/Buttons
+  - MaterialComponents/Collections
+  - MHPrettyDate
+
+SPEC CHECKSUMS:
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  FBSDKCoreKit: ebc6c5f5b3f0e72396041050e2266781a38ac587
+  FBSDKLoginKit: 887be4b7452e1c5a3cc4485ce152529965a0c41e
+  Firebase: 9548cae14d69718add12d75a5b312893f7ef89c7
+  FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
+  FirebaseAuth: 22f8a5170f31d1f111141950590f071f35df3229
+  FirebaseCore: 9a6cc1e3eaf75905390f9220596ad4fd8f92faee
+  FirebaseDatabase: 03940adcac54ce30db06f1fc2136f8581734ce2c
+  FirebaseDynamicLinks: ed4cb6c42705aaa5e841ed2d76e3a4bddbec10c1
+  FirebaseInstanceID: a4fc702b5a026f7322964376047f1a3f1f7cc6ff
+  FirebaseInvites: 589c8e4233d7e3df0142de037f183b0be218159f
+  FirebaseMessaging: eaf1bfff0193170c04ea3ba3bfe983f68f893118
+  FirebaseRemoteConfig: 1c982f73af48ec048c8fa8621d5178cfdffac9aa
+  FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27
+  FirebaseUI: b335485c0eb893aff428f27959836fc75ddc8177
+  Google-Mobile-Ads-SDK: f405b7acb098fe89e6fcd05fdbf400c1a5bcb935
+  GoogleAPIClientForREST: d18c6704317d6d5c56d70f724f8990eb125359a4
+  GoogleSignIn: 8c599fc10d25b2af86a3f82fd9631e863f2b1400
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
+  GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
+  leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
+  MaterialComponents: 3edb4c96d32042242ecdfb2159e697e3c59e9f38
+  MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
+  MHPrettyDate: e0e5975041f0210c0542f4c5d7e3e44d1a8537be
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
+  SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
+  TwitterCore: 6856288a1c25e5281363250681f33b42fce1da42
+  TwitterKit: 313bf02baee8427f7649b3640169178e5a8b5a99
+
+PODFILE CHECKSUM: a3d9af1b649839b5fcca3b568cc33d86dd4e3fa0
+
+COCOAPODS: 1.3.1
