@@ -11,16 +11,19 @@
 		105756331F7E8F7500DF3352 /* FPComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756321F7E8F7500DF3352 /* FPComment.swift */; };
 		105756351F7E93B900DF3352 /* FPUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756341F7E93B900DF3352 /* FPUser.swift */; };
 		105756371F7E9E1C00DF3352 /* FPPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756361F7E9E1C00DF3352 /* FPPost.swift */; };
-		105756431F7EF5D400DF3352 /* UIImageView+NSCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756421F7EF5D400DF3352 /* UIImageView+NSCache.swift */; };
+		105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756421F7EF5D400DF3352 /* UIImage+Circle.swift */; };
 		105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19411F8422D0008C282C /* FPAccountViewController.swift */; };
+		105D19461F853345008C282C /* FPUploadPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19451F853345008C282C /* FPUploadPhotoViewController.swift */; };
+		10894A811F86C0D400F30A2C /* FPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10894A801F86C0D400F30A2C /* FPTabBarController.swift */; };
+		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
 		10E1DB271F8406A6001CDB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */; };
 		10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB281F840843001CDB18 /* FPSignInViewController.swift */; };
 		10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */; };
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
 		10FD8FD71F7E840800BCB991 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD61F7E840800BCB991 /* AppDelegate.swift */; };
-		10FD8FD91F7E840800BCB991 /* FPPhotoTimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD81F7E840800BCB991 /* FPPhotoTimelineViewController.swift */; };
-		10FD8FDB1F7E840800BCB991 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FDA1F7E840800BCB991 /* SecondViewController.swift */; };
+		10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD81F7E840800BCB991 /* FPFeedViewController.swift */; };
+		10FD8FDB1F7E840800BCB991 /* FPHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FDA1F7E840800BCB991 /* FPHomeViewController.swift */; };
 		10FD8FDE1F7E840800BCB991 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FDC1F7E840800BCB991 /* Main.storyboard */; };
 		10FD8FE01F7E840800BCB991 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FDF1F7E840800BCB991 /* Assets.xcassets */; };
 		10FD8FE31F7E840800BCB991 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FE11F7E840800BCB991 /* LaunchScreen.storyboard */; };
@@ -31,8 +34,11 @@
 		105756321F7E8F7500DF3352 /* FPComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPComment.swift; sourceTree = "<group>"; };
 		105756341F7E93B900DF3352 /* FPUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPUser.swift; sourceTree = "<group>"; };
 		105756361F7E9E1C00DF3352 /* FPPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPPost.swift; sourceTree = "<group>"; };
-		105756421F7EF5D400DF3352 /* UIImageView+NSCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+NSCache.swift"; sourceTree = "<group>"; };
+		105756421F7EF5D400DF3352 /* UIImage+Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Circle.swift"; sourceTree = "<group>"; };
 		105D19411F8422D0008C282C /* FPAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountViewController.swift; sourceTree = "<group>"; };
+		105D19451F853345008C282C /* FPUploadPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPUploadPhotoViewController.swift; sourceTree = "<group>"; };
+		10894A801F86C0D400F30A2C /* FPTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPTabBarController.swift; sourceTree = "<group>"; };
+		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
 		10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10E1DB281F840843001CDB18 /* FPSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSignInViewController.swift; sourceTree = "<group>"; };
@@ -40,8 +46,8 @@
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
 		10FD8FD31F7E840800BCB991 /* FriendlyPixSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendlyPixSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10FD8FD61F7E840800BCB991 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		10FD8FD81F7E840800BCB991 /* FPPhotoTimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPPhotoTimelineViewController.swift; sourceTree = "<group>"; };
-		10FD8FDA1F7E840800BCB991 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		10FD8FD81F7E840800BCB991 /* FPFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPFeedViewController.swift; sourceTree = "<group>"; };
+		10FD8FDA1F7E840800BCB991 /* FPHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPHomeViewController.swift; sourceTree = "<group>"; };
 		10FD8FDD1F7E840800BCB991 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		10FD8FDF1F7E840800BCB991 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10FD8FE21F7E840800BCB991 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -84,18 +90,21 @@
 				105756321F7E8F7500DF3352 /* FPComment.swift */,
 				105756361F7E9E1C00DF3352 /* FPPost.swift */,
 				10FD8FD61F7E840800BCB991 /* AppDelegate.swift */,
-				10FD8FD81F7E840800BCB991 /* FPPhotoTimelineViewController.swift */,
-				10FD8FDA1F7E840800BCB991 /* SecondViewController.swift */,
-				10FD8FDC1F7E840800BCB991 /* Main.storyboard */,
-				10FD8FDF1F7E840800BCB991 /* Assets.xcassets */,
-				10FD8FE11F7E840800BCB991 /* LaunchScreen.storyboard */,
-				10FD8FE41F7E840800BCB991 /* Info.plist */,
-				105756421F7EF5D400DF3352 /* UIImageView+NSCache.swift */,
+				10FD8FD81F7E840800BCB991 /* FPFeedViewController.swift */,
+				10FD8FDA1F7E840800BCB991 /* FPHomeViewController.swift */,
+				105756421F7EF5D400DF3352 /* UIImage+Circle.swift */,
 				102EA05B1F82E4030051D6D1 /* FPCardCollectionViewCell.swift */,
 				10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */,
 				10E1DB281F840843001CDB18 /* FPSignInViewController.swift */,
 				10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */,
+				105D19451F853345008C282C /* FPUploadPhotoViewController.swift */,
+				10FD8FDC1F7E840800BCB991 /* Main.storyboard */,
+				10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */,
+				10FD8FDF1F7E840800BCB991 /* Assets.xcassets */,
+				10FD8FE11F7E840800BCB991 /* LaunchScreen.storyboard */,
+				10FD8FE41F7E840800BCB991 /* Info.plist */,
 				10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */,
+				10894A801F86C0D400F30A2C /* FPTabBarController.swift */,
 			);
 			path = FriendlyPixSwift;
 			sourceTree = "<group>";
@@ -133,6 +142,7 @@
 					10FD8FD21F7E840800BCB991 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = EQHXZ8M8AV;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -160,6 +170,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */,
 				10FD8FE31F7E840800BCB991 /* LaunchScreen.storyboard in Resources */,
 				10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */,
 				10E1DB271F8406A6001CDB18 /* GoogleService-Info.plist in Resources */,
@@ -179,11 +190,13 @@
 				105756351F7E93B900DF3352 /* FPUser.swift in Sources */,
 				102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */,
 				10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */,
-				10FD8FDB1F7E840800BCB991 /* SecondViewController.swift in Sources */,
+				10FD8FDB1F7E840800BCB991 /* FPHomeViewController.swift in Sources */,
+				10894A811F86C0D400F30A2C /* FPTabBarController.swift in Sources */,
 				10FD8FD71F7E840800BCB991 /* AppDelegate.swift in Sources */,
 				105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */,
-				105756431F7EF5D400DF3352 /* UIImageView+NSCache.swift in Sources */,
-				10FD8FD91F7E840800BCB991 /* FPPhotoTimelineViewController.swift in Sources */,
+				105D19461F853345008C282C /* FPUploadPhotoViewController.swift in Sources */,
+				105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */,
+				10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */,
 				105756331F7E8F7500DF3352 /* FPComment.swift in Sources */,
 				10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */,
 				105756371F7E9E1C00DF3352 /* FPPost.swift in Sources */,
@@ -328,6 +341,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.firebase.friendlypix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -341,6 +355,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.firebase.friendlypix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

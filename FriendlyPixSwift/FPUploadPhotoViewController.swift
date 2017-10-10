@@ -14,20 +14,8 @@
 //  limitations under the License.
 //
 
-import Foundation
-import Firebase
+import UIKit
 
-class FPComment {
-  var commentID = ""
-  var text = ""
-  var postDate: Date?
-  var from: FPUser?
+class FPUploadPhotoViewController: UIViewController {
 
-  init(snapshot: DataSnapshot) {
-    self.commentID = snapshot.key
-    guard let value = snapshot.value as? [String:String] else { return }
-    self.text = value["text"]!
-    self.postDate = Date(timeIntervalSince1970: (Double(value["timestamp"]!)! / 1000.0))
-    self.from = FPUser.init(dictionary: value)
-  }
 }

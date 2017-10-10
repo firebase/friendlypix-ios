@@ -1,9 +1,17 @@
 //
-//  FPSignInViewController.swift
-//  FriendlyPixSwift
+//  Copyright (c) 2017 Google Inc.
 //
-//  Created by Ibrahim Ulukaya on 10/3/17.
-//  Copyright © 2017 Ibrahim Ulukaya. All rights reserved.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import UIKit
@@ -22,6 +30,10 @@ class FPSignInViewController: UIViewController, FUIAuthDelegate {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    if Auth.auth().currentUser != nil {
+      self.performSegue(withIdentifier: "SignInToFP", sender: nil)
+      return
+    }
     authUI = FUIAuth.defaultAuthUI()
     authUI?.delegate = self
     authUI?.tosurl = kFirebaseTermsOfService
@@ -56,6 +68,10 @@ class FPSignInViewController: UIViewController, FUIAuthDelegate {
   }
 
   func signed(in user: User) {
-    self.performSegue(withIdentifier: "SignInToFP", sender: nil)
+    // TODO: Remove async after, when GIDSignIn is started getting called after dissmissVC
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+      self.performSegue(withIdentifier: "SignInToFP", sender: nil)
+    }
   }
+
 }

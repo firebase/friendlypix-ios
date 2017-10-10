@@ -1,16 +1,25 @@
 //
-//  FirstViewController.swift
-//  FriendlyPixSwift
+//  Copyright (c) 2017 Google Inc.
 //
-//  Created by Ibrahim Ulukaya on 9/29/17.
-//  Copyright © 2017 Ibrahim Ulukaya. All rights reserved.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import UIKit
 import MaterialComponents.MaterialCollections
 import Firebase
 
-class FPPhotoTimelineViewController: MDCCollectionViewController {
+class FPFeedViewController: MDCCollectionViewController {
+  let uid = Auth.auth().currentUser!.uid
 
   var ref: DatabaseReference!
   var postsRef: DatabaseReference!
@@ -19,18 +28,17 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
   var query: DatabaseReference!
   var posts = [FPPost]()
   var loadingPostCount: UInt = 0
-  var layout: MDCCollectionViewFlowLayout?
+
 
   let MAX_NUMBER_OF_COMMENTS = 3
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    layout = MDCCollectionViewFlowLayout.init()
-    layout?.estimatedItemSize = CGSize.init(width: 1, height: 1)
-
-
+    let layout = collectionViewLayout as! MDCCollectionViewFlowLayout
+    layout.estimatedItemSize = CGSize.init(width: 1, height: 1)
     self.styler.cellStyle = .card
-    //self.styler.cellLayoutType = .grid
+    self.styler.cellLayoutType = .grid
+
     ref = Database.database().reference()
     postsRef = ref.child("posts")
     commentsRef = ref.child("comments")
@@ -38,7 +46,6 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
     loadingPostCount = 0
     loadData()
   }
-
 
 
   func loadData() {
@@ -58,13 +65,13 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
       i = 1
     }
     loadingPostCount += 6
-    query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: {(_ snapshot: DataSnapshot) -> Void in
+    query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
       let reversed = snapshot.children.allObjects
       for index in stride(from: reversed.count-1, through: i, by: -1) {
         self.loadItem(reversed[index] as! DataSnapshot)
       }
     })
-    postsRef.observe(.childRemoved, with: {(_ postSnapshot: DataSnapshot) -> Void in
+    postsRef.observe(.childRemoved, with: { postSnapshot in
       var index = 0
       for post in self.posts {
         if post.postID == postSnapshot.key {
@@ -78,13 +85,13 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
   }
 
   func loadPost(_ postSnapshot: DataSnapshot) {
-    commentsRef.child(postSnapshot.key).observe(.value, with: {(_ commentsSnapshot: DataSnapshot) -> Void in
+    commentsRef.child(postSnapshot.key).observe(.value, with: { commentsSnapshot in
       var commentsArray = Array<FPComment?>(repeating: nil, count: Int(commentsSnapshot.childrenCount))
       for commentSnapshot in commentsSnapshot.children {
         let comment = FPComment(snapshot: commentSnapshot as! DataSnapshot)
         commentsArray.append(comment)
       }
-      self.likesRef.child(postSnapshot.key).observeSingleEvent(of: .value, with: {(_ snapshot: DataSnapshot) -> Void in
+      self.likesRef.child(postSnapshot.key).observeSingleEvent(of: .value, with: { snapshot in
         let post = FPPost(snapshot: postSnapshot, andComments: commentsArray)
         if let likes = snapshot.value {
           //post.likes = likes as! [String : String]
@@ -94,7 +101,6 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
         }
         self.posts.append(post)
         self.collectionView?.insertItems(at: [IndexPath.init(row: self.posts.count-1, section: 0)])
-        self.layout?.invalidateLayout()
       })
     })
   }
@@ -108,11 +114,6 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return posts.count
   }
-
-//  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
-//    return 200
-//  }
-
 
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FPCardCollectionViewCell
@@ -132,7 +133,7 @@ class FPPhotoTimelineViewController: MDCCollectionViewController {
        commentViewController.post = sender as! FPPost
       }
     }
-
   }
+
 }
 
