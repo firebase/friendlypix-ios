@@ -23,11 +23,11 @@ class FPPost {
   var imageURL: String?
   var author: FPUser?
   var text = ""
-  var comments: [FPComment?]!
+  var comments: [FPComment]!
   var isLiked = false
   //var likes: [String: String]!
 
-  init(snapshot: DataSnapshot, andComments comments: [FPComment?]) {
+  init(snapshot: DataSnapshot, andComments comments: [FPComment]) {
     guard let value = snapshot.value as? [String:Any] else { return }
     self.postID = snapshot.key
     self.text = value["text"]! as! String

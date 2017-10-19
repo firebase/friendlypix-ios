@@ -18,7 +18,7 @@ import UIKit
 import MaterialComponents.MaterialCollections
 import Firebase
 
-class FPFeedViewController: MDCCollectionViewController {
+class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
   let uid = Auth.auth().currentUser!.uid
 
   var ref: DatabaseReference!
@@ -28,16 +28,22 @@ class FPFeedViewController: MDCCollectionViewController {
   var query: DatabaseReference!
   var posts = [FPPost]()
   var loadingPostCount: UInt = 0
+  var sizingNibNew: FPCardCollectionViewCell!
 
 
   let MAX_NUMBER_OF_COMMENTS = 3
 
   override func viewDidLoad() {
-    super.viewDidLoad()
-    let layout = collectionViewLayout as! MDCCollectionViewFlowLayout
-    layout.estimatedItemSize = CGSize.init(width: 1, height: 1)
+    let nib = UINib(nibName: "FPCardCollectionViewCell", bundle: nil)
+    self.collectionView?.register(nib, forCellWithReuseIdentifier: "cell")
+    sizingNibNew = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0] as! FPCardCollectionViewCell
+  }
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+//    let layout = collectionViewLayout as! MDCCollectionViewFlowLayout
+//    layout.estimatedItemSize = CGSize.init(width: self.view.bounds.width, height: 395)
     self.styler.cellStyle = .card
-    self.styler.cellLayoutType = .grid
+    //self.styler.cellLayoutType = .grid
 
     ref = Database.database().reference()
     postsRef = ref.child("posts")
@@ -86,7 +92,8 @@ class FPFeedViewController: MDCCollectionViewController {
 
   func loadPost(_ postSnapshot: DataSnapshot) {
     commentsRef.child(postSnapshot.key).observe(.value, with: { commentsSnapshot in
-      var commentsArray = Array<FPComment?>(repeating: nil, count: Int(commentsSnapshot.childrenCount))
+      var commentsArray = [FPComment]()
+      print(commentsSnapshot.childrenCount)
       for commentSnapshot in commentsSnapshot.children {
         let comment = FPComment(snapshot: commentSnapshot as! DataSnapshot)
         commentsArray.append(comment)
@@ -118,8 +125,22 @@ class FPFeedViewController: MDCCollectionViewController {
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FPCardCollectionViewCell
     let post = posts[indexPath.row]
-    cell.populateContent(author: (post.author?.fullname)!, authorURL: (post.author?.profilePictureURL)!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0)
+    cell.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
+    cell.delegate = self
     return cell
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let post = posts[indexPath.row]
+    sizingNibNew.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
+    sizingNibNew.setNeedsLayout()
+    sizingNibNew.layoutIfNeeded()
+    let size = sizingNibNew.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+    return size
+  }
+
+  func showProfile(_ author: FPUser) {
+    performSegue(withIdentifier: "account", sender: author)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

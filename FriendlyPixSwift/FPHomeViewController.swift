@@ -82,9 +82,9 @@ class FPHomeViewController: FPFeedViewController {
           lastSyncedPost = lastSyncedPostId as! String
         }
         followedUserPostsRef.observeSingleEvent(of: .value, with: { postSnapshot in
-          guard let postArray = postSnapshot.value as? [String] else { return }
+          guard let postArray = postSnapshot.value as? [String:Any] else { return }
           var updates = [AnyHashable: Any]()
-          for postId in postArray {
+          for postId in postArray.keys {
             if !(postId == lastSyncedPost) {
               updates["/feed/\(self.uid)/\(postId)"] = true
               updates["/people/\(self.uid)/following/\(followedUid)"] = postId

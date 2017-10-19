@@ -23,7 +23,7 @@ import Firebase
 private let kFacebookAppID = "FACEBOOK_APP_ID"
 private let kFirebaseTermsOfService = URL(string: "https://firebase.google.com/terms/")!
 
-class FPSignInViewController: UIViewController, FUIAuthDelegate {
+class FPSignInViewController: UINavigationController, FUIAuthDelegate {
 
   fileprivate(set) var authUI: FUIAuth?
   fileprivate var authStateDidChangeHandle: AuthStateDidChangeListenerHandle?
@@ -42,7 +42,7 @@ class FPSignInViewController: UIViewController, FUIAuthDelegate {
     authUI?.providers = providers as! [FUIAuthProvider]
     let authViewController: UINavigationController? = authUI?.authViewController()
     authViewController?.navigationBar.isHidden = true
-    present(authViewController!, animated: true) { _ in }
+    present(authViewController!, animated: true, completion: nil)
   }
 
   func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
@@ -68,10 +68,8 @@ class FPSignInViewController: UIViewController, FUIAuthDelegate {
   }
 
   func signed(in user: User) {
-    // TODO: Remove async after, when GIDSignIn is started getting called after dissmissVC
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-      self.performSegue(withIdentifier: "SignInToFP", sender: nil)
-    }
+    // TODO: Create user
+
   }
 
 }
