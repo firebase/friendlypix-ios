@@ -38,6 +38,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   var postAuthor: FPUser!
   var delegate: FPCardCollectionViewCellDelegate?
   var labelConstraints: [NSLayoutConstraint]!
+  var imageConstraint: NSLayoutConstraint?
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -46,8 +47,6 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     authorImageView.addGestureRecognizer(imageGestureRecognizer)
     let labelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
     authorLabel.addGestureRecognizer(labelGestureRecognizer)
-
-    postImageView.widthAnchor.constraint(equalTo: postImageView.heightAnchor, multiplier: 1.336).isActive = true
   }
 
   func populateContent(author: FPUser, date: Date, imageURL: String, title: String, likes: Int, comments: [FPComment]) {
@@ -55,7 +54,9 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     UIImage.circleImage(from: author.profilePictureURL, to: authorImageView)
     authorLabel?.text = author.fullname
     dateLabel?.text = MHPrettyDate.prettyDate(from: date, with: MHPrettyDateShortRelativeTime)
-//    postImageView?.sd_setImage(with: URL.init(string: imageURL), completed: nil)
+    postImageView?.sd_setImage(with: URL(string: imageURL), completed:{ (img, error, cacheType, imageURL) in
+      // Handle image being set
+      })
     titleLabel?.text = title
     likesLabel?.text = "\(likes.description) likes"
 
@@ -89,6 +90,17 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
                       comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
     }
     NSLayoutConstraint.activate(labelConstraints)
+  }
+
+  override func updateConstraints() {
+    super .updateConstraints()
+
+    let constant = self.bounds.width * 0.75
+    if imageConstraint == nil {
+      imageConstraint = postImageView.heightAnchor.constraint(equalToConstant: constant)
+      imageConstraint?.isActive = true
+    }
+    imageConstraint?.constant = constant
   }
 
   override func prepareForReuse() {
