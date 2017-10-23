@@ -34,15 +34,28 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   let MAX_NUMBER_OF_COMMENTS = 3
 
   override func viewDidLoad() {
+    super.viewDidLoad()
     let nib = UINib(nibName: "FPCardCollectionViewCell", bundle: nil)
-    self.collectionView?.register(nib, forCellWithReuseIdentifier: "cell")
+
+    guard let collectionView = collectionView else {
+      return
+    }
+    collectionView.register(nib, forCellWithReuseIdentifier: "cell")
     sizingNibNew = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0] as! FPCardCollectionViewCell
+    let insets = self.collectionView(collectionView,
+                                     layout: collectionViewLayout,
+                                     insetForSectionAt: 0)
+    let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right, height: collectionView.bounds.height)
+    sizingNibNew.frame = cellFrame
   }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.styler.cellStyle = .card
+  }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-//    let layout = collectionViewLayout as! MDCCollectionViewFlowLayout
-//    layout.estimatedItemSize = CGSize.init(width: self.view.bounds.width, height: 395)
-    self.styler.cellStyle = .card
     //self.styler.cellLayoutType = .grid
 
     ref = Database.database().reference()
@@ -52,7 +65,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     loadingPostCount = 0
     loadData()
   }
-
 
   func loadData() {
     query = postsRef
@@ -86,7 +98,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         index += 1
       }
       self.posts.remove(at: index)
-      self.collectionView?.deleteItems(at: [IndexPath.init(row: index, section: 0)])
+      self.collectionView?.deleteItems(at: [IndexPath.init(item: index, section: 0)])
     })
   }
 
@@ -107,7 +119,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           //post.likes = [String: String]()
         }
         self.posts.append(post)
-        self.collectionView?.insertItems(at: [IndexPath.init(row: self.posts.count-1, section: 0)])
+        self.collectionView?.insertItems(at: [IndexPath.init(item: self.posts.count-1, section: 0)])
       })
     })
   }
@@ -124,19 +136,24 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FPCardCollectionViewCell
-    let post = posts[indexPath.row]
+    let post = posts[indexPath.item]
     cell.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
     cell.delegate = self
     return cell
   }
 
-  override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let post = posts[indexPath.row]
+  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+    let post = posts[indexPath.item]
     sizingNibNew.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
-    sizingNibNew.setNeedsLayout()
-    sizingNibNew.layoutIfNeeded()
-    let size = sizingNibNew.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-    return size
+
+    sizingNibNew.contentView.setNeedsLayout()
+    sizingNibNew.contentView.layoutIfNeeded()
+
+    var fittingSize = UILayoutFittingCompressedSize
+    fittingSize.width = sizingNibNew.frame.width
+
+    let size = sizingNibNew.contentView.systemLayoutSizeFitting(fittingSize)
+    return size.height + 1
   }
 
   func showProfile(_ author: FPUser) {

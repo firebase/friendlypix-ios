@@ -38,6 +38,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   var postAuthor: FPUser!
   var delegate: FPCardCollectionViewCellDelegate?
   var labelConstraints: [NSLayoutConstraint]!
+  var imageConstraint: NSLayoutConstraint?
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -48,49 +49,65 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     authorLabel.addGestureRecognizer(labelGestureRecognizer)
   }
 
-  override func layoutSubviews() {
-    self.layoutIfNeeded()
-  }
-
   func populateContent(author: FPUser, date: Date, imageURL: String, title: String, likes: Int, comments: [FPComment]) {
     postAuthor = author
     UIImage.circleImage(from: author.profilePictureURL, to: authorImageView)
     authorLabel?.text = author.fullname
     dateLabel?.text = MHPrettyDate.prettyDate(from: date, with: MHPrettyDateShortRelativeTime)
-    postImageView?.sd_setImage(with: URL.init(string: imageURL), completed: nil)
+    postImageView?.sd_setImage(with: URL(string: imageURL), completed:{ (img, error, cacheType, imageURL) in
+      // Handle image being set
+      })
     titleLabel?.text = title
     likesLabel?.text = "\(likes.description) likes"
+
+    if labelConstraints != nil {
+      NSLayoutConstraint.deactivate(labelConstraints)
+      labelConstraints = nil
+    }
+
+    let betweenConstant:CGFloat = 1.0
+    let bottomConstant:CGFloat = -5.0
     switch comments.count {
     case 0:
-      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)]
+      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1 / UIScreen.main.scale)]
       comment1Label.isHidden = true
       comment2Label.isHidden = true
       comment3Label.isHidden = true
     case 1:
-      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: comment1Label.topAnchor),
-                      comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-      comment1Label.heightAnchor.constraint(equalToConstant: 100)]
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: betweenConstant),
+                      comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       comment2Label.isHidden = true
       comment3Label.isHidden = true
     case 2:
-      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: comment1Label.topAnchor),
-                      comment1Label.bottomAnchor.constraint(equalTo: comment2Label.topAnchor),
-                      comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)]
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: betweenConstant),
+                      comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
+                      comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       comment3Label.isHidden = true
     default:
-      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: comment1Label.topAnchor),
-                      comment1Label.bottomAnchor.constraint(equalTo: comment2Label.topAnchor),
-                      comment2Label.bottomAnchor.constraint(equalTo: comment3Label.topAnchor),
-                      comment3Label.bottomAnchor.constraint(equalTo: self.bottomAnchor)]
+      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: comment1Label.topAnchor, constant: betweenConstant),
+                          comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
+                      comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor, constant: betweenConstant),
+                      comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
     }
-    addConstraints(labelConstraints)
+    NSLayoutConstraint.activate(labelConstraints)
+  }
+
+  override func updateConstraints() {
+    super .updateConstraints()
+
+    let constant = self.bounds.width * 0.75
+    if imageConstraint == nil {
+      imageConstraint = postImageView.heightAnchor.constraint(equalToConstant: constant)
+      imageConstraint?.isActive = true
+    }
+    imageConstraint?.constant = constant
   }
 
   override func prepareForReuse() {
     super.prepareForReuse()
-    removeConstraints(labelConstraints)
+    NSLayoutConstraint.deactivate(labelConstraints)
+    labelConstraints = nil
   }
-
 
   func profileTapped() {
     delegate?.showProfile(postAuthor)
