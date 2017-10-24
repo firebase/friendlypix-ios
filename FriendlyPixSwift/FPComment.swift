@@ -25,9 +25,9 @@ class FPComment {
 
   init(snapshot: DataSnapshot) {
     self.commentID = snapshot.key
-    guard let value = snapshot.value as? [String:String] else { return }
-    self.text = value["text"]!
-    self.postDate = Date(timeIntervalSince1970: (Double(value["timestamp"]!)! / 1000.0))
-    self.from = FPUser.init(dictionary: value)
+    guard let value = snapshot.value as? [String:Any] else { return }
+    self.text = value["text"]! as! String
+    self.postDate = Date(timeIntervalSince1970: ( value["timestamp"] as! Double / 1000.0))
+    self.from = FPUser.init(dictionary: value["author"] as! [String:String])
   }
 }

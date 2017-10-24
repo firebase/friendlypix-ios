@@ -34,11 +34,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak var comment1Label: UILabel!
   @IBOutlet weak var comment2Label: UILabel!
   @IBOutlet weak var comment3Label: UILabel!
-  var viewMoreCommentsLabel: UILabel?
+  @IBOutlet weak var viewAllCommentsLabel: UILabel!
   var postAuthor: FPUser!
   var delegate: FPCardCollectionViewCellDelegate?
   var labelConstraints: [NSLayoutConstraint]!
-  var imageConstraint: NSLayoutConstraint?
+  public var imageConstraint: NSLayoutConstraint?
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -69,33 +69,44 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     let bottomConstant:CGFloat = -5.0
     switch comments.count {
     case 0:
-      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1 / UIScreen.main.scale)]
+      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1)]
+      viewAllCommentsLabel.isHidden = true
       comment1Label.isHidden = true
       comment2Label.isHidden = true
       comment3Label.isHidden = true
     case 1:
-      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: betweenConstant),
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
                       comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      viewAllCommentsLabel.isHidden = true
+      comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
       comment2Label.isHidden = true
       comment3Label.isHidden = true
     case 2:
-      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: betweenConstant),
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
                       comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
                       comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      viewAllCommentsLabel.isHidden = true
+      comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
+      comment2Label.text = "\(comments[1].from!.fullname): \(comments[1].text)"
       comment3Label.isHidden = true
     default:
-      labelConstraints = [postImageView.bottomAnchor.constraint(equalTo: comment1Label.topAnchor, constant: betweenConstant),
+      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: viewAllCommentsLabel.topAnchor, constant: betweenConstant),
+                          viewAllCommentsLabel.bottomAnchor.constraint(equalTo: comment1Label.topAnchor, constant: betweenConstant),
                           comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
                       comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor, constant: betweenConstant),
                       comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      viewAllCommentsLabel.text = "View all \(comments.count) comments"
+      comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
+      comment2Label.text = "\(comments[1].from!.fullname): \(comments[1].text)"
+      comment3Label.text = "\(comments[2].from!.fullname): \(comments[2].text)"
     }
     NSLayoutConstraint.activate(labelConstraints)
   }
 
   override func updateConstraints() {
-    super .updateConstraints()
+    super.updateConstraints()
 
-    let constant = self.bounds.width * 0.75
+    let constant = MDCCeil((self.bounds.width - 2) * 0.75)
     if imageConstraint == nil {
       imageConstraint = postImageView.heightAnchor.constraint(equalToConstant: constant)
       imageConstraint?.isActive = true

@@ -42,16 +42,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
     collectionView.register(nib, forCellWithReuseIdentifier: "cell")
     sizingNibNew = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0] as! FPCardCollectionViewCell
+
+    self.styler.cellStyle = .card
     let insets = self.collectionView(collectionView,
                                      layout: collectionViewLayout,
                                      insetForSectionAt: 0)
     let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right, height: collectionView.bounds.height)
     sizingNibNew.frame = cellFrame
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    self.styler.cellStyle = .card
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +102,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   func loadPost(_ postSnapshot: DataSnapshot) {
     commentsRef.child(postSnapshot.key).observe(.value, with: { commentsSnapshot in
       var commentsArray = [FPComment]()
-      print(commentsSnapshot.childrenCount)
       for commentSnapshot in commentsSnapshot.children {
         let comment = FPComment(snapshot: commentSnapshot as! DataSnapshot)
         commentsArray.append(comment)
@@ -146,14 +142,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let post = posts[indexPath.item]
     sizingNibNew.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
 
-    sizingNibNew.contentView.setNeedsLayout()
-    sizingNibNew.contentView.layoutIfNeeded()
+    sizingNibNew.setNeedsUpdateConstraints()
+    sizingNibNew.updateConstraintsIfNeeded()
 
     var fittingSize = UILayoutFittingCompressedSize
     fittingSize.width = sizingNibNew.frame.width
 
     let size = sizingNibNew.contentView.systemLayoutSizeFitting(fittingSize)
-    return size.height + 1
+    return size.height
   }
 
   func showProfile(_ author: FPUser) {
