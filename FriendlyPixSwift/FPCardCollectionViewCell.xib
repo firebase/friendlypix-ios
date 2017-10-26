@@ -112,7 +112,6 @@
             </view>
             <gestureRecognizers/>
             <constraints>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="T48-rQ-YPz" secondAttribute="bottom" id="1j1-hb-hxj"/>
                 <constraint firstItem="cCo-VS-WYk" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leadingMargin" id="7yQ-V0-FHE"/>
                 <constraint firstItem="cCo-VS-WYk" firstAttribute="top" secondItem="QDX-Pc-tzZ" secondAttribute="topMargin" id="8iU-iC-myk"/>
                 <constraint firstItem="Rc6-zj-yAI" firstAttribute="top" secondItem="uLH-WT-gi5" secondAttribute="bottom" constant="8" id="DAJ-iQ-Nap"/>
