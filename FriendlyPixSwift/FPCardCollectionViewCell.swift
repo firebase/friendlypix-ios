@@ -42,7 +42,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    self.contentView.autoresizingMask = [UIViewAutoresizing.flexibleHeight]
+
     let imageGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
     authorImageView.addGestureRecognizer(imageGestureRecognizer)
     let labelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileTapped))

@@ -140,10 +140,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
     let post = posts[indexPath.item]
-    sizingNibNew.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
+    sizingNibNew.populateContent(author: post.author!, date: post.postDate!, imageURL: "", title: post.text, likes: 0, comments: post.comments)
 
     sizingNibNew.setNeedsUpdateConstraints()
     sizingNibNew.updateConstraintsIfNeeded()
+    sizingNibNew.contentView.setNeedsLayout()
+    sizingNibNew.contentView.layoutIfNeeded()
 
     var fittingSize = UILayoutFittingCompressedSize
     fittingSize.width = sizingNibNew.frame.width
