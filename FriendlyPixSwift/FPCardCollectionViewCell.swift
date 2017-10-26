@@ -71,33 +71,49 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     case 0:
       labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1)]
       viewAllCommentsLabel.isHidden = true
+      viewAllCommentsLabel.text = nil
       comment1Label.isHidden = true
+      comment1Label.text = nil
       comment2Label.isHidden = true
+      comment2Label.text = nil
       comment3Label.isHidden = true
+      comment3Label.text = nil
     case 1:
       labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
                       comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
+      viewAllCommentsLabel.text = nil
+      comment1Label.isHidden = false
       comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
       comment2Label.isHidden = true
+      comment2Label.text = nil
       comment3Label.isHidden = true
+      comment3Label.text = nil
     case 2:
       labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
                       comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
                       comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
+      viewAllCommentsLabel.text = nil
+      comment1Label.isHidden = false
       comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
+      comment2Label.isHidden = false
       comment2Label.text = "\(comments[1].from!.fullname): \(comments[1].text)"
       comment3Label.isHidden = true
+      comment3Label.text = nil
     default:
       labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: viewAllCommentsLabel.topAnchor, constant: betweenConstant),
                           viewAllCommentsLabel.bottomAnchor.constraint(equalTo: comment1Label.topAnchor, constant: betweenConstant),
                           comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
                       comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor, constant: betweenConstant),
                       comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      viewAllCommentsLabel.isHidden = false
       viewAllCommentsLabel.text = "View all \(comments.count) comments"
+      comment1Label.isHidden = false
       comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
+      comment2Label.isHidden = false
       comment2Label.text = "\(comments[1].from!.fullname): \(comments[1].text)"
+      comment3Label.isHidden = false
       comment3Label.text = "\(comments[2].from!.fullname): \(comments[2].text)"
     }
     NSLayoutConstraint.activate(labelConstraints)
