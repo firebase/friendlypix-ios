@@ -34,7 +34,7 @@ class FPPost {
     let x = value["timestamp"]! as! NSNumber
     self.postDate = Date(timeIntervalSince1970: (x.doubleValue / 1000.0))
     self.author = FPUser.init(dictionary: value["author"] as! [String : String])
-    self.imageURL = value["full_url"]! as! String
+    self.imageURL = value["full_url"] as? String ?? value["url"]! as! String
     self.comments = comments
   }
 

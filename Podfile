@@ -3,6 +3,7 @@ target 'FriendlyPixSwift' do
 
   pod 'MaterialComponents/Collections'
   pod 'MaterialComponents/AppBar'
+  pod 'MaterialComponents/TextFields'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
@@ -15,4 +16,7 @@ target 'FriendlyPixSwift' do
   pod 'FirebaseUI/Facebook'
   pod 'MHPrettyDate'
   pod 'SDWebImage'
+  pod 'TTTAttributedLabel'
+  pod 'FRHyperLabel'
+
 end

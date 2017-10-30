@@ -17,29 +17,43 @@
 import UIKit
 import MaterialComponents.MaterialCollections
 
-class FPCommentViewController: MDCCollectionViewController {
+class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate {
   var post: FPPost!
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+      super.viewDidLoad()
+      styler.cellStyle = .card
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return post.comments.count
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+
+    if let textCell = cell as? MDCCollectionViewTextCell {
+      let comment = post.comments[indexPath.item]
+      textCell.textLabel?.text = "\(comment.from!.fullname): \(comment.text)"
+      UIImage.circleImage(from: comment.from!.profilePictureURL, to: textCell.imageView!)
     }
     
+    return cell
+  }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+  override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    if kind == UICollectionElementKindSectionFooter {
+      let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "FooterView", for: indexPath) as! FPFooterView
+      navigationItem.title = "Comments"
+      footerView.commentField.delegate = self
+      let textFieldControllerFloating = MDCTextInputControllerDefault(textInput: footerView.commentField)
+      return footerView
     }
-    */
+    return UICollectionReusableView.init()
+  }
 
+  @objc override func collectionView(_ collectionView: UICollectionView, layout  collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize{
+    let size = CGSize(width: collectionView.frame.size.width, height: 80)
+    return size
+  }
 }

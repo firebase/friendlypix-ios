@@ -19,6 +19,7 @@ import MaterialComponents.MaterialCollections
 import Firebase
 
 class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
+
   let uid = Auth.auth().currentUser!.uid
 
   var ref: DatabaseReference!
@@ -53,7 +54,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    //self.styler.cellLayoutType = .grid
 
     ref = Database.database().reference()
     postsRef = ref.child("posts")
@@ -133,14 +133,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FPCardCollectionViewCell
     let post = posts[indexPath.item]
-    cell.populateContent(author: post.author!, date: post.postDate!, imageURL: post.imageURL!, title: post.text, likes: 0, comments: post.comments)
+    cell.populateContent(post: post, isDryRun: false)
     cell.delegate = self
     return cell
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
     let post = posts[indexPath.item]
-    sizingNibNew.populateContent(author: post.author!, date: post.postDate!, imageURL: "", title: post.text, likes: 0, comments: post.comments)
+    sizingNibNew.populateContent(post: post, isDryRun: true)
 
     sizingNibNew.setNeedsUpdateConstraints()
     sizingNibNew.updateConstraintsIfNeeded()
@@ -156,6 +156,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func showProfile(_ author: FPUser) {
     performSegue(withIdentifier: "account", sender: author)
+  }
+
+  func viewComments(_ post: FPPost) {
+    performSegue(withIdentifier: "comment", sender: post)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

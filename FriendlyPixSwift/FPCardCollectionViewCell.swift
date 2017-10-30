@@ -21,6 +21,7 @@ import SDWebImage
 
 protocol FPCardCollectionViewCellDelegate {
   func showProfile(_ author: FPUser)
+  func viewComments(_ post: FPPost)
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
@@ -34,8 +35,8 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak var comment1Label: UILabel!
   @IBOutlet weak var comment2Label: UILabel!
   @IBOutlet weak var comment3Label: UILabel!
-  @IBOutlet weak var viewAllCommentsLabel: UILabel!
-  var postAuthor: FPUser!
+  @IBOutlet weak var viewAllCommentsLabel: UIButton!
+  var post: FPPost!
   var delegate: FPCardCollectionViewCellDelegate?
   var labelConstraints: [NSLayoutConstraint]!
   public var imageConstraint: NSLayoutConstraint?
@@ -49,16 +50,21 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     authorLabel.addGestureRecognizer(labelGestureRecognizer)
   }
 
-  func populateContent(author: FPUser, date: Date, imageURL: String, title: String, likes: Int, comments: [FPComment]) {
-    postAuthor = author
-    UIImage.circleImage(from: author.profilePictureURL, to: authorImageView)
-    authorLabel?.text = author.fullname
-    dateLabel?.text = MHPrettyDate.prettyDate(from: date, with: MHPrettyDateShortRelativeTime)
-    postImageView?.sd_setImage(with: URL(string: imageURL), completed:{ (img, error, cacheType, imageURL) in
+  func populateContent(post: FPPost, isDryRun: Bool) {
+    self.post = post
+    let postAuthor = post.author!
+    if !isDryRun {
+      UIImage.circleImage(from: postAuthor.profilePictureURL, to: authorImageView)
+    }
+    authorLabel?.text = postAuthor.fullname
+    dateLabel?.text = MHPrettyDate.prettyDate(from: post.postDate, with: MHPrettyDateShortRelativeTime)
+    if !isDryRun {
+    postImageView?.sd_setImage(with: URL(string: post.imageURL!), completed:{ (img, error, cacheType, imageURL) in
       // Handle image being set
       })
-    titleLabel?.text = title
-    likesLabel?.text = "\(likes.description) likes"
+    }
+    titleLabel?.text = post.text
+    //likesLabel?.text = "\(post..description) likes"
 
     if labelConstraints != nil {
       NSLayoutConstraint.deactivate(labelConstraints)
@@ -67,11 +73,12 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 
     let betweenConstant:CGFloat = 1.0
     let bottomConstant:CGFloat = -5.0
+    let comments = post.comments!
     switch comments.count {
     case 0:
       labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1)]
       viewAllCommentsLabel.isHidden = true
-      viewAllCommentsLabel.text = nil
+      //viewAllCommentsLabel.title(for: .normal) = nil
       comment1Label.isHidden = true
       comment1Label.text = nil
       comment2Label.isHidden = true
@@ -82,7 +89,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
                       comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
-      viewAllCommentsLabel.text = nil
+      //viewAllCommentsLabel.text = nil
       comment1Label.isHidden = false
       comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
       comment2Label.isHidden = true
@@ -94,7 +101,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
                       comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
                       comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
-      viewAllCommentsLabel.text = nil
+      //viewAllCommentsLabel.text = nil
       comment1Label.isHidden = false
       comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
       comment2Label.isHidden = false
@@ -108,7 +115,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
                       comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor, constant: betweenConstant),
                       comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = false
-      viewAllCommentsLabel.text = "View all \(comments.count) comments"
+      viewAllCommentsLabel.setTitle("View all \(comments.count) comments", for: .normal)
       comment1Label.isHidden = false
       comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
       comment2Label.isHidden = false
@@ -137,7 +144,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   func profileTapped() {
-    delegate?.showProfile(postAuthor)
+    delegate?.showProfile(post.author!)
+  }
+
+  @IBAction func viewAllComments(_ sender: Any) {
+    delegate?.viewComments(post)
   }
 
   var layerClass: AnyClass {

@@ -14,6 +14,8 @@
 		105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756421F7EF5D400DF3352 /* UIImage+Circle.swift */; };
 		105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19411F8422D0008C282C /* FPAccountViewController.swift */; };
 		105D19461F853345008C282C /* FPUploadPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19451F853345008C282C /* FPUploadPhotoViewController.swift */; };
+		10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */; };
+		10721AB31FA3C0ED00C2911A /* FPFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB21FA3C0ED00C2911A /* FPFooterView.swift */; };
 		10894A811F86C0D400F30A2C /* FPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10894A801F86C0D400F30A2C /* FPTabBarController.swift */; };
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
@@ -38,6 +40,8 @@
 		105756421F7EF5D400DF3352 /* UIImage+Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Circle.swift"; sourceTree = "<group>"; };
 		105D19411F8422D0008C282C /* FPAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountViewController.swift; sourceTree = "<group>"; };
 		105D19451F853345008C282C /* FPUploadPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPUploadPhotoViewController.swift; sourceTree = "<group>"; };
+		10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCollectionReusableView.swift; sourceTree = "<group>"; };
+		10721AB21FA3C0ED00C2911A /* FPFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPFooterView.swift; sourceTree = "<group>"; };
 		10894A801F86C0D400F30A2C /* FPTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPTabBarController.swift; sourceTree = "<group>"; };
 		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 				10FD8FE41F7E840800BCB991 /* Info.plist */,
 				10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */,
 				10894A801F86C0D400F30A2C /* FPTabBarController.swift */,
+				10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */,
+				10721AB21FA3C0ED00C2911A /* FPFooterView.swift */,
 			);
 			path = FriendlyPixSwift;
 			sourceTree = "<group>";
@@ -193,6 +199,7 @@
 				10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */,
 				105756351F7E93B900DF3352 /* FPUser.swift in Sources */,
 				102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */,
+				10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */,
 				10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */,
 				10FD8FDB1F7E840800BCB991 /* FPHomeViewController.swift in Sources */,
 				10894A811F86C0D400F30A2C /* FPTabBarController.swift in Sources */,
@@ -202,6 +209,7 @@
 				105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */,
 				10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */,
 				105756331F7E8F7500DF3352 /* FPComment.swift in Sources */,
+				10721AB31FA3C0ED00C2911A /* FPFooterView.swift in Sources */,
 				10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */,
 				105756371F7E9E1C00DF3352 /* FPPost.swift in Sources */,
 			);
