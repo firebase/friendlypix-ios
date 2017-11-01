@@ -16,14 +16,83 @@
 
 import UIKit
 import MaterialComponents.MaterialCollections
+import Firebase
 
-class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate {
+class FPCommentViewController: MDCCollectionViewController {
   var post: FPPost!
+  var textField: UITextField!
+  var comments: DatabaseReference!
 
-    override func viewDidLoad() {
-      super.viewDidLoad()
-      styler.cellStyle = .card
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    comments = Database.database().reference(withPath: "comments/\(post.postID)")
+      
+    styler.cellStyle = .card
+
+    textField = UITextField.init(frame: CGRect.init(x: 0, y: 0, width: 300, height: 50))
+    textField.placeholder = "Add a comment"
+    textField.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
+
+    navigationController?.setToolbarHidden(false, animated: false)
+    self.setToolbarItems([UIBarButtonItem.init(customView: textField), UIBarButtonItem.init(title: "Post", style: .plain, target: self, action: #selector(enterPressed))], animated: false)
+
+    NotificationCenter.default.addObserver(self,
+                                            selector: #selector(keyboardWillShow(notification:)),
+                                            name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self,
+                                             selector: #selector(keyboardWillHide(notification:)),
+                                             name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    self.navigationController?.setToolbarHidden(true, animated: false)
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+
+  }
+
+  @objc func enterPressed(){
+    guard let currentUser = Auth.auth().currentUser else { return }
+    guard let text = textField.text else { return }
+
+    let data = ["timestamp": ServerValue.timestamp(), "author": ["uid": currentUser.uid, "full_name": currentUser.displayName ?? "", "profile_picture": currentUser.photoURL?.absoluteString], "text": text] as [String : Any]
+    let comment = comments.childByAutoId()
+    comment.setValue(data) { (error, reference) in
+      if let error = error {
+        print(error.localizedDescription)
+        return
+      }
+      reference.observe(.value, with: { snapshot in
+        self.post.comments.append(FPComment.init(snapshot: snapshot))
+        self.collectionView?.insertItems(at: [IndexPath.init(item: self.post.comments.count-1, section: 0)])
+      })
     }
+    textField.text = nil
+    textField.resignFirstResponder()
+  }
+
+  func keyboardWillShow(notification: NSNotification) {
+    if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+      if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
+
+      UIView.animate(withDuration: animationDuration) { () -> Void in
+              self.navigationController?.toolbar.frame.origin.y -= keyboardSize.height
+      }
+      }
+    }
+  }
+  func keyboardWillHide(notification: NSNotification) {
+    if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+      if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
+        UIView.animate(withDuration: animationDuration) { () -> Void in
+          self.navigationController?.toolbar.frame.origin.y += keyboardSize.height
+        }
+      }
+    }
+  }
+
 
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return post.comments.count
@@ -34,26 +103,13 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
     if let textCell = cell as? MDCCollectionViewTextCell {
       let comment = post.comments[indexPath.item]
-      textCell.textLabel?.text = "\(comment.from!.fullname): \(comment.text)"
+      textCell.textLabel?.numberOfLines = 0
+      textCell.detailTextLabel?.text = "\(comment.from!.fullname): \(comment.text)"
+      textCell.detailTextLabel?.numberOfLines = 0
       UIImage.circleImage(from: comment.from!.profilePictureURL, to: textCell.imageView!)
+      textCell.imageView
     }
     
     return cell
-  }
-
-  override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if kind == UICollectionElementKindSectionFooter {
-      let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "FooterView", for: indexPath) as! FPFooterView
-      navigationItem.title = "Comments"
-      footerView.commentField.delegate = self
-      let textFieldControllerFloating = MDCTextInputControllerDefault(textInput: footerView.commentField)
-      return footerView
-    }
-    return UICollectionReusableView.init()
-  }
-
-  @objc override func collectionView(_ collectionView: UICollectionView, layout  collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize{
-    let size = CGSize(width: collectionView.frame.size.width, height: 80)
-    return size
   }
 }

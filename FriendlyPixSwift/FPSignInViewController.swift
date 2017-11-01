@@ -30,7 +30,12 @@ class FPSignInViewController: UINavigationController, FUIAuthDelegate {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if Auth.auth().currentUser != nil {
+    if let currentUser = Auth.auth().currentUser {
+      let user = FPUser.init()
+      FPCurrentUser.shared.user = user
+      user.userID = currentUser.uid
+      user.fullname = currentUser.displayName!
+      user.profilePictureURL = (currentUser.photoURL?.absoluteString)!
       self.performSegue(withIdentifier: "SignInToFP", sender: nil)
       return
     }

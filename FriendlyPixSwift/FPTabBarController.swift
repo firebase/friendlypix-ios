@@ -13,12 +13,16 @@ class FPTabBarController: UITabBarController {
  // let appBar = MDCAppBar()
 
   override func viewDidLoad() {
-//    addChildViewController(appBar.headerViewController)
-//    appBar.headerViewController.headerView.backgroundColor = UIColor(red:0.01, green:0.53, blue:0.82, alpha:1.0)
-//    appBar.navigationBar.tintColor = UIColor.white
-//    appBar.addSubviewsToParent()
-//
-//    title = "Friendly Pix"
+    let button = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 36, height: 36))
+    button.addTarget(self, action: #selector(clickUser), for: .touchUpInside)
+    UIImage.circleButton(from: (FPCurrentUser.shared.user.profilePictureURL), to: button)
+
+
+    self.navigationController?.navigationBar.items?[0].rightBarButtonItems?.insert(UIBarButtonItem(customView: button), at: 0)
   }
 
+  @objc func clickUser() {
+    let x = self.viewControllers?[0] as! FPFeedViewController
+    x.clickUser()
+  }
 }

@@ -22,14 +22,17 @@ class FPUser {
   var fullname = ""
   var profilePictureURL = ""
 
-  init(snapshot: DataSnapshot) {
+
+  convenience init(snapshot: DataSnapshot) {
+    self.init()
     guard let value = snapshot.value as? [String:String] else { return }
     self.userID = snapshot.key
     self.fullname = value["full_name"]!
     self.profilePictureURL = value["profile_picture"]!
   }
 
-  init(dictionary: [String:String]) {
+  convenience init(dictionary: [String:String]) {
+    self.init()
     self.userID = dictionary["uid"]!
     self.fullname = dictionary["full_name"]!
     self.profilePictureURL = dictionary["profile_picture"]!

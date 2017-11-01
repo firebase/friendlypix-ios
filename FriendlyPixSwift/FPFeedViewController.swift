@@ -28,11 +28,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   var likesRef: DatabaseReference!
   var query: DatabaseReference!
   var posts = [FPPost]()
-  var loadingPostCount: UInt = 0
+  var loadingPostCount = 0
   var sizingNibNew: FPCardCollectionViewCell!
-
-
-  let MAX_NUMBER_OF_COMMENTS = 3
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -50,6 +47,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
                                      insetForSectionAt: 0)
     let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right, height: collectionView.bounds.height)
     sizingNibNew.frame = cellFrame
+
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -70,6 +68,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func loadItem(_ item: DataSnapshot) {
     loadPost(item)
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+    if indexPath.item == (loadingPostCount - 1) {
+      loadFeed(posts[indexPath.item].postID)
+    }
   }
 
   func loadFeed(_ earliestEntryId: String?) {
@@ -152,6 +157,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     let size = sizingNibNew.contentView.systemLayoutSizeFitting(fittingSize)
     return size.height
+  }
+
+  func clickUser() {
+    showProfile(FPCurrentUser.shared.user)
   }
 
   func showProfile(_ author: FPUser) {

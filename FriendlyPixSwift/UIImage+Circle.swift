@@ -46,4 +46,32 @@ extension UIImage {
       }
     }
   }
+
+  static func circleButton(from urlString: String, to button: UIButton) {
+    if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
+      button.setImage(image, for: .normal)
+      return
+    }
+    SDWebImageDownloader.shared().downloadImage(with: URL.init(string: urlString), options: .highPriority, progress: nil) { (image, data, error, finished) in
+      if let image = image {
+        let circleImage = image.circle
+        SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
+        button.setImage(image, for: .normal)
+      }
+    }
+  }
+
+//  static func circleImageView(from url: URL) -> UIImage {
+//    let urlString = url.absoluteString
+//    if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
+//      return image
+//    }
+//    SDWebImageDownloader.shared().downloadImage(with: url, options: .highPriority, progress: nil) { (image, data, error, finished) in
+//      if let image = image {
+//        let circleImage = image.circle
+//        SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
+//        return circleImage
+//      }
+//    }
+  //}
 }
