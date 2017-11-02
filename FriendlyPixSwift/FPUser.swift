@@ -25,10 +25,10 @@ class FPUser {
 
   convenience init(snapshot: DataSnapshot) {
     self.init()
-    guard let value = snapshot.value as? [String:String] else { return }
+    guard let value = snapshot.value as? [String:Any] else { return }
     self.userID = snapshot.key
-    self.fullname = value["full_name"]!
-    self.profilePictureURL = value["profile_picture"]!
+    self.fullname = value["full_name"]! as! String
+    self.profilePictureURL = value["profile_picture"] as? String ?? ""
   }
 
   convenience init(dictionary: [String:String]) {

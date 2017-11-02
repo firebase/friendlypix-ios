@@ -14,9 +14,11 @@
 		105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756421F7EF5D400DF3352 /* UIImage+Circle.swift */; };
 		105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19411F8422D0008C282C /* FPAccountViewController.swift */; };
 		105D19461F853345008C282C /* FPUploadPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19451F853345008C282C /* FPUploadPhotoViewController.swift */; };
+		106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106820581FAA9E950065C393 /* FPSearchViewController.swift */; };
 		10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */; };
 		10894A811F86C0D400F30A2C /* FPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10894A801F86C0D400F30A2C /* FPTabBarController.swift */; };
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
+		109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */; };
 		10A236EF1FA9129A00CB581F /* FPCurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A236EE1FA9129A00CB581F /* FPCurrentUser.swift */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
 		10E1DB271F8406A6001CDB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */; };
@@ -40,9 +42,11 @@
 		105756421F7EF5D400DF3352 /* UIImage+Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Circle.swift"; sourceTree = "<group>"; };
 		105D19411F8422D0008C282C /* FPAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountViewController.swift; sourceTree = "<group>"; };
 		105D19451F853345008C282C /* FPUploadPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPUploadPhotoViewController.swift; sourceTree = "<group>"; };
+		106820581FAA9E950065C393 /* FPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchViewController.swift; sourceTree = "<group>"; };
 		10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCollectionReusableView.swift; sourceTree = "<group>"; };
 		10894A801F86C0D400F30A2C /* FPTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPTabBarController.swift; sourceTree = "<group>"; };
 		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
+		109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentCell.swift; sourceTree = "<group>"; };
 		10A236EE1FA9129A00CB581F /* FPCurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCurrentUser.swift; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
 		10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 				10894A801F86C0D400F30A2C /* FPTabBarController.swift */,
 				10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */,
 				10A236EE1FA9129A00CB581F /* FPCurrentUser.swift */,
+				109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */,
+				106820581FAA9E950065C393 /* FPSearchViewController.swift */,
 			);
 			path = FriendlyPixSwift;
 			sourceTree = "<group>";
@@ -199,8 +205,10 @@
 				10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */,
 				105756351F7E93B900DF3352 /* FPUser.swift in Sources */,
 				102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */,
+				109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */,
 				10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */,
 				10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */,
+				106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */,
 				10FD8FDB1F7E840800BCB991 /* FPHomeViewController.swift in Sources */,
 				10A236EF1FA9129A00CB581F /* FPCurrentUser.swift in Sources */,
 				10894A811F86C0D400F30A2C /* FPTabBarController.swift in Sources */,

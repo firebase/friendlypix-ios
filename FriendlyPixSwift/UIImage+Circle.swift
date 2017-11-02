@@ -35,7 +35,7 @@ extension UIImage {
 
   static func circleImage(from urlString: String, to imageView: UIImageView) {
     if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
-      imageView.image = image.circle
+      imageView.image = image
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: URL.init(string: urlString), options: .highPriority, progress: nil) { (image, data, error, finished) in

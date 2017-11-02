@@ -17,6 +17,7 @@
 import UIKit
 import MaterialComponents.MaterialCollections
 import Firebase
+import MHPrettyDate
 
 class FPCommentViewController: MDCCollectionViewController {
   var post: FPPost!
@@ -43,6 +44,7 @@ class FPCommentViewController: MDCCollectionViewController {
     NotificationCenter.default.addObserver(self,
                                              selector: #selector(keyboardWillHide(notification:)),
                                              name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.estimatedItemSize = CGSize.init(width: 1, height: 1) }
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -100,14 +102,13 @@ class FPCommentViewController: MDCCollectionViewController {
 
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+    
 
-    if let textCell = cell as? MDCCollectionViewTextCell {
+    if let cell = cell as? FPCommentCell {
       let comment = post.comments[indexPath.item]
-      textCell.textLabel?.numberOfLines = 0
-      textCell.detailTextLabel?.text = "\(comment.from!.fullname): \(comment.text)"
-      textCell.detailTextLabel?.numberOfLines = 0
-      UIImage.circleImage(from: comment.from!.profilePictureURL, to: textCell.imageView!)
-      textCell.imageView
+      cell.label.text = "\(comment.from!.fullname): \(comment.text)"
+      UIImage.circleImage(from: comment.from!.profilePictureURL, to: cell.imageView)
+      cell.dateLabel.text = MHPrettyDate.prettyDate(from: comment.postDate, with: MHPrettyDateShortRelativeTime)
     }
     
     return cell

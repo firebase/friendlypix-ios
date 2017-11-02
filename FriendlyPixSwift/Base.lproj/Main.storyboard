@@ -30,6 +30,9 @@
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" image="ic_search_white_36pt" id="cp5-1c-HL0">
                             <inset key="imageInsets" minX="25" minY="10" maxX="-10" maxY="5"/>
+                            <connections>
+                                <segue destination="O0J-qO-Fl5" kind="show" id="k0m-zv-fNu"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -46,6 +49,11 @@
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" id="6H7-ZS-1rF">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </objects>
             <point key="canvasLocation" x="-559" y="-637"/>
         </scene>
@@ -111,19 +119,56 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eQN-dd-Nam" customClass="MDCCollectionViewFlowLayout">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="155" height="64"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="D7S-LO-stP" customClass="MDCCollectionViewTextCell">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="D7S-LO-stP" customClass="FPCommentCell" customModule="FriendlyPixSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="155" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="155" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k2P-lS-h8V">
+                                            <rect key="frame" x="8" y="8" width="36" height="36"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="k2P-lS-h8V" secondAttribute="height" multiplier="1:1" id="ODK-Pc-yrR"/>
+                                                <constraint firstAttribute="width" constant="36" id="vNo-Sq-qQ6"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeJ-iT-g3Q">
+                                            <rect key="frame" x="60" y="8" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hHv-6A-dZn">
+                                            <rect key="frame" x="60" y="28.5" width="29" height="18.5"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="VeJ-iT-g3Q" firstAttribute="leading" secondItem="k2P-lS-h8V" secondAttribute="trailing" constant="16" id="4au-oZ-HrG"/>
+                                    <constraint firstItem="k2P-lS-h8V" firstAttribute="leading" secondItem="D7S-LO-stP" secondAttribute="leadingMargin" id="8C0-y6-coG"/>
+                                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="k2P-lS-h8V" secondAttribute="bottom" id="Ei2-zt-m2H"/>
+                                    <constraint firstItem="k2P-lS-h8V" firstAttribute="top" secondItem="D7S-LO-stP" secondAttribute="topMargin" id="MJh-s4-az1"/>
+                                    <constraint firstItem="hHv-6A-dZn" firstAttribute="top" secondItem="VeJ-iT-g3Q" secondAttribute="bottom" id="WEE-K9-XRn"/>
+                                    <constraint firstItem="VeJ-iT-g3Q" firstAttribute="top" secondItem="k2P-lS-h8V" secondAttribute="top" id="auj-vd-4wa"/>
+                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="VeJ-iT-g3Q" secondAttribute="trailing" constant="8" id="gqL-cy-LvS"/>
+                                    <constraint firstItem="hHv-6A-dZn" firstAttribute="leading" secondItem="VeJ-iT-g3Q" secondAttribute="leading" id="syR-a8-SHP"/>
+                                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="hHv-6A-dZn" secondAttribute="bottom" id="z0x-tH-6BL"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dateLabel" destination="hHv-6A-dZn" id="5LS-tH-iXY"/>
+                                    <outlet property="imageView" destination="k2P-lS-h8V" id="zyW-GV-m23"/>
+                                    <outlet property="label" destination="VeJ-iT-g3Q" id="lSi-cU-bG2"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -137,7 +182,52 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0L-t6-maU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2200" y="207"/>
+            <point key="canvasLocation" x="2199.1999999999998" y="206.44677661169416"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="SFR-Iu-7XT">
+            <objects>
+                <collectionViewController id="O0J-qO-Fl5" customClass="FPSearchViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="g9f-AS-swK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3oM-HX-5Jz">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="B2o-Bw-Xm1" customClass="MDCCollectionViewTextCell">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="O0J-qO-Fl5" id="Jd8-8h-eKF"/>
+                            <outlet property="delegate" destination="O0J-qO-Fl5" id="x4L-fb-Tpv"/>
+                        </connections>
+                    </collectionView>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="k82-rx-52W" id="4TJ-aa-PBH"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UtH-FF-Q8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="k82-rx-52W">
+                    <connections>
+                        <outlet property="delegate" destination="O0J-qO-Fl5" id="fDp-Pv-rXh"/>
+                        <outlet property="searchContentsController" destination="O0J-qO-Fl5" id="pLT-RD-Zqb"/>
+                        <outlet property="searchResultsDataSource" destination="O0J-qO-Fl5" id="NCD-y6-Krw"/>
+                        <outlet property="searchResultsDelegate" destination="O0J-qO-Fl5" id="NTS-K4-myN"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="118" y="-1000"/>
         </scene>
         <!--Home-->
         <scene sceneID="B0D-a0-oIv">
@@ -205,19 +295,19 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="do9-3h-du3">
-                                    <rect key="frame" x="88" y="47" width="35" height="16.5"/>
+                                    <rect key="frame" x="88" y="47" width="35" height="18.5"/>
                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="followers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7t-Sl-AWZ">
-                                    <rect key="frame" x="139" y="47" width="58.5" height="16.5"/>
+                                    <rect key="frame" x="139" y="47" width="58.5" height="18.5"/>
                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="following" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdH-JZ-MPL">
-                                    <rect key="frame" x="213.5" y="47" width="58.5" height="16.5"/>
+                                    <rect key="frame" x="213.5" y="47" width="58.5" height="18.5"/>
                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
