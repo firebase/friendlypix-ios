@@ -47,7 +47,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
                                      insetForSectionAt: 0)
     let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right, height: collectionView.bounds.height)
     sizingNibNew.frame = cellFrame
-
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -105,20 +104,16 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func loadPost(_ postSnapshot: DataSnapshot) {
-    commentsRef.child(postSnapshot.key).observe(.value, with: { commentsSnapshot in
+    let postId = postSnapshot.key
+    commentsRef.child(postId).observe(.value, with: { commentsSnapshot in
       var commentsArray = [FPComment]()
       for commentSnapshot in commentsSnapshot.children {
         let comment = FPComment(snapshot: commentSnapshot as! DataSnapshot)
         commentsArray.append(comment)
       }
-      self.likesRef.child(postSnapshot.key).observeSingleEvent(of: .value, with: { snapshot in
-        let post = FPPost(snapshot: postSnapshot, andComments: commentsArray)
-        if let likes = snapshot.value {
-          //post.likes = likes as! [String : String]
-        }
-        else {
-          //post.likes = [String: String]()
-        }
+      self.likesRef.child(postId).observeSingleEvent(of: .value, with: { snapshot in
+        let likes = snapshot.value as? [String:Any]
+        let post = FPPost(snapshot: postSnapshot, andComments: commentsArray, andLikes: likes)
         self.posts.append(post)
         self.collectionView?.insertItems(at: [IndexPath.init(item: self.posts.count-1, section: 0)])
       })
@@ -169,6 +164,33 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func viewComments(_ post: FPPost) {
     performSegue(withIdentifier: "comment", sender: post)
+  }
+
+  func toogleLike(_ post: FPPost, button: UIButton, label: UILabel) {
+    let postLike = ref.child("likes/\(post.postID)/\(uid)")
+    if post.isLiked {
+      postLike.removeValue(completionBlock: { (error, ref) in
+        if let error = error {
+          print(error.localizedDescription)
+          return
+        }
+        post.likeCount -= 1
+        post.isLiked = false
+        label.text = "\(post.likeCount) likes"
+        button.setImage(#imageLiteral(resourceName: "ic_favorite_border"), for: .normal)
+      })
+    } else {
+      postLike.setValue(ServerValue.timestamp(), withCompletionBlock: { (error, ref) in
+        if let error = error {
+          print(error.localizedDescription)
+          return
+        }
+        post.likeCount += 1
+        post.isLiked = true
+        label.text = "\(post.likeCount) likes"
+        button.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
+      })
+    }
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

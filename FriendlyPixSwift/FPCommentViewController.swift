@@ -44,7 +44,7 @@ class FPCommentViewController: MDCCollectionViewController {
     NotificationCenter.default.addObserver(self,
                                              selector: #selector(keyboardWillHide(notification:)),
                                              name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.estimatedItemSize = CGSize.init(width: 1, height: 1) }
+    if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.estimatedItemSize = CGSize.init(width: 300, height: 50) }
   }
 
   override func viewWillDisappear(_ animated: Bool) {

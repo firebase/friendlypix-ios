@@ -25,9 +25,10 @@ class FPPost {
   var text = ""
   var comments: [FPComment]!
   var isLiked = false
-  //var likes: [String: String]!
+  var likeCount = 0
 
-  init(snapshot: DataSnapshot, andComments comments: [FPComment]) {
+
+  init(snapshot: DataSnapshot, andComments comments: [FPComment], andLikes likes: [String:Any]?) {
     guard let value = snapshot.value as? [String:Any] else { return }
     self.postID = snapshot.key
     self.text = value["text"]! as! String
@@ -36,6 +37,10 @@ class FPPost {
     self.author = FPUser.init(dictionary: value["author"] as! [String : String])
     self.imageURL = value["full_url"] as? String ?? value["url"]! as! String
     self.comments = comments
+    if let likes = likes {
+      likeCount = likes.count
+      isLiked = (likes.index(forKey: (Auth.auth().currentUser?.uid)!) != nil)
+    }
   }
 
 }

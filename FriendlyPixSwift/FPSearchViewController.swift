@@ -21,7 +21,7 @@ class FPSearchViewController: MDCCollectionViewController {
     searchController.searchResultsUpdater = self
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.hidesNavigationBarDuringPresentation = false
-    searchController.searchBar.placeholder = "Search Candies"
+    searchController.searchBar.placeholder = "Search"
     navigationItem.titleView = searchController.searchBar
     definesPresentationContext = true
   }
@@ -69,6 +69,7 @@ class FPSearchViewController: MDCCollectionViewController {
     })
   }
 
+
   func isFiltering() -> Bool {
     return searchController.isActive && !searchBarIsEmpty()
   }
@@ -87,7 +88,18 @@ class FPSearchViewController: MDCCollectionViewController {
 //    }
     UIImage.circleImage(from: user.profilePictureURL, to: cell.imageView!)
     cell.textLabel!.text = user.fullname
+    cell.textLabel?.numberOfLines = 1
+    cell.detailTextLabel?.numberOfLines = 0
     return cell
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+    return MDCCellDefaultOneLineWithAvatarHeight
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let x = self.parent?.childViewControllers[0].childViewControllers[0] as! FPFeedViewController
+    x.showProfile(people[indexPath.item])
   }
 }
 

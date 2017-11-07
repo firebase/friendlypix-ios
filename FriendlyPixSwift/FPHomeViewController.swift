@@ -72,7 +72,12 @@ class FPHomeViewController: FPFeedViewController {
     let followingRef = super.ref.child("people").child(uid).child("following")
     followingRef.observeSingleEvent(of: .value, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
-      guard let following = followingSnapshot.value as? [String:Any] else { return }
+      guard let following = followingSnapshot.value as? [String:Any] else {
+        self.startHomeFeedLiveUpdaters()
+        // Get home feed posts
+        self.getHomeFeedPosts()
+        return
+      }
       var followedUserPostsRef: DatabaseQuery!
       for (followedUid, lastSyncedPostId) in following {
         followedUserPostsRef = super.ref.child("people").child(followedUid).child("posts")
@@ -82,15 +87,16 @@ class FPHomeViewController: FPFeedViewController {
           lastSyncedPost = lastSyncedPostId as! String
         }
         followedUserPostsRef.observeSingleEvent(of: .value, with: { postSnapshot in
-          guard let postArray = postSnapshot.value as? [String:Any] else { return }
-          var updates = [AnyHashable: Any]()
-          for postId in postArray.keys {
-            if !(postId == lastSyncedPost) {
-              updates["/feed/\(self.uid)/\(postId)"] = true
-              updates["/people/\(self.uid)/following/\(followedUid)"] = postId
+          if let postArray = postSnapshot.value as? [String:Any] {
+            var updates = [AnyHashable: Any]()
+            for postId in postArray.keys {
+              if !(postId == lastSyncedPost) {
+                updates["/feed/\(self.uid)/\(postId)"] = true
+                updates["/people/\(self.uid)/following/\(followedUid)"] = postId
+              }
             }
+            super.ref.updateChildValues(updates)
           }
-          super.ref.updateChildValues(updates)
           // Add new posts from followers live.
           self.startHomeFeedLiveUpdaters()
           // Get home feed posts

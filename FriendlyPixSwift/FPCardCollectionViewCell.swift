@@ -22,6 +22,7 @@ import SDWebImage
 protocol FPCardCollectionViewCellDelegate {
   func showProfile(_ author: FPUser)
   func viewComments(_ post: FPPost)
+  func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
@@ -31,6 +32,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak var postImageView: UIImageView!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var likesLabel: UILabel!
+  @IBOutlet weak var likeButton: UIButton!
 
   @IBOutlet weak var comment1Label: UILabel!
   @IBOutlet weak var comment2Label: UILabel!
@@ -64,7 +66,10 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       })
     }
     titleLabel?.text = post.text
-    //likesLabel?.text = "\(post..description) likes"
+    likesLabel?.text = "\(post.likeCount) likes"
+    if post.isLiked {
+      likeButton.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
+    }
 
     if labelConstraints != nil {
       NSLayoutConstraint.deactivate(labelConstraints)
@@ -129,12 +134,17 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   override func updateConstraints() {
     super.updateConstraints()
 
-    let constant = MDCCeil((self.bounds.width - 2) * 0.75)
+    let constant = MDCCeil((self.bounds.width - 2) * 0.65)
     if imageConstraint == nil {
       imageConstraint = postImageView.heightAnchor.constraint(equalToConstant: constant)
+
       imageConstraint?.isActive = true
     }
     imageConstraint?.constant = constant
+  }
+
+  @IBAction func toggledLike() {
+    delegate?.toogleLike(post, button: likeButton, label: likesLabel)
   }
 
   override func prepareForReuse() {
