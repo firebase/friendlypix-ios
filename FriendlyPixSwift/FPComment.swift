@@ -14,20 +14,23 @@
 //  limitations under the License.
 //
 
-import Foundation
 import Firebase
+import Foundation
+import MHPrettyDate
 
 class FPComment {
   var commentID = ""
   var text = ""
-  var postDate: Date?
-  var from: FPUser?
+  var postDate: Date!
+  var from: FPUser!
 
   init(snapshot: DataSnapshot) {
     self.commentID = snapshot.key
-    guard let value = snapshot.value as? [String:Any] else { return }
-    self.text = value["text"]! as! String
-    self.postDate = Date(timeIntervalSince1970: ( value["timestamp"] as! Double / 1000.0))
-    self.from = FPUser.init(dictionary: value["author"] as! [String:String])
+    guard let value = snapshot.value as? [String: Any] else { return }
+    self.text = value["text"] as? String ?? ""
+    guard let timestamp = value["timestamp"] as? Double else { return }
+    self.postDate = Date(timeIntervalSince1970: timestamp / 1_000.0)
+    guard let author = value["author"] as? [String: String] else { return }
+    self.from = FPUser(dictionary: author)
   }
 }

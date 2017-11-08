@@ -14,58 +14,66 @@
 //  limitations under the License.
 //
 
-import UIKit
-import MaterialComponents.MaterialCollections
+import MaterialComponents
 import MHPrettyDate
 import SDWebImage
 
-protocol FPCardCollectionViewCellDelegate {
+protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
   func viewComments(_ post: FPPost)
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
-  @IBOutlet weak var authorImageView: UIImageView!
-  @IBOutlet weak var authorLabel: UILabel!
-  @IBOutlet weak var dateLabel: UILabel!
-  @IBOutlet weak var postImageView: UIImageView!
-  @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var likesLabel: UILabel!
-  @IBOutlet weak var likeButton: UIButton!
+  @IBOutlet weak private var authorImageView: UIImageView!
+  @IBOutlet weak private var authorLabel: UILabel!
+  @IBOutlet weak private var dateLabel: UILabel!
+  @IBOutlet weak private var postImageView: UIImageView!
+  @IBOutlet weak private var titleLabel: UILabel!
+  @IBOutlet weak private var likesLabel: UILabel!
+  @IBOutlet weak private var likeButton: UIButton!
 
-  @IBOutlet weak var comment1Label: UILabel!
-  @IBOutlet weak var comment2Label: UILabel!
-  @IBOutlet weak var comment3Label: UILabel!
-  @IBOutlet weak var viewAllCommentsLabel: UIButton!
+  @IBOutlet weak private var comment1Label: UILabel!
+  @IBOutlet weak private var comment2Label: UILabel!
+  @IBOutlet weak private var comment3Label: UILabel!
+  @IBOutlet weak private var viewAllCommentsLabel: UIButton!
+  var commentLabels: [UILabel]?
+  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont(name: "Roboto-Bold", size: 14)!]
+
   var post: FPPost!
-  var delegate: FPCardCollectionViewCellDelegate?
+  weak var delegate: FPCardCollectionViewCellDelegate?
   var labelConstraints: [NSLayoutConstraint]!
   public var imageConstraint: NSLayoutConstraint?
 
   override func awakeFromNib() {
     super.awakeFromNib()
 
-    let imageGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
-    authorImageView.addGestureRecognizer(imageGestureRecognizer)
-    let labelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
-    authorLabel.addGestureRecognizer(labelGestureRecognizer)
+    authorImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileTapped)))
+    authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileTapped)))
+    commentLabels = [comment1Label, comment2Label, comment3Label]
+
+    comment1Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnComment(recognizer:))))
+    comment2Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnComment(recognizer:))))
+    comment3Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnComment(recognizer:))))
   }
 
   func populateContent(post: FPPost, isDryRun: Bool) {
     self.post = post
     let postAuthor = post.author!
-    if !isDryRun {
-      UIImage.circleImage(from: postAuthor.profilePictureURL, to: authorImageView)
+    if !isDryRun, let profilePictureURL = postAuthor.profilePictureURL {
+      UIImage.circleImage(with: profilePictureURL, to: authorImageView)
     }
     authorLabel?.text = postAuthor.fullname
     dateLabel?.text = MHPrettyDate.prettyDate(from: post.postDate, with: MHPrettyDateShortRelativeTime)
     if !isDryRun {
-    postImageView?.sd_setImage(with: URL(string: post.imageURL!), completed:{ (img, error, cacheType, imageURL) in
-      // Handle image being set
-      })
+      postImageView?.sd_setImage(with: post.imageURL, completed: nil)
     }
-    titleLabel?.text = post.text
+
+    let title = NSMutableAttributedString(string: postAuthor.fullname, attributes: attributes)
+    title.append(NSAttributedString(string: " " + post.text))
+    titleLabel?.attributedText = title
+
+    titleLabel?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnProfileLabel(recognizer:))))
     likesLabel?.text = "\(post.likeCount) likes"
     if post.isLiked {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
@@ -76,14 +84,13 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       labelConstraints = nil
     }
 
-    let betweenConstant:CGFloat = 1.0
-    let bottomConstant:CGFloat = -5.0
-    let comments = post.comments!
-    switch comments.count {
+    let betweenConstant: CGFloat = 1.0
+    let bottomConstant: CGFloat = -5.0
+    let commentCount = post.comments.count
+    switch commentCount {
     case 0:
       labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1)]
       viewAllCommentsLabel.isHidden = true
-      //viewAllCommentsLabel.title(for: .normal) = nil
       comment1Label.isHidden = true
       comment1Label.text = nil
       comment2Label.isHidden = true
@@ -91,44 +98,56 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       comment3Label.isHidden = true
       comment3Label.text = nil
     case 1:
-      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
-                      comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                                             constant: betweenConstant),
+                      comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                            constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
-      //viewAllCommentsLabel.text = nil
-      comment1Label.isHidden = false
-      comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
+      attributeComment(index: 0)
       comment2Label.isHidden = true
       comment2Label.text = nil
       comment3Label.isHidden = true
       comment3Label.text = nil
     case 2:
-      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: betweenConstant),
-                      comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
-                      comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                                             constant: betweenConstant),
+                      comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor,
+                                                         constant: betweenConstant),
+                      comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                            constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
-      //viewAllCommentsLabel.text = nil
-      comment1Label.isHidden = false
-      comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
-      comment2Label.isHidden = false
-      comment2Label.text = "\(comments[1].from!.fullname): \(comments[1].text)"
+      attributeComment(index: 0)
+      attributeComment(index: 1)
       comment3Label.isHidden = true
       comment3Label.text = nil
     default:
-      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: viewAllCommentsLabel.topAnchor, constant: betweenConstant),
-                          viewAllCommentsLabel.bottomAnchor.constraint(equalTo: comment1Label.topAnchor, constant: betweenConstant),
-                          comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor, constant: betweenConstant),
-                      comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor, constant: betweenConstant),
-                      comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: viewAllCommentsLabel.topAnchor,
+                                                             constant: betweenConstant),
+                          viewAllCommentsLabel.bottomAnchor.constraint(equalTo: comment1Label.topAnchor,
+                                                                       constant: betweenConstant),
+                          comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor,
+                                                             constant: betweenConstant),
+                      comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor,
+                                                         constant: betweenConstant),
+                      comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                            constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = false
-      viewAllCommentsLabel.setTitle("View all \(comments.count) comments", for: .normal)
-      comment1Label.isHidden = false
-      comment1Label.text = "\(comments[0].from!.fullname): \(comments[0].text)"
-      comment2Label.isHidden = false
-      comment2Label.text = "\(comments[1].from!.fullname): \(comments[1].text)"
-      comment3Label.isHidden = false
-      comment3Label.text = "\(comments[2].from!.fullname): \(comments[2].text)"
+      viewAllCommentsLabel.setTitle("View all \(commentCount) comments", for: .normal)
+      attributeComment(index: 0)
+      attributeComment(index: 1)
+      attributeComment(index: 2)
     }
     NSLayoutConstraint.activate(labelConstraints)
+  }
+
+  private func attributeComment(index: Int) {
+    if let commentLabel = commentLabels?[index] {
+      let comment = post.comments[index]
+      commentLabel.isHidden = false
+      let text = NSMutableAttributedString(string: comment.from!.fullname, attributes: attributes)
+      text.append(NSAttributedString(string: " " + comment.text))
+      commentLabel.attributedText = text
+    }
   }
 
   override func updateConstraints() {
@@ -157,6 +176,21 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     delegate?.showProfile(post.author!)
   }
 
+  func handleTapOnProfileLabel(recognizer: UITapGestureRecognizer) {
+    if recognizer.didTapAttributedTextInLabel(label: titleLabel, inRange: NSRange(location: 0, length: post.author.fullname.characters.count)) {
+      profileTapped()
+    }
+  }
+
+  func handleTapOnComment(recognizer: UITapGestureRecognizer) {
+    if let index = recognizer.view?.tag, let from = post.comments[index].from,
+      recognizer.didTapAttributedTextInLabel(label: commentLabels![index],
+                                             inRange: NSRange(location: 0,
+                                                              length: from.fullname.characters.count)) {
+      delegate?.showProfile(from)
+    }
+  }
+
   @IBAction func viewAllComments(_ sender: Any) {
     delegate?.viewComments(post)
   }
@@ -166,5 +200,32 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 }
 
+extension UITapGestureRecognizer {
 
+  func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
+    // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
+    let layoutManager = NSLayoutManager()
+    let textContainer = NSTextContainer(size: CGSize.zero)
+    let textStorage = NSTextStorage(attributedString: label.attributedText!)
 
+    // Configure layoutManager and textStorage
+    layoutManager.addTextContainer(textContainer)
+    textStorage.addLayoutManager(layoutManager)
+
+    // Configure textContainer
+    textContainer.lineFragmentPadding = 0.0
+    textContainer.lineBreakMode = label.lineBreakMode
+    textContainer.maximumNumberOfLines = label.numberOfLines
+    let labelSize = label.bounds.size
+    textContainer.size = labelSize
+
+    // Find the tapped character location and compare it to the specified range
+    let locationOfTouchInLabel = self.location(in: label)
+    let textBoundingBox = layoutManager.usedRect(for: textContainer)
+    let textContainerOffset = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
+                                      y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
+    let locationOfTouchInTextContainer = CGPoint(x:locationOfTouchInLabel.x - textContainerOffset.x, y: locationOfTouchInLabel.y - textContainerOffset.y)
+    let indexOfCharacter = layoutManager.characterIndex(for: locationOfTouchInTextContainer, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+    return NSLocationInRange(indexOfCharacter, targetRange)
+  }
+}

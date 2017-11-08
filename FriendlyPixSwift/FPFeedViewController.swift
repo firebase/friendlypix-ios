@@ -14,9 +14,8 @@
 //  limitations under the License.
 //
 
-import UIKit
-import MaterialComponents.MaterialCollections
 import Firebase
+import MaterialComponents
 
 class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
 
@@ -39,13 +38,15 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       return
     }
     collectionView.register(nib, forCellWithReuseIdentifier: "cell")
-    sizingNibNew = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0] as! FPCardCollectionViewCell
+    sizingNibNew = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0]
+      as? FPCardCollectionViewCell
 
     self.styler.cellStyle = .card
     let insets = self.collectionView(collectionView,
                                      layout: collectionViewLayout,
                                      insetForSectionAt: 0)
-    let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right, height: collectionView.bounds.height)
+    let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right,
+                           height: collectionView.bounds.height)
     sizingNibNew.frame = cellFrame
   }
 
@@ -57,7 +58,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     commentsRef = ref.child("comments")
     likesRef = ref.child("likes")
     loadingPostCount = 0
-    loadData()
+    if (posts.isEmpty) {
+      loadData()
+    }
   }
 
   func loadData() {
@@ -69,8 +72,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     loadPost(item)
   }
 
-  override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-
+  override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+                               forItemAt indexPath: IndexPath) {
     if indexPath.item == (loadingPostCount - 1) {
       loadFeed(posts[indexPath.item].postID)
     }
@@ -85,9 +88,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
     loadingPostCount += 6
     query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
-      let reversed = snapshot.children.allObjects
-      for index in stride(from: reversed.count-1, through: i, by: -1) {
-        self.loadItem(reversed[index] as! DataSnapshot)
+      if let reversed = snapshot.children.allObjects as? [DataSnapshot] {
+        self.collectionView?.performBatchUpdates({
+          for index in stride(from: reversed.count - 1, through: i, by: -1) {
+            self.loadItem(reversed[index])
+          }
+        }, completion: nil)
       }
     })
     postsRef.observe(.childRemoved, with: { postSnapshot in
@@ -99,7 +105,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         index += 1
       }
       self.posts.remove(at: index)
-      self.collectionView?.deleteItems(at: [IndexPath.init(item: index, section: 0)])
+      self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
     })
   }
 
@@ -107,20 +113,22 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let postId = postSnapshot.key
     commentsRef.child(postId).observe(.value, with: { commentsSnapshot in
       var commentsArray = [FPComment]()
-      for commentSnapshot in commentsSnapshot.children {
-        let comment = FPComment(snapshot: commentSnapshot as! DataSnapshot)
+      let enumerator = commentsSnapshot.children
+      while let commentSnapshot = enumerator.nextObject() as? DataSnapshot {
+        let comment = FPComment(snapshot: commentSnapshot)
         commentsArray.append(comment)
       }
       self.likesRef.child(postId).observeSingleEvent(of: .value, with: { snapshot in
-        let likes = snapshot.value as? [String:Any]
+        let likes = snapshot.value as? [String: Any]
         let post = FPPost(snapshot: postSnapshot, andComments: commentsArray, andLikes: likes)
         self.posts.append(post)
-        self.collectionView?.insertItems(at: [IndexPath.init(item: self.posts.count-1, section: 0)])
+        self.collectionView?.insertItems(at: [IndexPath(item: self.posts.count - 1, section: 0)])
       })
     })
   }
 
   override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     ref.removeAllObservers()
   }
 
@@ -130,11 +138,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     return posts.count
   }
 
-  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FPCardCollectionViewCell
-    let post = posts[indexPath.item]
-    cell.populateContent(post: post, isDryRun: false)
-    cell.delegate = self
+  override func collectionView(_ collectionView: UICollectionView,
+                               cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+    if let cell = cell as? FPCardCollectionViewCell {
+      let post = posts[indexPath.item]
+      cell.populateContent(post: post, isDryRun: false)
+      cell.delegate = self
+    }
     return cell
   }
 
@@ -155,11 +166,11 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func clickUser() {
-    showProfile(FPCurrentUser.shared.user)
+    showProfile(FPUser.currentUser())
   }
 
-  func showProfile(_ author: FPUser) {
-    performSegue(withIdentifier: "account", sender: author)
+  func showProfile(_ profile: FPUser) {
+    performSegue(withIdentifier: "account", sender: profile)
   }
 
   func viewComments(_ post: FPPost) {
@@ -169,7 +180,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel) {
     let postLike = ref.child("likes/\(post.postID)/\(uid)")
     if post.isLiked {
-      postLike.removeValue(completionBlock: { (error, ref) in
+      postLike.removeValue(completionBlock: { error, _ in
         if let error = error {
           print(error.localizedDescription)
           return
@@ -180,7 +191,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         button.setImage(#imageLiteral(resourceName: "ic_favorite_border"), for: .normal)
       })
     } else {
-      postLike.setValue(ServerValue.timestamp(), withCompletionBlock: { (error, ref) in
+      postLike.setValue(ServerValue.timestamp(), withCompletionBlock: { error, _ in
         if let error = error {
           print(error.localizedDescription)
           return
@@ -194,17 +205,21 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if (segue.identifier == "account") {
-      if let accountViewController = segue.destination as? FPAccountViewController {
-        accountViewController.user = sender as! FPUser
+    if segue.identifier == "account" {
+      if let accountViewController = segue.destination as? FPAccountViewController, let profile = sender as? FPUser {
+        accountViewController.profile = profile
       }
-    }
-    else if (segue.identifier == "comment") {
-      if let commentViewController = segue.destination as? FPCommentViewController {
-       commentViewController.post = sender as! FPPost
+    } else if segue.identifier == "comment" {
+      if let commentViewController = segue.destination as? FPCommentViewController, let post = sender as? FPPost {
+       commentViewController.post = post
       }
     }
   }
-
 }
 
+extension MDCCollectionViewController {
+  var feedViewController: FPFeedViewController? {
+    guard let fpTabBarController = navigationController?.viewControllers[0] as? FPTabBarController else { return nil }
+    return fpTabBarController.feedViewController
+  }
+}

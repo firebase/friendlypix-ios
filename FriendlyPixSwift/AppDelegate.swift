@@ -14,10 +14,9 @@
 //  limitations under the License.
 //
 
-import UIKit
 import Firebase
-import UserNotifications
 import FirebaseAuthUI
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   let gcmMessageIDKey = "gcm.message_id"
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions
+    launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     FirebaseApp.configure()
     Messaging.messaging().delegate = self
     if #available(iOS 10.0, *) {
@@ -35,7 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
       UNUserNotificationCenter.current().requestAuthorization(
         options: authOptions,
-        completionHandler: {_, _ in })
+        completionHandler: {_, _ in
+      })
     } else {
       let settings: UIUserNotificationSettings =
         UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -47,8 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   @available(iOS 9.0, *)
-  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-    let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String?
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+    guard let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String else {
+      return false
+    }
     return self.handleOpenUrl(url, sourceApplication: sourceApplication)
   }
 
@@ -56,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     return self.handleOpenUrl(url, sourceApplication: sourceApplication)
   }
-
 
   func handleOpenUrl(_ url: URL, sourceApplication: String?) -> Bool {
     if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
@@ -66,13 +68,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return false
   }
 
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
     // If you are receiving a notification message while your app is in the background,
     // this callback will not be fired till the user taps on the notification launching the application.
     showAlert(userInfo)
   }
 
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                   fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     // If you are receiving a notification message while your app is in the background,
     // this callback will not be fired till the user taps on the notification launching the application.
     showAlert(userInfo)
@@ -81,12 +84,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 @available(iOS 10, *)
-extension AppDelegate : UNUserNotificationCenterDelegate {
+extension AppDelegate: UNUserNotificationCenterDelegate {
 
   // Receive displayed notifications for iOS 10 devices.
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
+                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
     showAlert(userInfo)
 
@@ -121,7 +123,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 }
 // [END ios_10_message_handling]
 
-extension AppDelegate : MessagingDelegate {
+extension AppDelegate: MessagingDelegate {
   // [START refresh_token]
   func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
     print("Firebase registration token: \(fcmToken)")

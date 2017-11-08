@@ -6,8 +6,7 @@
 //  Copyright © 2017 Ibrahim Ulukaya. All rights reserved.
 //
 
-import UIKit
-import MaterialComponents.MaterialCollectionCells
+import MaterialComponents
 
 class FPCommentCell: MDCCollectionViewCell {
   @IBOutlet weak var imageView: UIImageView!

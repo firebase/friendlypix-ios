@@ -14,7 +14,6 @@
 //  limitations under the License.
 //
 
-import UIKit
 import Firebase
 
 class FPHomeViewController: FPFeedViewController {
@@ -51,7 +50,8 @@ class FPHomeViewController: FPFeedViewController {
       }
       followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
         if postSnapshot.key != followingSnapshot.key {
-          let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true, "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String : Any]
+          let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true,
+                         "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String: Any]
           super.ref.updateChildValues(updates)
         }
       })
@@ -72,7 +72,7 @@ class FPHomeViewController: FPFeedViewController {
     let followingRef = super.ref.child("people").child(uid).child("following")
     followingRef.observeSingleEvent(of: .value, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
-      guard let following = followingSnapshot.value as? [String:Any] else {
+      guard let following = followingSnapshot.value as? [String: Any] else {
         self.startHomeFeedLiveUpdaters()
         // Get home feed posts
         self.getHomeFeedPosts()
@@ -82,18 +82,16 @@ class FPHomeViewController: FPFeedViewController {
       for (followedUid, lastSyncedPostId) in following {
         followedUserPostsRef = super.ref.child("people").child(followedUid).child("posts")
         var lastSyncedPost = ""
-        if lastSyncedPostId is String {
+        if let lastSyncedPostId = lastSyncedPostId as? String {
           followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: lastSyncedPostId)
-          lastSyncedPost = lastSyncedPostId as! String
+          lastSyncedPost = lastSyncedPostId
         }
         followedUserPostsRef.observeSingleEvent(of: .value, with: { postSnapshot in
-          if let postArray = postSnapshot.value as? [String:Any] {
+          if let postArray = postSnapshot.value as? [String: Any] {
             var updates = [AnyHashable: Any]()
-            for postId in postArray.keys {
-              if !(postId == lastSyncedPost) {
+            for postId in postArray.keys where postId != lastSyncedPost {
                 updates["/feed/\(self.uid)/\(postId)"] = true
                 updates["/people/\(self.uid)/following/\(followedUid)"] = postId
-              }
             }
             super.ref.updateChildValues(updates)
           }
@@ -106,4 +104,3 @@ class FPHomeViewController: FPFeedViewController {
     })
   }
 }
-

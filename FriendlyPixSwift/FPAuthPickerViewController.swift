@@ -14,9 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
 import FirebaseAuthUI
 
 class FPAuthPickerViewController: FUIAuthPickerViewController {
-
 }

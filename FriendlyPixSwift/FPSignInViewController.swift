@@ -14,11 +14,10 @@
 //  limitations under the License.
 //
 
-import UIKit
-import FirebaseAuthUI
-import FirebaseGoogleAuthUI
-import FirebaseFacebookAuthUI
 import Firebase
+import FirebaseAuthUI
+import FirebaseFacebookAuthUI
+import FirebaseGoogleAuthUI
 
 private let kFacebookAppID = "FACEBOOK_APP_ID"
 private let kFirebaseTermsOfService = URL(string: "https://firebase.google.com/terms/")!
@@ -30,12 +29,7 @@ class FPSignInViewController: UINavigationController, FUIAuthDelegate {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if let currentUser = Auth.auth().currentUser {
-      let user = FPUser.init()
-      FPCurrentUser.shared.user = user
-      user.userID = currentUser.uid
-      user.fullname = currentUser.displayName!
-      user.profilePictureURL = (currentUser.photoURL?.absoluteString)!
+    if Auth.auth().currentUser != nil {
       self.performSegue(withIdentifier: "SignInToFP", sender: nil)
       return
     }
@@ -43,28 +37,25 @@ class FPSignInViewController: UINavigationController, FUIAuthDelegate {
     authUI?.delegate = self
     authUI?.tosurl = kFirebaseTermsOfService
     authUI?.isSignInWithEmailHidden = true
-    let providers = [FUIGoogleAuth(), FUIFacebookAuth()]
-    authUI?.providers = providers as! [FUIAuthProvider]
+    let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth()]
+    authUI?.providers = providers
     let authViewController: UINavigationController? = authUI?.authViewController()
     authViewController?.navigationBar.isHidden = true
     present(authViewController!, animated: true, completion: nil)
   }
 
   func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
-    guard let authError = error else {
-      signed(in: user!)
-      return
-    }
-
-    let errorCode = UInt((authError as NSError).code)
-
-    switch errorCode {
-    case FUIAuthErrorCode.userCancelledSignIn.rawValue:
-      print("User cancelled sign-in");
-      break
-    default:
-      let detailedError = (authError as NSError).userInfo[NSUnderlyingErrorKey] ?? authError
-      print("Login error: \((detailedError as! NSError).localizedDescription)");
+    switch error {
+    case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.userCancelledSignIn.rawValue:
+      print("User cancelled sign-in")
+    case .some(let error as NSError) where error.userInfo[NSUnderlyingErrorKey] != nil:
+      print("Login error: \(error.userInfo[NSUnderlyingErrorKey]!)")
+    case .some(let error):
+      print("Login error: \(error.localizedDescription)")
+    case .none:
+      if let user = user {
+        signed(in: user)
+      }
     }
   }
 

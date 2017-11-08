@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ibrahim Ulukaya. All rights reserved.
 //
 
+import MaterialComponents
 import UIKit
-import MaterialComponents.MaterialCollectionCells
 
 class FPCollectionViewTextCell: MDCCollectionViewTextCell {
   override func prepareForReuse() {

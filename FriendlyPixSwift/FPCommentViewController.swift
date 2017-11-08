@@ -14,61 +14,62 @@
 //  limitations under the License.
 //
 
-import UIKit
-import MaterialComponents.MaterialCollections
 import Firebase
+import MaterialComponents
 import MHPrettyDate
 
 class FPCommentViewController: MDCCollectionViewController {
   var post: FPPost!
   var textField: UITextField!
   var comments: DatabaseReference!
+  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont(name: "Roboto-Bold", size: 14)!]
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     comments = Database.database().reference(withPath: "comments/\(post.postID)")
-      
     styler.cellStyle = .card
 
-    textField = UITextField.init(frame: CGRect.init(x: 0, y: 0, width: 300, height: 50))
+    textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
     textField.placeholder = "Add a comment"
     textField.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
 
     navigationController?.setToolbarHidden(false, animated: false)
-    self.setToolbarItems([UIBarButtonItem.init(customView: textField), UIBarButtonItem.init(title: "Post", style: .plain, target: self, action: #selector(enterPressed))], animated: false)
+    self.setToolbarItems([UIBarButtonItem(customView: textField),
+                          UIBarButtonItem(title: "Post", style: .plain, target: self,
+                                          action: #selector(enterPressed))], animated: false)
 
-    NotificationCenter.default.addObserver(self,
-                                            selector: #selector(keyboardWillShow(notification:)),
-                                            name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    NotificationCenter.default.addObserver(self,
-                                             selector: #selector(keyboardWillHide(notification:)),
-                                             name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.estimatedItemSize = CGSize.init(width: 300, height: 50) }
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
+                                           name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
+                                           name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+      flowLayout.estimatedItemSize = CGSize(width: 300, height: 50)
+    }
   }
 
   override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     self.navigationController?.setToolbarHidden(true, animated: false)
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-
-  }
-
-  @objc func enterPressed(){
+  @objc func enterPressed() {
     guard let currentUser = Auth.auth().currentUser else { return }
     guard let text = textField.text else { return }
 
-    let data = ["timestamp": ServerValue.timestamp(), "author": ["uid": currentUser.uid, "full_name": currentUser.displayName ?? "", "profile_picture": currentUser.photoURL?.absoluteString], "text": text] as [String : Any]
+    let data = ["timestamp": ServerValue.timestamp(),
+                "author": ["uid": currentUser.uid, "full_name": currentUser.displayName ?? "",
+                           "profile_picture": currentUser.photoURL?.absoluteString], "text": text] as [String: Any]
     let comment = comments.childByAutoId()
-    comment.setValue(data) { (error, reference) in
+    comment.setValue(data) { error, reference in
       if let error = error {
         print(error.localizedDescription)
         return
       }
       reference.observe(.value, with: { snapshot in
-        self.post.comments.append(FPComment.init(snapshot: snapshot))
-        self.collectionView?.insertItems(at: [IndexPath.init(item: self.post.comments.count-1, section: 0)])
+       // if let comment =
+        self.post.comments.append(FPComment(snapshot: snapshot))
+        self.collectionView?.insertItems(at: [IndexPath(item: self.post.comments.count - 1, section: 0)])
       })
     }
     textField.text = nil
@@ -95,22 +96,47 @@ class FPCommentViewController: MDCCollectionViewController {
     }
   }
 
-
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return post.comments.count
   }
 
-  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-    
+  @objc func showProfile(sender: UITapGestureRecognizer) {
+    if let index = sender.view?.tag {
+      feedViewController?.performSegue(withIdentifier: "account", sender: post.comments[index].from)
+    }
+  }
 
+  @objc func handleTapOnComment(recognizer: UITapGestureRecognizer) {
+    if let label = recognizer.view as? UILabel, let from = post.comments[label.tag].from,
+      recognizer.didTapAttributedTextInLabel(label: label,
+                                             inRange: NSRange(location: 0,
+                                                              length: from.fullname.characters.count)) {
+      feedViewController?.performSegue(withIdentifier: "account", sender: from)
+    }
+  }
+
+  override func collectionView(_ collectionView: UICollectionView,
+                               cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     if let cell = cell as? FPCommentCell {
       let comment = post.comments[indexPath.item]
-      cell.label.text = "\(comment.from!.fullname): \(comment.text)"
-      UIImage.circleImage(from: comment.from!.profilePictureURL, to: cell.imageView)
+      if let from = comment.from {
+        cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnComment(recognizer:))))
+        cell.label.tag = indexPath.item
+
+        let text = NSMutableAttributedString(string: from.fullname, attributes: attributes)
+        text.append(NSAttributedString(string: " " + comment.text))
+        cell.label.attributedText = text
+
+        if let profilePictureURL = from.profilePictureURL {
+          UIImage.circleImage(with: profilePictureURL, to: cell.imageView)
+        }
+        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(showProfile(sender:)))
+        cell.imageView.tag = indexPath.item
+        cell.imageView.addGestureRecognizer(tapGestureRecognizer)
+      }
       cell.dateLabel.text = MHPrettyDate.prettyDate(from: comment.postDate, with: MHPrettyDateShortRelativeTime)
     }
-    
     return cell
   }
 }

@@ -14,34 +14,45 @@
 //  limitations under the License.
 //
 
-import Foundation
 import Firebase
 
-class FPUser {
+class FPUser: NSObject {
   var userID = ""
   var fullname = ""
-  var profilePictureURL = ""
+  var profilePictureURL: URL?
 
-
-  convenience init(snapshot: DataSnapshot) {
-    self.init()
-    guard let value = snapshot.value as? [String:Any] else { return }
+  init(snapshot: DataSnapshot) {
     self.userID = snapshot.key
-    self.fullname = value["full_name"]! as! String
-    self.profilePictureURL = value["profile_picture"] as? String ?? ""
+    guard let value = snapshot.value as? [String: Any] else { return }
+    guard let fullname = value["full_name"] as? String else { return }
+    self.fullname = fullname
+    guard let profile_picture = value["profile_picture"] as? String,
+      let profilePictureURL = URL(string: profile_picture) else { return }
+    self.profilePictureURL = profilePictureURL
   }
 
-  convenience init(dictionary: [String:String]) {
-    self.init()
-    self.userID = dictionary["uid"]!
-    self.fullname = dictionary["full_name"]!
-    self.profilePictureURL = dictionary["profile_picture"]!
+  init(dictionary: [String: String]) {
+    guard let uid = dictionary["uid"] else { return }
+    self.userID = uid
+    guard let fullname = dictionary["full_name"] else { return }
+    self.fullname = fullname
+    guard let profile_picture = dictionary["profile_picture"],
+      let profilePictureURL = URL(string: profile_picture) else { return }
+    self.profilePictureURL = profilePictureURL
+  }
+
+  private init(user: User) {
+    self.userID = user.uid
+    self.fullname = user.displayName ?? ""
+    self.profilePictureURL = user.photoURL
+  }
+
+  static func currentUser() -> FPUser {
+    return FPUser(user: Auth.auth().currentUser!)
   }
 
   func author() -> [String: String] {
-    return ["uid": userID, "full_name": fullname, "profile_picture": profilePictureURL]
+    return ["uid": userID, "full_name": fullname, "profile_picture": profilePictureURL?.absoluteString ?? ""]
   }
 
 }
-
-
