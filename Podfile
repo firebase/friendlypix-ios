@@ -16,7 +16,5 @@ target 'FriendlyPixSwift' do
   pod 'FirebaseUI/Facebook'
   pod 'MHPrettyDate'
   pod 'SDWebImage'
-  pod 'TTTAttributedLabel'
-  pod 'FRHyperLabel'
 
 end
