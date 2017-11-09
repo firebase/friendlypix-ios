@@ -22,7 +22,7 @@ class FPCommentViewController: MDCCollectionViewController {
   var post: FPPost!
   var textField: UITextField!
   var comments: DatabaseReference!
-  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont(name: "Roboto-Bold", size: 14)!]
+  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)]
 
   override func viewDidLoad() {
     super.viewDidLoad()

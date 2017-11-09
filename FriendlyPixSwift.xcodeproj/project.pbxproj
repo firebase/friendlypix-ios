@@ -24,8 +24,6 @@
 		10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB281F840843001CDB18 /* FPSignInViewController.swift */; };
 		10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */; };
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
-		10EBB70A1FB3A61300E86AA9 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10EBB7091FB3A59F00E86AA9 /* Roboto-Bold.ttf */; };
-		10EBB70C1FB3A66800E86AA9 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10EBB70B1FB3A66800E86AA9 /* Roboto-Regular.ttf */; };
 		10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */; };
 		10FD8FD71F7E840800BCB991 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD61F7E840800BCB991 /* AppDelegate.swift */; };
 		10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD81F7E840800BCB991 /* FPFeedViewController.swift */; };
@@ -54,8 +52,6 @@
 		10E1DB281F840843001CDB18 /* FPSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSignInViewController.swift; sourceTree = "<group>"; };
 		10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAuthPickerViewController.swift; sourceTree = "<group>"; };
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
-		10EBB7091FB3A59F00E86AA9 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Bold.ttf"; path = "../../Downloads/Roboto/Roboto-Bold.ttf"; sourceTree = "<group>"; };
-		10EBB70B1FB3A66800E86AA9 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../Downloads/Roboto/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPCardCollectionViewCell.xib; sourceTree = "<group>"; };
 		10FD8FD31F7E840800BCB991 /* FriendlyPixSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendlyPixSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10FD8FD61F7E840800BCB991 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,8 +113,6 @@
 				10FD8FDF1F7E840800BCB991 /* Assets.xcassets */,
 				10FD8FE11F7E840800BCB991 /* LaunchScreen.storyboard */,
 				10FD8FE41F7E840800BCB991 /* Info.plist */,
-				10EBB70B1FB3A66800E86AA9 /* Roboto-Regular.ttf */,
-				10EBB7091FB3A59F00E86AA9 /* Roboto-Bold.ttf */,
 				10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */,
 				10894A801F86C0D400F30A2C /* FPTabBarController.swift */,
 				10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */,
@@ -197,8 +191,6 @@
 				10E1DB271F8406A6001CDB18 /* GoogleService-Info.plist in Resources */,
 				10FD8FE01F7E840800BCB991 /* Assets.xcassets in Resources */,
 				10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */,
-				10EBB70C1FB3A66800E86AA9 /* Roboto-Regular.ttf in Resources */,
-				10EBB70A1FB3A61300E86AA9 /* Roboto-Bold.ttf in Resources */,
 				10FD8FDE1F7E840800BCB991 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

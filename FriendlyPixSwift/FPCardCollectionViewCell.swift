@@ -38,7 +38,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak private var comment3Label: UILabel!
   @IBOutlet weak private var viewAllCommentsLabel: UIButton!
   var commentLabels: [UILabel]?
-  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont(name: "Roboto-Bold", size: 14)!]
+  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)]
 
   var post: FPPost!
   weak var delegate: FPCardCollectionViewCellDelegate?
