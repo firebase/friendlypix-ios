@@ -93,7 +93,6 @@ PODS:
   - FirebaseUI/Google (4.5.0):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 4.0)
-  - FRHyperLabel (1.0.4)
   - Google-Mobile-Ads-SDK (7.25.0)
   - GoogleAPIClientForREST (1.3.1):
     - GoogleAPIClientForREST/Core (= 1.3.1)
@@ -256,7 +255,6 @@ PODS:
   - SDWebImage (4.2.2):
     - SDWebImage/Core (= 4.2.2)
   - SDWebImage/Core (4.2.2)
-  - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
   - Firebase/AdMob
@@ -269,13 +267,11 @@ DEPENDENCIES:
   - FirebaseUI/Auth
   - FirebaseUI/Facebook
   - FirebaseUI/Google
-  - FRHyperLabel
   - MaterialComponents/Collections
   - MaterialComponents/Snackbar
   - MaterialComponents/TextFields
   - MHPrettyDate
   - SDWebImage
-  - TTTAttributedLabel
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
@@ -294,7 +290,6 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 451fe8e9c43ac1e7a137ad2a42189bfc8c2c3ebc
   FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27
   FirebaseUI: 883482fea73b73bbb488c55176f4c6ad128957eb
-  FRHyperLabel: f4a127d5f8ffb211040554615e93f936d5a576a6
   Google-Mobile-Ads-SDK: 113804f266381a30f982ad3c18063d4e0155414f
   GoogleAPIClientForREST: d18c6704317d6d5c56d70f724f8990eb125359a4
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
@@ -309,8 +304,7 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
-  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 51e3e559c22a76de9205ad1b6be75ce3267e5c38
+PODFILE CHECKSUM: ddbe41e3642d3f62d4c8da4880210c89b5e629f8
 
 COCOAPODS: 1.3.1
