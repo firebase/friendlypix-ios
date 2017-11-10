@@ -18,8 +18,8 @@ import SDWebImage
 
 extension UIImage {
   var circle: UIImage? {
-    //let square = CGSize(width: min(size.width, size.height), height: min(size.width, size.height))
-    let square = CGSize(width: 36, height: 36)
+    let square = CGSize(width: min(size.width, size.height), height: min(size.width, size.height))
+    //let square = CGSize(width: 36, height: 36)
     let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
     imageView.contentMode = .scaleAspectFill
     imageView.image = self
@@ -67,14 +67,8 @@ extension UIImage {
 
   static func circleImage(with url: URL, to imageView: UIImageView) {
     let urlString = url.absoluteString
-    let circleString = "\(urlString).circle"
-    if let image = SDImageCache.shared().imageFromCache(forKey: circleString) {
+    if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
       imageView.image = image
-      return
-    } else if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
-      let circleImage = image.circle
-      imageView.image = circleImage
-      SDImageCache.shared().store(circleImage, forKey: circleString, completion: nil)
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: url,
@@ -85,8 +79,7 @@ extension UIImage {
       }
       if let image = image {
         let circleImage = image.circle
-        SDImageCache.shared().store(image, forKey: urlString, completion: nil)
-        SDImageCache.shared().store(circleImage, forKey: circleString, completion: nil)
+        SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
         imageView.image = circleImage
       }
     }
@@ -94,21 +87,14 @@ extension UIImage {
 
   static func circleButton(with url: URL, to button: UIButton) {
     let urlString = url.absoluteString
-    let circleString = "\(urlString).circle"
-    if let image = SDImageCache.shared().imageFromCache(forKey: circleString) {
+    if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
       button.setImage(image, for: .normal)
-      return
-    } else if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
-      let circleImage = image.circle
-      button.setImage(circleImage, for: .normal)
-      SDImageCache.shared().store(circleImage, forKey: circleString, completion: nil)
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: url, options: .highPriority, progress: nil) { image, _, _, _ in
       if let image = image {
         let circleImage = image.circle
-        SDImageCache.shared().store(image, forKey: urlString, completion: nil)
-        SDImageCache.shared().store(circleImage, forKey: circleString, completion: nil)
+        SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
         button.setImage(circleImage, for: .normal)
       }
     }

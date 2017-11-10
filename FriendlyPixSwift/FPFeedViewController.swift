@@ -69,14 +69,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     homeButton.tintColor = blue
 
-    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 72, height: 36))
+    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
     button.addTarget(self, action: #selector(clickUser), for: .touchUpInside)
     if let photoURL = Auth.auth().currentUser?.photoURL {
       UIImage.circleButton(with: photoURL, to: button)
     }
 
     let profileButton = UIBarButtonItem(customView: button)
-    profileButton.imageInsets = UIEdgeInsetsMake(0, -32, 0, 0)
+    profileButton.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0)
 
     navigationController?.setToolbarHidden(true, animated: false)
     
