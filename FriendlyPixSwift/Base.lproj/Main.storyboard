@@ -385,6 +385,7 @@
         <!--Post Detail View Controller-->
         <scene sceneID="X49-Bw-bqe">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lr1-Bz-pDl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <collectionViewController id="hkU-i0-Vem" customClass="FPPostDetailViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="id5-1K-0gF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -412,7 +413,6 @@
                         </connections>
                     </collectionView>
                 </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lr1-Bz-pDl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1273" y="-637"/>
         </scene>
@@ -423,6 +423,6 @@
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WOg-QJ-eeq"/>
+        <segue reference="BGQ-EM-eFj"/>
     </inferredMetricsTieBreakers>
 </document>

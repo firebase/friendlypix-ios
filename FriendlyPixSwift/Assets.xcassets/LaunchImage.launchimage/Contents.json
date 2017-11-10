@@ -133,32 +133,6 @@
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "iphone",
-      "subtype" : "2436h",
-      "filename" : "Default1125x2436.png",
-      "minimum-system-version" : "11.0",
-      "orientation" : "portrait",
-      "scale" : "3x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "iphone",
-      "subtype" : "2436h",
-      "filename" : "Default2436x1125.png",
-      "minimum-system-version" : "11.0",
-      "orientation" : "landscape",
-      "scale" : "3x"
-    },
-    {
-      "orientation" : "landscape",
-      "idiom" : "tv",
-      "filename" : "Default3840x2160.png",
-      "extent" : "full-screen",
-      "minimum-system-version" : "11.0",
-      "scale" : "2x"
     }
   ],
   "info" : {

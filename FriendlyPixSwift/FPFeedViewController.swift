@@ -373,7 +373,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         viewController?.referenceURL = sender[UIImagePickerControllerReferenceURL] as? URL
       }
     default:
-      print("Unexpected segue")
+      break
     }
   }
 
