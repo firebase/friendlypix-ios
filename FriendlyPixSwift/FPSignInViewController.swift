@@ -30,6 +30,7 @@ class FPSignInViewController: UINavigationController, FUIAuthDelegate {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if Auth.auth().currentUser != nil {
+      self.navigationBar.isHidden = false
       self.performSegue(withIdentifier: "SignInToFP", sender: nil)
       return
     }

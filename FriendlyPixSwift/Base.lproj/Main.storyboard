@@ -11,49 +11,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
-        <scene sceneID="yl2-sM-qoP">
-            <objects>
-                <tabBarController id="49e-Tb-3d3" customClass="FPTabBarController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="v0B-gd-y0c">
-                        <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="plain" id="GKa-gP-KsI">
-                            <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ic_search_white" id="cp5-1c-HL0">
-                            <inset key="imageInsets" minX="10" minY="2" maxX="-10" maxY="-2"/>
-                            <connections>
-                                <segue destination="O0J-qO-Fl5" kind="show" id="k0m-zv-fNu"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="W28-zg-YXA">
-                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="barTintColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="Q8q-HD-AEX" kind="relationship" relationship="viewControllers" id="Ef7-ia-IAW"/>
-                        <segue destination="Nk8-ba-I0m" kind="relationship" relationship="viewControllers" id="hJz-Kw-kSg"/>
-                        <segue destination="Isc-m4-f4X" kind="relationship" relationship="viewControllers" id="C8A-05-x45"/>
-                        <segue destination="VU6-L3-lu7" kind="show" identifier="upload" id="NUk-6Y-o2p"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
-                <searchBar contentMode="redraw" id="6H7-ZS-1rF">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <textInputTraits key="textInputTraits"/>
-                </searchBar>
-            </objects>
-            <point key="canvasLocation" x="-559" y="-637"/>
-        </scene>
         <!--Sign In View Controller-->
         <scene sceneID="3CX-qt-AkJ">
             <objects>
                 <navigationController id="mdr-bm-qIa" customClass="FPSignInViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="RdP-g1-iIn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="RdP-g1-iIn">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -64,26 +27,12 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="49e-Tb-3d3" kind="show" identifier="SignInToFP" id="znl-wY-lnb"/>
+                        <segue destination="Isc-m4-f4X" kind="show" identifier="SignInToFP" id="K85-Cr-vyX"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CGL-xl-fSu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1753" y="-637"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="9Kn-xX-tJe">
-            <objects>
-                <navigationController id="Nk8-ba-I0m" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="OPc-Ux-TQs"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4DM-g3-hta">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kil-Xo-mVY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-798" y="251"/>
         </scene>
         <!--Upload View Controller-->
         <scene sceneID="PXg-QF-72s">
@@ -94,7 +43,7 @@
                         <viewControllerLayoutGuide type="bottom" id="pzw-4Z-fP8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4cM-eM-cYI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fYd-ui-mKL">
@@ -143,14 +92,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23E-E8-QFM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7.2000000000000002" y="647.22638680659679"/>
+            <point key="canvasLocation" x="-711" y="213"/>
         </scene>
         <!--Feed-->
         <scene sceneID="lPt-sg-dJH">
             <objects>
                 <collectionViewController id="Isc-m4-f4X" customClass="FPFeedViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="CfD-At-8oN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="CfD-At-8oN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6BE-Kv-vxg">
@@ -166,20 +115,27 @@
                         </connections>
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Feed" image="ic_trending_up" id="cJo-1n-LDc"/>
+                    <navigationItem key="navigationItem" id="wGW-Ei-wAi">
+                        <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="plain" id="ied-wv-0G2">
+                            <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="YDu-9b-7R6" kind="show" identifier="account" id="wZe-PH-0eT"/>
                         <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="WOg-QJ-eeq"/>
+                        <segue destination="VU6-L3-lu7" kind="show" identifier="upload" id="KjI-pX-o60"/>
+                        <segue destination="O0J-qO-Fl5" kind="show" identifier="search" id="w1l-d5-723"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pqg-Fm-f1E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="787" y="320"/>
+            <point key="canvasLocation" x="-710" y="-637"/>
         </scene>
         <!--Comments-->
         <scene sceneID="qlL-AX-uY7">
             <objects>
                 <collectionViewController id="kP3-1I-mov" customClass="FPCommentViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="1fV-7t-nAy">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="1fV-7t-nAy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -246,14 +202,14 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0L-t6-maU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2199.1999999999998" y="206.44677661169416"/>
+            <point key="canvasLocation" x="242" y="213"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="SFR-Iu-7XT">
             <objects>
                 <collectionViewController id="O0J-qO-Fl5" customClass="FPSearchViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="g9f-AS-swK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="g9f-AS-swK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3oM-HX-5Jz">
@@ -291,44 +247,14 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="118" y="-1000"/>
-        </scene>
-        <!--Home-->
-        <scene sceneID="B0D-a0-oIv">
-            <objects>
-                <collectionViewController id="Q8q-HD-AEX" customClass="FPHomeViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="3kn-jd-FNc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BoQ-8h-6RR">
-                            <size key="itemSize" width="320" height="395"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells/>
-                        <connections>
-                            <outlet property="dataSource" destination="Q8q-HD-AEX" id="niF-cZ-572"/>
-                            <outlet property="delegate" destination="Q8q-HD-AEX" id="Wt6-9b-cYJ"/>
-                        </connections>
-                    </collectionView>
-                    <tabBarItem key="tabBarItem" title="Home" image="ic_home" id="GVQ-R8-M0A"/>
-                    <connections>
-                        <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="Krg-SU-GWk"/>
-                        <segue destination="YDu-9b-7R6" kind="show" identifier="account" id="CgS-ly-ptJ"/>
-                    </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0sf-uL-CSW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="833" y="-637"/>
+            <point key="canvasLocation" x="-1617" y="213"/>
         </scene>
         <!--Account View Controller-->
         <scene sceneID="6sV-Ki-LKG">
             <objects>
                 <collectionViewController id="YDu-9b-7R6" customClass="FPAccountViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="AAp-gm-cmY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="AAp-gm-cmY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="60f-ls-CiX">
@@ -449,14 +375,14 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="obu-6d-rZP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2176.8000000000002" y="-669.71514242878561"/>
+            <point key="canvasLocation" x="281" y="-637"/>
         </scene>
         <!--Post Detail View Controller-->
         <scene sceneID="X49-Bw-bqe">
             <objects>
                 <collectionViewController id="hkU-i0-Vem" customClass="FPPostDetailViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="id5-1K-0gF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="id5-1K-0gF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nRK-wk-5fE">
@@ -483,17 +409,14 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lr1-Bz-pDl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3176" y="-1283"/>
+            <point key="canvasLocation" x="1273" y="-637"/>
         </scene>
     </scenes>
     <resources>
-        <image name="ic_home" width="24" height="24"/>
         <image name="ic_insert_photo_white" width="24" height="24"/>
-        <image name="ic_search_white" width="24" height="24"/>
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wZe-PH-0eT"/>
-        <segue reference="BGQ-EM-eFj"/>
+        <segue reference="WOg-QJ-eeq"/>
     </inferredMetricsTieBreakers>
 </document>

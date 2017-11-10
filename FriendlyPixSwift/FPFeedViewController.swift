@@ -17,7 +17,7 @@
 import Firebase
 import MaterialComponents
 
-class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
+class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
   let uid = Auth.auth().currentUser!.uid
 
@@ -29,6 +29,137 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   var posts = [FPPost]()
   var loadingPostCount = 0
   var sizingNibNew: FPCardCollectionViewCell!
+  let bottomBarView = MDCBottomAppBarView()
+  var alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+  var showFeed = false
+  let homeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_home"), style: .plain, target: self, action: #selector(homeAction))
+  let searchButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(searchAction))
+  let feedButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
+  let blue = MDCPalette.blue.tint600
+
+  override func awakeFromNib() {
+
+    let titleLabel = UILabel()
+    titleLabel.text = "Friendly Pix"
+    titleLabel.textColor = UIColor.white
+    titleLabel.font = UIFont(name: "Amaranth", size: 24)
+    titleLabel.sizeToFit()
+    navigationItem.leftBarButtonItems?.append(UIBarButtonItem(customView: titleLabel))
+
+    bottomBarView.autoresizingMask = [ .flexibleWidth, .flexibleTopMargin ]
+    view.addSubview(bottomBarView)
+
+    // Add touch handler to the floating button.
+    bottomBarView.floatingButton.addTarget(self,
+                                           action: #selector(didTapFloatingButton),
+                                           for: .touchUpInside)
+
+    // Set the image on the floating button.
+    bottomBarView.floatingButton.setImage(#imageLiteral(resourceName: "ic_photo_camera"), for: .normal)
+    bottomBarView.floatingButton.setImage(#imageLiteral(resourceName: "ic_photo_camera_white"), for: .highlighted)
+
+    // Set the position of the floating button.
+    bottomBarView.floatingButtonPosition = .center
+
+    // Theme the floating button.
+    let colorScheme = MDCBasicColorScheme(primaryColor: MDCPalette.amber.tint400)
+    MDCButtonColorThemer.apply(colorScheme, to: bottomBarView.floatingButton)
+
+    // Configure the navigation buttons to be shown on the bottom app bar.
+
+    homeButton.tintColor = blue
+
+    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 72, height: 36))
+    button.addTarget(self, action: #selector(clickUser), for: .touchUpInside)
+    if let photoURL = Auth.auth().currentUser?.photoURL {
+      UIImage.circleButton(with: photoURL, to: button)
+    }
+
+    let profileButton = UIBarButtonItem(customView: button)
+    profileButton.imageInsets = UIEdgeInsetsMake(0, -32, 0, 0)
+
+    navigationController?.setToolbarHidden(true, animated: false)
+    
+    bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
+    bottomBarView.trailingBarButtonItems = [ profileButton, searchButton ]
+
+    let button0 = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(button0)
+
+    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+      let button1 = UIAlertAction(title: "Take photo", style: .default) { _ in
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .camera
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        self.present(imagePickerController, animated: true, completion: nil)
+      }
+      alert.addAction(button1)
+    }
+    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) ||
+      UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+      let button2 = UIAlertAction(title: "Choose Existing", style: .default) { _ in
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType =
+          UIImagePickerController.isSourceTypeAvailable(.photoLibrary) ? .photoLibrary : .savedPhotosAlbum
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        self.present(imagePickerController, animated: true, completion: nil)
+      }
+      alert.addAction(button2)
+    }
+  }
+
+  override func viewWillLayoutSubviews() {
+    let size = bottomBarView.sizeThatFits(view.bounds.size)
+    let bottomBarViewFrame = CGRect(x: 0,
+                                    y: view.bounds.size.height - size.height,
+                                    width: size.width,
+                                    height: size.height)
+    bottomBarView.frame = bottomBarViewFrame
+  }
+
+  @objc private func didTapFloatingButton() {
+    present(alert, animated: true, completion: nil)
+  }
+
+  @objc private func homeAction() {
+    homeButton.tintColor = blue
+    feedButton.tintColor = nil
+    showFeed = false
+    posts = [FPPost]()
+    loadingPostCount = 0
+    collectionView?.reloadData()
+    loadData()
+  }
+
+  @objc private func feedAction() {
+    homeButton.tintColor = nil
+    feedButton.tintColor = blue
+    showFeed = true
+    posts = [FPPost]()
+    loadingPostCount = 0
+    collectionView?.reloadData()
+    loadData()
+  }
+
+  @objc private func searchAction() {
+    performSegue(withIdentifier: "search", sender: self)
+  }
+
+  @objc private func clickUser() {
+    showProfile(FPUser.currentUser())
+  }
+
+  // MARK: - UIImagePickerDelegate
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true, completion: nil)
+  }
+
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    dismiss(animated: false, completion: nil)
+    performSegue(withIdentifier: "upload", sender: info)
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -42,6 +173,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       as? FPCardCollectionViewCell
 
     self.styler.cellStyle = .card
+    self.styler.cellLayoutType = .grid
+    self.styler.gridColumnCount = 1
     let insets = self.collectionView(collectionView,
                                      layout: collectionViewLayout,
                                      insetForSectionAt: 0)
@@ -63,13 +196,30 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
   }
 
-  func loadData() {
-    query = postsRef
+  func getHomeFeedPosts() {
     loadFeed(nil)
   }
 
+  func loadData() {
+    if showFeed {
+      query = postsRef
+      loadFeed(nil)
+    } else {
+      query = ref.child("feed").child(uid)
+      // Make sure the home feed is updated with followed users's new posts.
+      // Only after the feed creation is complete, start fetching the posts.
+      updateHomeFeeds()
+    }
+  }
+
   func loadItem(_ item: DataSnapshot) {
-    loadPost(item)
+    if showFeed {
+      loadPost(item)
+    } else {
+      ref.child("posts/" + (item.key)).observe(.value) { postSnapshot in
+        self.loadPost(postSnapshot)
+      }
+    }
   }
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
@@ -165,10 +315,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     return size.height
   }
 
-  func clickUser() {
-    showProfile(FPUser.currentUser())
-  }
-
   func showProfile(_ profile: FPUser) {
     performSegue(withIdentifier: "account", sender: profile)
   }
@@ -205,21 +351,103 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "account" {
+    guard let identifier = segue.identifier else { return }
+    switch identifier {
+    case "account":
       if let accountViewController = segue.destination as? FPAccountViewController, let profile = sender as? FPUser {
         accountViewController.profile = profile
       }
-    } else if segue.identifier == "comment" {
+    case "comment":
       if let commentViewController = segue.destination as? FPCommentViewController, let post = sender as? FPPost {
        commentViewController.post = post
       }
+    case "upload":
+      let viewController = segue.destination as? FPUploadViewController
+      if let sender = sender as? [String: Any] {
+        if let image = sender[UIImagePickerControllerEditedImage] as? UIImage {
+          viewController?.image = image
+        } else if let image = sender[UIImagePickerControllerOriginalImage] as? UIImage {
+          viewController?.image = image
+        }
+        viewController?.referenceURL = sender[UIImagePickerControllerReferenceURL] as? URL
+      }
+    default:
+      print("Unexpected segue")
     }
+  }
+
+  /**
+   * Keeps the home feed populated with latest followed users' posts live.
+   */
+  func startHomeFeedLiveUpdaters() {
+    // Make sure we listen on each followed people's posts.
+    let followingRef = ref.child("people").child(uid).child("following")
+    followingRef.observe(.childAdded, with: { followingSnapshot in
+      // Start listening the followed user's posts to populate the home feed.
+      let followedUid = followingSnapshot.key
+      var followedUserPostsRef: DatabaseQuery = self.ref.child("people").child(followedUid).child("posts")
+      if followingSnapshot.exists() && (followingSnapshot.value is String) {
+        followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: followingSnapshot.value)
+      }
+      followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
+        if postSnapshot.key != followingSnapshot.key {
+          let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true,
+                         "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String: Any]
+          self.ref.updateChildValues(updates)
+        }
+      })
+    })
+    // Stop listening to users we unfollow.
+    followingRef.observe(.childRemoved, with: { snapshot in
+      // Stop listening the followed user's posts to populate the home feed.
+      let followedUserId: String = snapshot.key
+      self.ref.child("people").child(followedUserId).child("posts").removeAllObservers()
+    })
+  }
+
+  /**
+   * Updates the home feed with new followed users' posts and returns a promise once that's done.
+   */
+  func updateHomeFeeds() {
+    // Make sure we listen on each followed people's posts.
+    let followingRef = ref.child("people").child(uid).child("following")
+    followingRef.observeSingleEvent(of: .value, with: { followingSnapshot in
+      // Start listening the followed user's posts to populate the home feed.
+      guard let following = followingSnapshot.value as? [String: Any] else {
+        self.startHomeFeedLiveUpdaters()
+        // Get home feed posts
+        self.getHomeFeedPosts()
+        return
+      }
+      var followedUserPostsRef: DatabaseQuery!
+      for (followedUid, lastSyncedPostId) in following {
+        followedUserPostsRef = self.ref.child("people").child(followedUid).child("posts")
+        var lastSyncedPost = ""
+        if let lastSyncedPostId = lastSyncedPostId as? String {
+          followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: lastSyncedPostId)
+          lastSyncedPost = lastSyncedPostId
+        }
+        followedUserPostsRef.observeSingleEvent(of: .value, with: { postSnapshot in
+          if let postArray = postSnapshot.value as? [String: Any] {
+            var updates = [AnyHashable: Any]()
+            for postId in postArray.keys where postId != lastSyncedPost {
+              updates["/feed/\(self.uid)/\(postId)"] = true
+              updates["/people/\(self.uid)/following/\(followedUid)"] = postId
+            }
+            self.ref.updateChildValues(updates)
+          }
+          // Add new posts from followers live.
+          self.startHomeFeedLiveUpdaters()
+          // Get home feed posts
+          self.getHomeFeedPosts()
+        })
+      }
+    })
   }
 }
 
 extension MDCCollectionViewController {
   var feedViewController: FPFeedViewController? {
-    guard let fpTabBarController = navigationController?.viewControllers[0] as? FPTabBarController else { return nil }
-    return fpTabBarController.feedViewController
+    return navigationController?.viewControllers[0] as? FPFeedViewController
   }
 }
