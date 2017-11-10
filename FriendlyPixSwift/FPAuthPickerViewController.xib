@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G1036" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The friendliest way to share your pics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-WR-tar">
-                    <rect key="frame" x="58" y="319" width="278.5" height="17"/>
+                    <rect key="frame" x="58" y="319" width="279" height="17"/>
                     <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="0.79834653249999998" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -33,7 +33,7 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Friendly Pix" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="114-C8-0hD">
                     <rect key="frame" x="116" y="251" width="186" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="60" id="UAe-Nz-AhX"/>
+                        <constraint firstAttribute="height" constant="60" id="KW9-4k-f7K"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="34"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -43,26 +43,27 @@
                     <rect key="frame" x="85" y="260" width="36" height="36"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EyW-Qk-OhD">
-                    <rect key="frame" x="137" y="605" width="101" height="30"/>
+                    <rect key="frame" x="137" y="613" width="101" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="101" id="N3o-qK-yXY"/>
                         <constraint firstAttribute="height" constant="30" id="TpW-jr-kh6"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                     <state key="normal" title="skip sign in">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
             </subviews>
+            <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="kpQ-WR-tar" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="58" id="1ch-Lw-e7v"/>
-                <constraint firstItem="T4p-Jh-hKT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="85" id="5zS-HX-SbE"/>
-                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="8" symbolic="YES" id="CiY-P1-YfE"/>
+                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="T4p-Jh-hKT" secondAttribute="bottom" constant="23" id="9eC-WH-mzd"/>
                 <constraint firstItem="EyW-Qk-OhD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="DmU-4c-5Jf"/>
-                <constraint firstItem="114-C8-0hD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="251" id="Efg-1K-W6r"/>
-                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="T4p-Jh-hKT" secondAttribute="bottom" constant="23" id="MLx-hN-dUc"/>
-                <constraint firstAttribute="bottom" secondItem="EyW-Qk-OhD" secondAttribute="bottom" constant="32" id="qxU-9I-WWq"/>
-                <constraint firstAttribute="trailing" secondItem="114-C8-0hD" secondAttribute="trailing" constant="73" id="wWH-4I-W1p"/>
+                <constraint firstItem="T4p-Jh-hKT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="85" id="E8f-V0-QJ5"/>
+                <constraint firstItem="kpQ-WR-tar" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="58" id="GgY-w3-j8P"/>
+                <constraint firstAttribute="trailing" secondItem="114-C8-0hD" secondAttribute="trailing" constant="73" id="Wtu-BK-8zX"/>
+                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="8" symbolic="YES" id="eD5-Qy-yMe"/>
+                <constraint firstItem="114-C8-0hD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="251" id="o9c-kx-WCS"/>
+                <constraint firstAttribute="bottom" secondItem="EyW-Qk-OhD" secondAttribute="bottom" constant="24" id="qxU-9I-WWq"/>
             </constraints>
             <point key="canvasLocation" x="34.5" y="53.5"/>
         </view>

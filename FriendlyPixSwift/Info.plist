@@ -6,6 +6,10 @@
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIcons</key>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -41,36 +45,36 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-  <key>FacebookAppID</key>
-  <string>{your-app-id}</string>
-  <key>FacebookDisplayName</key>
-  <string>{your-app-name}</string>
-  <key>LSApplicationCategoryType</key>
-  <string></string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>fbapi</string>
-    <string>fb-messenger-api</string>
-    <string>fbauth2</string>
-    <string>fbshareextension</string>
-  </array>
-  <key>LSRequiresIPhoneOS</key>
+	<key>FacebookAppID</key>
+	<string>{your-app-id}</string>
+	<key>FacebookDisplayName</key>
+	<string>{your-app-name}</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
+	<key>LSRequiresIPhoneOS</key>
 	<true/>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-  </dict>
-  <key>NSCameraUsageDescription</key>
-  <string>Take and upload photos to Cloud Storage</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>Upload photo to Cloud Storage</string>
-  <key>UIBackgroundModes</key>
-  <array>
-    <string>remote-notification</string>
-  </array>
-  <key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Take and upload photos to Cloud Storage</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload photo to Cloud Storage</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>FPAuthPickerViewController</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
