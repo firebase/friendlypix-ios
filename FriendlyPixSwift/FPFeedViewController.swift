@@ -447,9 +447,11 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
   @IBAction func inviteTapped(_ sender: Any) {
     GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+    GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
     GIDSignIn.sharedInstance().uiDelegate = self
     GIDSignIn.sharedInstance().delegate = self
     GIDSignIn.sharedInstance().signInSilently()
+
   }
   func inviteFinished(withInvitations invitationIds: [String], error: Error?) {
     if let error = error {

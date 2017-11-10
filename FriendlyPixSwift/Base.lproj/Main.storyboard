@@ -16,7 +16,7 @@
             <objects>
                 <navigationController id="mdr-bm-qIa" customClass="FPSignInViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="RdP-g1-iIn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="RdP-g1-iIn">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,7 +98,7 @@
         <scene sceneID="lPt-sg-dJH">
             <objects>
                 <collectionViewController id="Isc-m4-f4X" customClass="FPFeedViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="CfD-At-8oN">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="CfD-At-8oN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -116,10 +116,10 @@
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Feed" image="ic_trending_up" id="cJo-1n-LDc"/>
                     <navigationItem key="navigationItem" id="wGW-Ei-wAi">
-                        <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="plain" id="ied-wv-0G2">
+                        <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="done" id="ied-wv-0G2">
                             <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ic_share_white" style="plain" id="OqW-p6-z5N">
+                        <barButtonItem key="rightBarButtonItem" image="ic_share_white" style="done" id="OqW-p6-z5N">
                             <connections>
                                 <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
                             </connections>
@@ -140,7 +140,7 @@
         <scene sceneID="qlL-AX-uY7">
             <objects>
                 <collectionViewController id="kP3-1I-mov" customClass="FPCommentViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="1fV-7t-nAy">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="1fV-7t-nAy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -213,7 +213,7 @@
         <scene sceneID="SFR-Iu-7XT">
             <objects>
                 <collectionViewController id="O0J-qO-Fl5" customClass="FPSearchViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="g9f-AS-swK">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="g9f-AS-swK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -258,7 +258,7 @@
         <scene sceneID="6sV-Ki-LKG">
             <objects>
                 <collectionViewController id="YDu-9b-7R6" customClass="FPAccountViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="AAp-gm-cmY">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="AAp-gm-cmY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -386,7 +386,7 @@
         <scene sceneID="X49-Bw-bqe">
             <objects>
                 <collectionViewController id="hkU-i0-Vem" customClass="FPPostDetailViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="id5-1K-0gF">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="id5-1K-0gF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
