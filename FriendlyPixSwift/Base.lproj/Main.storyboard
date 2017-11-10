@@ -119,6 +119,11 @@
                         <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="plain" id="ied-wv-0G2">
                             <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="ic_share_white" style="plain" id="OqW-p6-z5N">
+                            <connections>
+                                <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="YDu-9b-7R6" kind="show" identifier="account" id="wZe-PH-0eT"/>
@@ -414,6 +419,7 @@
     </scenes>
     <resources>
         <image name="ic_insert_photo_white" width="24" height="24"/>
+        <image name="ic_share_white" width="24" height="24"/>
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>

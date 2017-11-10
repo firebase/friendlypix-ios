@@ -15,9 +15,10 @@
 //
 
 import Firebase
+import GoogleSignIn
 import MaterialComponents
 
-class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, InviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
 
   let uid = Auth.auth().currentUser!.uid
 
@@ -443,6 +444,42 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         })
       }
     })
+  }
+  @IBAction func inviteTapped(_ sender: Any) {
+    GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+    GIDSignIn.sharedInstance().uiDelegate = self
+    GIDSignIn.sharedInstance().delegate = self
+    GIDSignIn.sharedInstance().signInSilently()
+  }
+  func inviteFinished(withInvitations invitationIds: [String], error: Error?) {
+    if let error = error {
+      print("Failed: \(error.localizedDescription)")
+    } else {
+      print("\(invitationIds.count) invites sent")
+    }
+  }
+  func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    switch error {
+      case .some(let error as NSError) where error.code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue:
+        GIDSignIn.sharedInstance().signIn()
+      case .some(let error):
+        print("Login error: \(error.localizedDescription)")
+      case .none:
+        if let invite = Invites.inviteDialog() {
+          invite.setInviteDelegate(self)
+    
+          // NOTE: You must have the App Store ID set in your developer console project
+          // in order for invitations to successfully be sent.
+          // A message hint for the dialog. Note this manifests differently depending on the
+          // received invitation type. For example, in an email invite this appears as the subject.
+          invite.setMessage("Try this out!\n -\(Auth.auth().currentUser!.displayName ?? "")")
+          // Title for the dialog, this is what the user sees before sending the invites.
+          invite.setTitle("Invites Example")
+          invite.setDeepLink("app_url")
+          invite.setCallToActionText("Install!")
+          invite.open()
+      }
+    }
   }
 }
 

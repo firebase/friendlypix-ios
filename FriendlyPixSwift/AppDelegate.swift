@@ -17,10 +17,13 @@
 import Firebase
 import FirebaseAuthUI
 import UserNotifications
+import MaterialComponents
+import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+  let mdcMessage = MDCSnackbarMessage()
   var window: UIWindow?
   let gcmMessageIDKey = "gcm.message_id"
 
@@ -47,6 +50,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
+  func showAlert(_ userInfo: [AnyHashable: Any]) {
+    let apsKey = "aps"
+    let gcmMessage = "alert"
+    let gcmLabel = "google.c.a.c_l"
+    if let aps = userInfo[apsKey] as? [String: String], !aps.isEmpty, let message = aps[gcmMessage], let label = userInfo[gcmLabel] as? String {
+      mdcMessage.text = "\(label): \(message)"
+      MDCSnackbarManager.show(mdcMessage)
+    }
+  }
+
   @available(iOS 9.0, *)
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
     guard let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String else {
@@ -64,8 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
       return true
     }
-    // other URL handling goes here.
-    return false
+    return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: nil)
   }
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
@@ -102,23 +114,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     showAlert(userInfo)
 
     completionHandler()
-  }
-
-  func showAlert(_ userInfo: [AnyHashable: Any]) {
-    let apsKey = "aps"
-    let gcmMessage = "alert"
-    let gcmLabel = "google.c.a.c_l"
-    if let aps = userInfo[apsKey] as? [String: String], !aps.isEmpty {
-      let message = aps[gcmMessage]
-      if message != "" {
-        DispatchQueue.main.async(execute: {() -> Void in
-          let alert = UIAlertController(title: userInfo[gcmLabel] as? String, message: message, preferredStyle: .alert)
-          let dismissAction = UIAlertAction(title: "Dismiss", style: .destructive, handler: nil)
-          alert.addAction(dismissAction)
-          self.window?.rootViewController?.presentedViewController?.present(alert, animated: true) { _ in }
-        })
-      }
-    }
   }
 }
 // [END ios_10_message_handling]
