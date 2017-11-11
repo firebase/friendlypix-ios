@@ -21,7 +21,6 @@ class FPSearchViewController: MDCCollectionViewController {
   let searchController = UISearchController(searchResultsController: nil)
   let peopleRef = Database.database().reference(withPath: "people")
   var people = [FPUser]()
-  
 
   override func viewDidLoad() {
     super.viewDidLoad()

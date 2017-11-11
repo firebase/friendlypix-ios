@@ -18,7 +18,7 @@ import Firebase
 import GoogleSignIn
 import MaterialComponents
 
-class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, InviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
+class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
 
   let uid = Auth.auth().currentUser!.uid
 
@@ -42,6 +42,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   var observers = [UInt]()
 
   override func awakeFromNib() {
+    super.awakeFromNib()
 
     let titleLabel = UILabel()
     titleLabel.text = "Friendly Pix"
@@ -73,16 +74,15 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     homeButton.tintColor = blue
 
-
-    let profileButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_insert_photo_white_36pt"), style: .plain, target: self, action: #selector(clickUser))
+    let profileButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_insert_photo_white_36pt"), style: .plain, target: self, action: #selector(clickUser))
     if let photoURL = Auth.auth().currentUser?.photoURL {
       UIImage.circleButton(with: photoURL, to: profileButton)
     }
 
-    let spacer = UIBarButtonItem.init(customView: UIView.init(frame: CGRect.init(x: 0, y: 0, width: 10, height: 10)))
+    let spacer = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10)))
 
     navigationController?.setToolbarHidden(true, animated: false)
-    
+
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
     bottomBarView.trailingBarButtonItems = [ spacer, profileButton, searchButton ]
 
@@ -163,16 +163,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     showProfile(FPUser.currentUser())
   }
 
-  // MARK: - UIImagePickerDelegate
-  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    self.dismiss(animated: true, completion: nil)
-  }
-
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-    dismiss(animated: false, completion: nil)
-    self.performSegue(withIdentifier: "upload", sender: info)
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
     let nib = UINib(nibName: "FPCardCollectionViewCell", bundle: nil)
@@ -204,7 +194,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     commentsRef = ref.child("comments")
     likesRef = ref.child("likes")
     loadingPostCount = 0
-    if (posts.isEmpty) {
+    if posts.isEmpty {
       loadData()
     }
   }
@@ -244,7 +234,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func loadFeed() {
     var query = self.query?.queryOrderedByKey()
-    if let queryEnding = nextEntry  {
+    if let queryEnding = nextEntry {
       query = query?.queryEnding(atValue: queryEnding)
     }
     loadingPostCount += 5
@@ -454,9 +444,24 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       }
     })
   }
+}
+
+extension FPFeedViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    self.dismiss(animated: true, completion: nil)
+  }
+
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    dismiss(animated: false, completion: nil)
+    self.performSegue(withIdentifier: "upload", sender: info)
+  }
+}
+
+extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
   @IBAction func inviteTapped(_ sender: Any) {
     GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-    GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
+    GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/userinfo.email",
+                                         "https://www.googleapis.com/auth/userinfo.profile"]
     GIDSignIn.sharedInstance().uiDelegate = self
     GIDSignIn.sharedInstance().delegate = self
     GIDSignIn.sharedInstance().signInSilently()
@@ -471,24 +476,23 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
   func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
     switch error {
-      case .some(let error as NSError) where error.code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue:
-        GIDSignIn.sharedInstance().signIn()
-      case .some(let error):
-        print("Login error: \(error.localizedDescription)")
-      case .none:
-        if let invite = Invites.inviteDialog() {
-          invite.setInviteDelegate(self)
-    
-          // NOTE: You must have the App Store ID set in your developer console project
-          // in order for invitations to successfully be sent.
-          // A message hint for the dialog. Note this manifests differently depending on the
-          // received invitation type. For example, in an email invite this appears as the subject.
-          invite.setMessage("Try this out!\n -\(Auth.auth().currentUser!.displayName ?? "")")
-          // Title for the dialog, this is what the user sees before sending the invites.
-          invite.setTitle("Invites Example")
-          invite.setDeepLink("app_url")
-          invite.setCallToActionText("Install!")
-          invite.open()
+    case .some(let error as NSError) where error.code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue:
+      GIDSignIn.sharedInstance().signIn()
+    case .some(let error):
+      print("Login error: \(error.localizedDescription)")
+    case .none:
+      if let invite = Invites.inviteDialog() {
+        invite.setInviteDelegate(self)
+        // NOTE: You must have the App Store ID set in your developer console project
+        // in order for invitations to successfully be sent.
+        // A message hint for the dialog. Note this manifests differently depending on the
+        // received invitation type. For example, in an email invite this appears as the subject.
+        invite.setMessage("Try this out!\n -\(Auth.auth().currentUser!.displayName ?? "")")
+        // Title for the dialog, this is what the user sees before sending the invites.
+        invite.setTitle("Invites Example")
+        invite.setDeepLink("app_url")
+        invite.setCallToActionText("Install!")
+        invite.open()
       }
     }
   }

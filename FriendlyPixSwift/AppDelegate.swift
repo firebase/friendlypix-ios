@@ -16,9 +16,9 @@
 
 import Firebase
 import FirebaseAuthUI
-import UserNotifications
-import MaterialComponents
 import GoogleSignIn
+import MaterialComponents
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -54,7 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let apsKey = "aps"
     let gcmMessage = "alert"
     let gcmLabel = "google.c.a.c_l"
-    if let aps = userInfo[apsKey] as? [String: String], !aps.isEmpty, let message = aps[gcmMessage], let label = userInfo[gcmLabel] as? String {
+    if let aps = userInfo[apsKey] as? [String: String], !aps.isEmpty, let message = aps[gcmMessage],
+      let label = userInfo[gcmLabel] as? String {
       mdcMessage.text = "\(label): \(message)"
       MDCSnackbarManager.show(mdcMessage)
     }
@@ -99,8 +100,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
   // Receive displayed notifications for iOS 10 devices.
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
-                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              willPresent notification: UNNotification,
+                              withCompletionHandler completionHandler:
+                                @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
     showAlert(userInfo)
 

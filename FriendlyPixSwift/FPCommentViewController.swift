@@ -121,7 +121,8 @@ class FPCommentViewController: MDCCollectionViewController {
     if let cell = cell as? FPCommentCell {
       let comment = post.comments[indexPath.item]
       if let from = comment.from {
-        cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnComment(recognizer:))))
+        cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                               action: #selector(handleTapOnComment(recognizer:))))
         cell.label.tag = indexPath.item
 
         let text = NSMutableAttributedString(string: from.fullname, attributes: attributes)
@@ -131,7 +132,7 @@ class FPCommentViewController: MDCCollectionViewController {
         if let profilePictureURL = from.profilePictureURL {
           UIImage.circleImage(with: profilePictureURL, to: cell.imageView)
         }
-        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(showProfile(sender:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showProfile(sender:)))
         cell.imageView.tag = indexPath.item
         cell.imageView.addGestureRecognizer(tapGestureRecognizer)
       }

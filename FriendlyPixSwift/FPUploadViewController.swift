@@ -32,7 +32,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     imageView.image = image
 
     textField.delegate = self
-    textFieldControllerFloating = MDCTextInputControllerFilled.init(textInput: textField)
+    textFieldControllerFloating = MDCTextInputControllerFilled(textInput: textField)
 
     button.sizeToFit()
     button.setElevation(ShadowElevation.raisedButtonResting, for: .normal)
@@ -48,7 +48,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   @IBAction func uploadPressed(_ sender: Any) {
     let postRef = ref.child("posts").childByAutoId()
     let postId = postRef.key
-    guard let resizedImageData = image.resizeImage(1280, with: 0.9) else { return }
+    guard let resizedImageData = image.resizeImage(1_280, with: 0.9) else { return }
     guard let thumbnailImageData = image.resizeImage(640, with: 0.7) else { return }
     let fullFilePath = "\(self.uid)/full/\(postId)/\(self.referenceURL.lastPathComponent)"
     let thumbFilePath = "\(self.uid)/thumb/\(postId)/\(self.referenceURL.lastPathComponent)"

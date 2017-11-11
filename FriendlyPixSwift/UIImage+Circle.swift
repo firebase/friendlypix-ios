@@ -39,7 +39,7 @@ extension UIImage {
     var newImage: UIImage
 
     let size = self.size
-    let aspectRatio =  size.width/size.height
+    let aspectRatio = size.width / size.height
 
     if aspectRatio > 1 {                            // Landscape image
       width = dimension
@@ -52,8 +52,7 @@ extension UIImage {
     if #available(iOS 10.0, *) {
       let renderFormat = UIGraphicsImageRendererFormat.default()
       let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height), format: renderFormat)
-      newImage = renderer.image {
-        (context) in
+      newImage = renderer.image { _ in
         self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
       }
     } else {

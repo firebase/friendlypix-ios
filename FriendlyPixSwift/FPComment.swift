@@ -15,7 +15,6 @@
 //
 
 import Firebase
-import Foundation
 import MHPrettyDate
 
 class FPComment {
