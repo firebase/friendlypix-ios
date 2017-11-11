@@ -16,6 +16,7 @@
 		105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19411F8422D0008C282C /* FPAccountViewController.swift */; };
 		106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106820581FAA9E950065C393 /* FPSearchViewController.swift */; };
 		10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */; };
+		107B7B891FB6686B00434803 /* FPSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B7B881FB6686B00434803 /* FPSearchCell.swift */; };
 		1082A0391FB0F8D2000C594F /* FPUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */; };
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
 		109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */; };
@@ -42,6 +43,7 @@
 		105D19411F8422D0008C282C /* FPAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountViewController.swift; sourceTree = "<group>"; };
 		106820581FAA9E950065C393 /* FPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchViewController.swift; sourceTree = "<group>"; };
 		10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCollectionReusableView.swift; sourceTree = "<group>"; };
+		107B7B881FB6686B00434803 /* FPSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchCell.swift; sourceTree = "<group>"; };
 		1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPUploadViewController.swift; sourceTree = "<group>"; };
 		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
 		109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentCell.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				106820581FAA9E950065C393 /* FPSearchViewController.swift */,
 				10FEA3D31FAB927200BAD9FD /* FPPostDetailViewController.swift */,
 				1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */,
+				107B7B881FB6686B00434803 /* FPSearchCell.swift */,
 			);
 			path = FriendlyPixSwift;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 				10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */,
 				105756331F7E8F7500DF3352 /* FPComment.swift in Sources */,
 				10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */,
+				107B7B891FB6686B00434803 /* FPSearchCell.swift in Sources */,
 				105756371F7E9E1C00DF3352 /* FPPost.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

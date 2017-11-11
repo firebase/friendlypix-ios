@@ -26,9 +26,11 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   var postsRef: DatabaseReference!
   var commentsRef: DatabaseReference!
   var likesRef: DatabaseReference!
+  var followingRef: DatabaseReference!
   var query: DatabaseReference!
   var posts = [FPPost]()
   var loadingPostCount = 0
+  var nextEntry: String?
   var sizingNibNew: FPCardCollectionViewCell!
   let bottomBarView = MDCBottomAppBarView()
   var alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -37,6 +39,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   let searchButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(searchAction))
   let feedButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
   let blue = MDCPalette.blue.tint600
+  var observers = [UInt]()
 
   override func awakeFromNib() {
 
@@ -70,19 +73,18 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     homeButton.tintColor = blue
 
-    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
-    button.addTarget(self, action: #selector(clickUser), for: .touchUpInside)
+
+    let profileButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_insert_photo_white_36pt"), style: .plain, target: self, action: #selector(clickUser))
     if let photoURL = Auth.auth().currentUser?.photoURL {
-      UIImage.circleButton(with: photoURL, to: button)
+      UIImage.circleButton(with: photoURL, to: profileButton)
     }
 
-    let profileButton = UIBarButtonItem(customView: button)
-    profileButton.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+    let spacer = UIBarButtonItem.init(customView: UIView.init(frame: CGRect.init(x: 0, y: 0, width: 10, height: 10)))
 
     navigationController?.setToolbarHidden(true, animated: false)
     
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
-    bottomBarView.trailingBarButtonItems = [ profileButton, searchButton ]
+    bottomBarView.trailingBarButtonItems = [ spacer, profileButton, searchButton ]
 
     let button0 = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     alert.addAction(button0)
@@ -128,8 +130,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     homeButton.tintColor = blue
     feedButton.tintColor = nil
     showFeed = false
+    postsRef.removeAllObservers()
     posts = [FPPost]()
     loadingPostCount = 0
+    nextEntry = nil
     collectionView?.reloadData()
     loadData()
   }
@@ -137,9 +141,16 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   @objc private func feedAction() {
     homeButton.tintColor = nil
     feedButton.tintColor = blue
+    followingRef.removeAllObservers()
+    postsRef.removeAllObservers()
+    for observer in observers {
+      ref.removeObserver(withHandle: observer)
+    }
+    observers = [UInt]()
     showFeed = true
     posts = [FPPost]()
     loadingPostCount = 0
+    nextEntry = nil
     collectionView?.reloadData()
     loadData()
   }
@@ -154,12 +165,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   // MARK: - UIImagePickerDelegate
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    dismiss(animated: true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
   }
 
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
     dismiss(animated: false, completion: nil)
-    performSegue(withIdentifier: "upload", sender: info)
+    self.performSegue(withIdentifier: "upload", sender: info)
   }
 
   override func viewDidLoad() {
@@ -188,6 +199,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     super.viewDidAppear(animated)
 
     ref = Database.database().reference()
+    followingRef = ref.child("people").child(uid).child("following")
     postsRef = ref.child("posts")
     commentsRef = ref.child("comments")
     likesRef = ref.child("likes")
@@ -198,13 +210,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func getHomeFeedPosts() {
-    loadFeed(nil)
+    loadFeed()
   }
 
   func loadData() {
     if showFeed {
       query = postsRef
-      loadFeed(nil)
+      loadFeed()
     } else {
       query = ref.child("feed").child(uid)
       // Make sure the home feed is updated with followed users's new posts.
@@ -217,7 +229,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     if showFeed {
       loadPost(item)
     } else {
-      ref.child("posts/" + (item.key)).observe(.value) { postSnapshot in
+      ref.child("posts/" + (item.key)).observeSingleEvent(of: .value) { postSnapshot in
         self.loadPost(postSnapshot)
       }
     }
@@ -226,22 +238,21 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
                                forItemAt indexPath: IndexPath) {
     if indexPath.item == (loadingPostCount - 1) {
-      loadFeed(posts[indexPath.item].postID)
+      loadFeed()
     }
   }
 
-  func loadFeed(_ earliestEntryId: String?) {
+  func loadFeed() {
     var query = self.query?.queryOrderedByKey()
-    var i = 0
-    if let earliestEntryId = earliestEntryId {
-      query = query?.queryEnding(atValue: earliestEntryId)
-      i = 1
+    if let queryEnding = nextEntry  {
+      query = query?.queryEnding(atValue: queryEnding)
     }
-    loadingPostCount += 6
+    loadingPostCount += 5
     query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
       if let reversed = snapshot.children.allObjects as? [DataSnapshot] {
+        self.nextEntry = reversed[0].key
         self.collectionView?.performBatchUpdates({
-          for index in stride(from: reversed.count - 1, through: i, by: -1) {
+          for index in stride(from: reversed.count - 1, through: 1, by: -1) {
             self.loadItem(reversed[index])
           }
         }, completion: nil)
@@ -251,18 +262,18 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       var index = 0
       for post in self.posts {
         if post.postID == postSnapshot.key {
+          self.posts.remove(at: index)
+          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
           break
         }
         index += 1
       }
-      self.posts.remove(at: index)
-      self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
     })
   }
 
   func loadPost(_ postSnapshot: DataSnapshot) {
     let postId = postSnapshot.key
-    commentsRef.child(postId).observe(.value, with: { commentsSnapshot in
+    commentsRef.child(postId).observeSingleEvent(of: .value, with: { commentsSnapshot in
       var commentsArray = [FPComment]()
       let enumerator = commentsSnapshot.children
       while let commentSnapshot = enumerator.nextObject() as? DataSnapshot {
@@ -382,7 +393,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
    */
   func startHomeFeedLiveUpdaters() {
     // Make sure we listen on each followed people's posts.
-    let followingRef = ref.child("people").child(uid).child("following")
     followingRef.observe(.childAdded, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
       let followedUid = followingSnapshot.key
@@ -390,13 +400,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if followingSnapshot.exists() && (followingSnapshot.value is String) {
         followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: followingSnapshot.value)
       }
-      followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
+      self.observers.append(followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
         if postSnapshot.key != followingSnapshot.key {
           let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true,
                          "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String: Any]
           self.ref.updateChildValues(updates)
         }
-      })
+      }))
     })
     // Stop listening to users we unfollow.
     followingRef.observe(.childRemoved, with: { snapshot in
@@ -411,7 +421,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
    */
   func updateHomeFeeds() {
     // Make sure we listen on each followed people's posts.
-    let followingRef = ref.child("people").child(uid).child("following")
     followingRef.observeSingleEvent(of: .value, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
       guard let following = followingSnapshot.value as? [String: Any] else {

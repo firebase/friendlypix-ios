@@ -77,6 +77,8 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     likesLabel?.text = "\(post.likeCount) likes"
     if post.isLiked {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
+    } else {
+      likeButton.setImage(#imageLiteral(resourceName: "ic_favorite_border"), for: .normal)
     }
 
     if labelConstraints != nil {

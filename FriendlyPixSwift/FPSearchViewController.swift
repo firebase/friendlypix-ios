@@ -80,7 +80,7 @@ class FPSearchViewController: MDCCollectionViewController {
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-    if let cell = cell as? MDCCollectionViewTextCell {
+    if let cell = cell as? FPSearchCell {
       let user = people[indexPath.item]
 //    if isFiltering() {
 //      candy = filteredCandies[indexPath.row]
@@ -92,7 +92,7 @@ class FPSearchViewController: MDCCollectionViewController {
       }
       cell.textLabel!.text = user.fullname
       cell.textLabel?.numberOfLines = 1
-      cell.detailTextLabel?.numberOfLines = 0
+      //cell.detailTextLabel?.numberOfLines = 0
     }
     return cell
   }

@@ -21,7 +21,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet weak private var imageView: UIImageView!
   var image: UIImage!
   var referenceURL: URL!
-  var textFieldControllerFloating: MDCTextInputControllerDefault!
+  var textFieldControllerFloating: MDCTextInputControllerFilled!
   @IBOutlet weak private var textField: MDCTextField!
   @IBOutlet weak private var button: MDCButton!
   let ref = Database.database().reference()
@@ -32,7 +32,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     imageView.image = image
 
     textField.delegate = self
-    textFieldControllerFloating = MDCTextInputControllerDefault(textInput: textField)
+    textFieldControllerFloating = MDCTextInputControllerFilled.init(textInput: textField)
 
     button.sizeToFit()
     button.setElevation(ShadowElevation.raisedButtonResting, for: .normal)

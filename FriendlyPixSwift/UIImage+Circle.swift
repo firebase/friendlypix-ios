@@ -33,7 +33,7 @@ extension UIImage {
     return result
   }
 
-  func resizeImage(_ dimension: CGFloat, with quality: CGFloat) -> Data? {
+  func resizeImage(_ dimension: CGFloat) -> UIImage {
     var width: CGFloat
     var height: CGFloat
     var newImage: UIImage
@@ -62,7 +62,11 @@ extension UIImage {
       newImage = UIGraphicsGetImageFromCurrentImageContext()!
       UIGraphicsEndImageContext()
     }
-    return UIImageJPEGRepresentation(newImage, quality)
+    return newImage
+  }
+
+  func resizeImage(_ dimension: CGFloat, with quality: CGFloat) -> Data? {
+    return UIImageJPEGRepresentation(resizeImage(dimension), quality)
   }
 
   static func circleImage(with url: URL, to imageView: UIImageView) {
@@ -85,17 +89,17 @@ extension UIImage {
     }
   }
 
-  static func circleButton(with url: URL, to button: UIButton) {
+  static func circleButton(with url: URL, to button: UIBarButtonItem) {
     let urlString = url.absoluteString
     if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
-      button.setImage(image, for: .normal)
+      button.image = image.resizeImage(36)
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: url, options: .highPriority, progress: nil) { image, _, _, _ in
       if let image = image {
         let circleImage = image.circle
         SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
-        button.setImage(circleImage, for: .normal)
+        button.image = circleImage?.resizeImage(36)
       }
     }
   }
