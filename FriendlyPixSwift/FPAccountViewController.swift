@@ -74,6 +74,7 @@ class FPAccountViewController: MDCCollectionViewController {
       } else {
         notificationEnabled.removeValue()
       }
+      return
     }
 
     headerView.followSwitch.isOn ? follow() : unfollow()
