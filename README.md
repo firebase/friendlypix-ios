@@ -4,8 +4,7 @@ Friendly Pix iOS is a sample app demonstrating how to build an iOS app with the 
 
 Friendly Pix is a place where you can share photos, follow friends, comment on photos...
 
-![](./friendlypix.png){:height="50%" width="50%"}
-
+<img src="https://raw.githubusercontent.com/firebase/friendlypix-ios/master/friendlypix.png" width="250">
 
 ## Initial setup, build tools and dependencies
 
