@@ -29,6 +29,9 @@ class FPPostDetailViewController: FPFeedViewController {
                                forItemAt indexPath: IndexPath) {
   }
 
+  override func awakeFromNib() {
+  }
+
   override func showProfile(_ author: FPUser) {
     feedViewController?.performSegue(withIdentifier: "account", sender: author)
   }
