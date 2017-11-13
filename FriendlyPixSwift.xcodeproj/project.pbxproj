@@ -21,7 +21,6 @@
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
 		109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
-		10E1DB271F8406A6001CDB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */; };
 		10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB281F840843001CDB18 /* FPSignInViewController.swift */; };
 		10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */; };
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
@@ -48,7 +47,6 @@
 		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
 		109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentCell.swift; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
-		10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10E1DB281F840843001CDB18 /* FPSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSignInViewController.swift; sourceTree = "<group>"; };
 		10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAuthPickerViewController.swift; sourceTree = "<group>"; };
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
@@ -76,7 +74,6 @@
 		10FD8FCA1F7E840800BCB991 = {
 			isa = PBXGroup;
 			children = (
-				10E1DB261F8406A6001CDB18 /* GoogleService-Info.plist */,
 				10FD8FD51F7E840800BCB991 /* FriendlyPixSwift */,
 				10FD8FD41F7E840800BCB991 /* Products */,
 			);
@@ -184,7 +181,6 @@
 			files = (
 				10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */,
 				10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */,
-				10E1DB271F8406A6001CDB18 /* GoogleService-Info.plist in Resources */,
 				1047E98A1FB614C20084B4DD /* LaunchScreen.xib in Resources */,
 				10FD8FE01F7E840800BCB991 /* Assets.xcassets in Resources */,
 				10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */,

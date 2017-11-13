@@ -91,11 +91,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     }
 
     let betweenConstant: CGFloat = 1.0
-    let bottomConstant: CGFloat = -5.0
+    let bottomConstant: CGFloat = -8
     let commentCount = post.comments.count
     switch commentCount {
     case 0:
-      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1)]
+      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
       comment1Label.isHidden = true
       comment1Label.text = nil
