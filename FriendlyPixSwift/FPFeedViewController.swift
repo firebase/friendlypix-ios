@@ -72,8 +72,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     // Configure the navigation buttons to be shown on the bottom app bar.
 
-    homeButton.tintColor = blue
-
     let profileButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_insert_photo_white_36pt"), style: .plain, target: self, action: #selector(clickUser))
     if let photoURL = Auth.auth().currentUser?.photoURL {
       UIImage.circleButton(with: photoURL, to: profileButton)
@@ -82,6 +80,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let spacer = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10)))
 
     navigationController?.setToolbarHidden(true, animated: false)
+    homeButton.tintColor = blue
+    feedButton.tintColor = .gray
+    searchButton.tintColor = .gray
 
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
     bottomBarView.trailingBarButtonItems = [ spacer, profileButton, searchButton ]
@@ -127,8 +128,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   @objc private func homeAction() {
-    homeButton.tintColor = blue
-    feedButton.tintColor = nil
+    bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = blue
+    bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = .gray
     showFeed = false
     postsRef.removeAllObservers()
     posts = [FPPost]()
@@ -139,8 +140,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   @objc private func feedAction() {
-    homeButton.tintColor = nil
-    feedButton.tintColor = blue
+    bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = .gray
+    bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = blue
     followingRef.removeAllObservers()
     postsRef.removeAllObservers()
     for observer in observers {
@@ -501,5 +502,14 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
 extension MDCCollectionViewController {
   var feedViewController: FPFeedViewController? {
     return navigationController?.viewControllers[0] as? FPFeedViewController
+  }
+}
+
+extension MDCBottomAppBarView {
+  open override func tintColorDidChange() {
+
+//    for view in subviews {
+//      view.tintColor = .red
+//    }
   }
 }
