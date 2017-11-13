@@ -29,7 +29,7 @@
 			<string>google</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.670781077200-flj7jt8dr7549bofihaeed2q8jnkdi31</string>
+				<string>YOUR_REVERSED_CLIENT_ID</string>
 			</array>
 		</dict>
 		<dict>
@@ -69,9 +69,9 @@
 	<string>Take and upload photos to Cloud Storage</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload photo to Cloud Storage</string>
-  <key>NSContactsUsageDescription</key>
-  <string>Invite your friends</string>
-  <key>UIBackgroundModes</key>
+	<key>NSContactsUsageDescription</key>
+	<string>Invite your friends</string>
+	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>

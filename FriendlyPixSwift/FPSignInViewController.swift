@@ -65,8 +65,11 @@ class FPSignInViewController: UINavigationController, FUIAuthDelegate {
   }
 
   func signed(in user: User) {
-    // TODO: Create user
-
+    Database.database().reference(withPath: "people/\(user.uid)")
+      .updateChildValues(["profile_picture": user.photoURL?.absoluteString ?? "",
+                          "full_name": user.displayName ?? "Anonymous",
+                          "_search_index": ["full_name": user.displayName?.lowercased(),
+                                            "reversed_full_name": user.displayName?.components(separatedBy: " ")
+                                              .reversed().joined(separator: "")]])
   }
-
 }

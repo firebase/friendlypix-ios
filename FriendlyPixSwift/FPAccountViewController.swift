@@ -43,7 +43,6 @@ class FPAccountViewController: MDCCollectionViewController {
       navigationItem.title = profile.fullname
       if profile.userID == uid {
         headerView.followLabel.text = "Enable notifications"
-        // headerView.followSwitch.isOn = user.isEnabledNotifications
       }
       headerView.profilePictureImageView.sd_setImage(with: profile.profilePictureURL, completed: nil)
       //UIImage.circleImage(from: user.profilePictureURL, to: headerView.profilePictureImageView)
@@ -69,7 +68,12 @@ class FPAccountViewController: MDCCollectionViewController {
 
   @IBAction func valueChanged(_ sender: Any) {
     if profile.userID == uid {
-      headerView.followSwitch.isOn ? enableNotifications() : disableNotifications()
+      let notificationEnabled = ref.child("people").child(profile.userID).child("notificationEnabled")
+      if headerView.followSwitch.isOn {
+        notificationEnabled.setValue(true)
+      } else {
+        notificationEnabled.removeValue()
+      }
     }
 
     headerView.followSwitch.isOn ? follow() : unfollow()
@@ -81,7 +85,8 @@ class FPAccountViewController: MDCCollectionViewController {
       self.headerView.followingLabel.text = "\(followingCount)"
 
       if self.profile.userID == self.uid {
-
+        let notificationEnabled = userSnapshot.childSnapshot(forPath: "notificationEnabled")
+        self.headerView.followSwitch.isOn = notificationEnabled.exists() && (notificationEnabled.value as? Bool)!
       }
 
       if let posts = userSnapshot.childSnapshot(forPath: "posts").value as? [String: Any] {
@@ -95,8 +100,11 @@ class FPAccountViewController: MDCCollectionViewController {
       if let followers = snapshot.value as? [String: Any] {
         let followersCount = followers.count
         self.headerView.followersLabel.text = "\(followersCount)"
+        if self.profile.userID != self.uid {
+
         // check if the currentUser is following this user
         self.headerView.followSwitch.isOn = followers[self.uid] != nil ? true : false
+        }
       }
     })
   }
@@ -175,12 +183,6 @@ class FPAccountViewController: MDCCollectionViewController {
                                     "people/\(self.uid)/following/\(self.profile.userID)": NSNull()])
       }
     })
-  }
-
-  func enableNotifications() {
-  }
-
-  func disableNotifications() {
   }
 
   func backButtonAction(_ sender: Any) {

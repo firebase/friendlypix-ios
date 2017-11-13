@@ -1,0 +1,18 @@
+osx_image: xcode8.3
+language: objective-c
+cache:
+  - bundler
+  - cocoapods
+rvm: 2.3.1
+
+before_install:
+  - open -a "simulator" --args -CurrentDeviceUDID ABBD7191-486B-462F-80B4-AE08C5820DA1
+  - bundle install
+  - gem install xcpretty
+  - bundle exec pod install --repo-update
+  - cp ./mock-GoogleService-Info.plist GoogleService-Info.plist
+  - sed -i '' 's/YOUR_REVERSED_CLIENT_ID/com.googleusercontent.apps.123456789000-hjugbg6ud799v4c49dim8ce2usclthar/' FriendlyPixSwift/Info.plist
+  - gem install xcodeproj
+  - ruby ./info_script.rb
+
+script: ./test.sh
