@@ -22,7 +22,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   let uid = Auth.auth().currentUser!.uid
 
-  var ref: DatabaseReference!
+  let ref = Database.database().reference()
+
   var postsRef: DatabaseReference!
   var commentsRef: DatabaseReference!
   var likesRef: DatabaseReference!
@@ -39,7 +40,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   let searchButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(searchAction))
   let feedButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
   let blue = MDCPalette.blue.tint600
-  var observers = [UInt]()
+  var observers = [DatabaseQuery]()
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -114,56 +115,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
   }
 
-  override func viewWillLayoutSubviews() {
-    let size = bottomBarView.sizeThatFits(view.bounds.size)
-    let bottomBarViewFrame = CGRect(x: 0,
-                                    y: view.bounds.size.height - size.height,
-                                    width: size.width,
-                                    height: size.height)
-    bottomBarView.frame = bottomBarViewFrame
-  }
-
-  @objc private func didTapFloatingButton() {
-    present(alert, animated: true, completion: nil)
-  }
-
-  @objc private func homeAction() {
-    bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = blue
-    bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = .gray
-    showFeed = false
-    postsRef.removeAllObservers()
-    posts = [FPPost]()
-    loadingPostCount = 0
-    nextEntry = nil
-    collectionView?.reloadData()
-    loadData()
-  }
-
-  @objc private func feedAction() {
-    bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = .gray
-    bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = blue
-    followingRef.removeAllObservers()
-    postsRef.removeAllObservers()
-    for observer in observers {
-      ref.removeObserver(withHandle: observer)
-    }
-    observers = [UInt]()
-    showFeed = true
-    posts = [FPPost]()
-    loadingPostCount = 0
-    nextEntry = nil
-    collectionView?.reloadData()
-    loadData()
-  }
-
-  @objc private func searchAction() {
-    performSegue(withIdentifier: "search", sender: self)
-  }
-
-  @objc private func clickUser() {
-    showProfile(FPUser.currentUser())
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
     let nib = UINib(nibName: "FPCardCollectionViewCell", bundle: nil)
@@ -184,20 +135,86 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right,
                            height: collectionView.bounds.height)
     sizingNibNew.frame = cellFrame
-  }
-
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-
-    ref = Database.database().reference()
     followingRef = ref.child("people").child(uid).child("following")
     postsRef = ref.child("posts")
     commentsRef = ref.child("comments")
     likesRef = ref.child("likes")
+  }
+
+  override func viewWillLayoutSubviews() {
+    let size = bottomBarView.sizeThatFits(view.bounds.size)
+    let bottomBarViewFrame = CGRect(x: 0,
+                                    y: view.bounds.size.height - size.height,
+                                    width: size.width,
+                                    height: size.height)
+    bottomBarView.frame = bottomBarViewFrame
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    cleanCollectionView()
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    loadData()
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
     loadingPostCount = 0
-    if posts.isEmpty {
-      loadData()
+    posts = [FPPost]()
+    nextEntry = nil
+    super.viewWillDisappear(animated)
+    followingRef.removeAllObservers()
+    postsRef.removeAllObservers()
+    for observer in observers {
+      observer.removeAllObservers()
     }
+  }
+
+  @objc private func didTapFloatingButton() {
+    present(alert, animated: true, completion: nil)
+  }
+
+  @objc private func homeAction() {
+    bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = blue
+    bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = .gray
+    showFeed = false
+    postsRef.removeAllObservers()
+    for observer in observers {
+      observer.removeAllObservers()
+    }
+    observers = [DatabaseQuery]()
+    posts = [FPPost]()
+    loadingPostCount = 0
+    nextEntry = nil
+    cleanCollectionView()
+    loadData()
+  }
+
+  @objc private func feedAction() {
+    bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = .gray
+    bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = blue
+    followingRef.removeAllObservers()
+    postsRef.removeAllObservers()
+    for observer in observers {
+      observer.removeAllObservers()
+    }
+    observers = [DatabaseQuery]()
+    showFeed = true
+    posts = [FPPost]()
+    loadingPostCount = 0
+    nextEntry = nil
+    cleanCollectionView()
+    loadData()
+  }
+
+  @objc private func searchAction() {
+    performSegue(withIdentifier: "search", sender: self)
+  }
+
+  @objc private func clickUser() {
+    showProfile(FPUser.currentUser())
   }
 
   func getHomeFeedPosts() {
@@ -271,18 +288,38 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         let comment = FPComment(snapshot: commentSnapshot)
         commentsArray.append(comment)
       }
-      self.likesRef.child(postId).observeSingleEvent(of: .value, with: { snapshot in
+      let likesQuery = self.likesRef.child(postId)
+      likesQuery.observeSingleEvent(of: .value, with: { snapshot in
         let likes = snapshot.value as? [String: Any]
         let post = FPPost(snapshot: postSnapshot, andComments: commentsArray, andLikes: likes)
+        self.commentsRef.child(postId)
         self.posts.append(post)
-        self.collectionView?.insertItems(at: [IndexPath(item: self.posts.count - 1, section: 0)])
+        let last = self.posts.count - 1
+        let lastIndex = [IndexPath(item: last, section: 0)]
+        var commentQuery: DatabaseQuery = self.commentsRef.child(postId)
+        let lastCommentId = commentsArray.last?.commentID
+        if let lastCommentId = lastCommentId {
+          commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
+        }
+        commentQuery.observe(.childAdded, with: { dataSnaphot in
+          if dataSnaphot.key != lastCommentId {
+            post.comments.append(FPComment(snapshot: dataSnaphot))
+            self.collectionView?.reloadItems(at: lastIndex)
+          }
+        })
+        self.observers.append(commentQuery)
+        likesQuery.observe(.value, with: {
+          let count = Int($0.childrenCount)
+          if post.likeCount != count {
+            post.likeCount = count
+            post.isLiked = $0.hasChild(self.uid)
+            self.collectionView?.reloadItems(at: lastIndex)
+          }
+        })
+        self.observers.append(likesQuery)
+        self.collectionView?.insertItems(at: lastIndex)
       })
     })
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    ref.removeAllObservers()
   }
 
   // MARK: UICollectionViewDataSource
@@ -329,27 +366,19 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel) {
     let postLike = ref.child("likes/\(post.postID)/\(uid)")
     if post.isLiked {
-      postLike.removeValue(completionBlock: { error, _ in
+      postLike.removeValue { error, _ in
         if let error = error {
           print(error.localizedDescription)
           return
         }
-        post.likeCount -= 1
-        post.isLiked = false
-        label.text = "\(post.likeCount) likes"
-        button.setImage(#imageLiteral(resourceName: "ic_favorite_border"), for: .normal)
-      })
+      }
     } else {
-      postLike.setValue(ServerValue.timestamp(), withCompletionBlock: { error, _ in
+      postLike.setValue(ServerValue.timestamp()) { error, _ in
         if let error = error {
           print(error.localizedDescription)
           return
         }
-        post.likeCount += 1
-        post.isLiked = true
-        label.text = "\(post.likeCount) likes"
-        button.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
-      })
+      }
     }
   }
 
@@ -391,13 +420,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if followingSnapshot.exists() && (followingSnapshot.value is String) {
         followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: followingSnapshot.value)
       }
-      self.observers.append(followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
+      followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
         if postSnapshot.key != followingSnapshot.key {
           let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true,
                          "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String: Any]
           self.ref.updateChildValues(updates)
         }
-      }))
+      })
+      self.observers.append(followedUserPostsRef)
     })
     // Stop listening to users we unfollow.
     followingRef.observe(.childRemoved, with: { snapshot in
@@ -468,6 +498,7 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
     GIDSignIn.sharedInstance().signInSilently()
 
   }
+
   func inviteFinished(withInvitations invitationIds: [String], error: Error?) {
     if let error = error {
       print("Failed: \(error.localizedDescription)")
@@ -475,6 +506,7 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
       print("\(invitationIds.count) invites sent")
     }
   }
+
   func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
     switch error {
     case .some(let error as NSError) where error.code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue:
@@ -503,13 +535,10 @@ extension MDCCollectionViewController {
   var feedViewController: FPFeedViewController? {
     return navigationController?.viewControllers[0] as? FPFeedViewController
   }
-}
 
-extension MDCBottomAppBarView {
-  open override func tintColorDidChange() {
-
-//    for view in subviews {
-//      view.tintColor = .red
-//    }
+  internal func cleanCollectionView() {
+    if collectionView!.numberOfItems(inSection: 0) > 0 {
+      collectionView!.reloadSections([0])
+    }
   }
 }

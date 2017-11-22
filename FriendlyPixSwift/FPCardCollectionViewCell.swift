@@ -95,7 +95,8 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     let commentCount = post.comments.count
     switch commentCount {
     case 0:
-      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: bottomConstant)]
+      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                             constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
       comment1Label.isHidden = true
       comment1Label.text = nil
@@ -126,6 +127,19 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       attributeComment(index: 1)
       comment3Label.isHidden = true
       comment3Label.text = nil
+    case 3:
+      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                                             constant: betweenConstant),
+                          comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor,
+                                                             constant: betweenConstant),
+                          comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor,
+                                                             constant: betweenConstant),
+                          comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                                constant: bottomConstant)]
+      viewAllCommentsLabel.isHidden = true
+      attributeComment(index: 0)
+      attributeComment(index: 1)
+      attributeComment(index: 2)
     default:
       labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: viewAllCommentsLabel.topAnchor,
                                                              constant: betweenConstant),

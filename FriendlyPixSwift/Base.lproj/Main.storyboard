@@ -16,7 +16,7 @@
             <objects>
                 <navigationController id="mdr-bm-qIa" customClass="FPSignInViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="RdP-g1-iIn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="RdP-g1-iIn">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -101,7 +101,7 @@
         <scene sceneID="lPt-sg-dJH">
             <objects>
                 <collectionViewController id="Isc-m4-f4X" customClass="FPFeedViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="CfD-At-8oN">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="CfD-At-8oN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -143,7 +143,7 @@
         <scene sceneID="qlL-AX-uY7">
             <objects>
                 <collectionViewController id="kP3-1I-mov" customClass="FPCommentViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="1fV-7t-nAy">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="1fV-7t-nAy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -216,33 +216,33 @@
         <scene sceneID="SFR-Iu-7XT">
             <objects>
                 <collectionViewController id="O0J-qO-Fl5" customClass="FPSearchViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="g9f-AS-swK">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="g9f-AS-swK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3oM-HX-5Jz">
-                            <size key="itemSize" width="175" height="52"/>
+                            <size key="itemSize" width="175" height="56"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="B2o-Bw-Xm1" customClass="FPSearchCell" customModule="FriendlyPixSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="175" height="52"/>
+                                <rect key="frame" x="0.0" y="0.0" width="175" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="175" height="52"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="175" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EVc-tl-fiA">
-                                            <rect key="frame" x="8" y="8" width="36" height="36"/>
+                                            <rect key="frame" x="8" y="10" width="36" height="36"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="36" id="5lr-Kc-XBg"/>
                                                 <constraint firstAttribute="width" secondItem="EVc-tl-fiA" secondAttribute="height" multiplier="1:1" id="Kfe-Z0-LRn"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-jD-Zjy">
-                                            <rect key="frame" x="60" y="16" width="42" height="21"/>
+                                            <rect key="frame" x="60" y="18" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -253,8 +253,7 @@
                                     <constraint firstItem="o5a-jD-Zjy" firstAttribute="centerY" secondItem="EVc-tl-fiA" secondAttribute="centerY" id="V5r-Ba-QHU"/>
                                     <constraint firstItem="o5a-jD-Zjy" firstAttribute="leading" secondItem="EVc-tl-fiA" secondAttribute="trailing" constant="16" id="jtT-CL-lbE"/>
                                     <constraint firstItem="EVc-tl-fiA" firstAttribute="leading" secondItem="B2o-Bw-Xm1" secondAttribute="leadingMargin" id="mtQ-xH-cX0"/>
-                                    <constraint firstItem="EVc-tl-fiA" firstAttribute="top" secondItem="B2o-Bw-Xm1" secondAttribute="topMargin" id="qGl-8i-8rT"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="EVc-tl-fiA" secondAttribute="bottom" id="tgu-nP-G38"/>
+                                    <constraint firstItem="EVc-tl-fiA" firstAttribute="centerY" secondItem="B2o-Bw-Xm1" secondAttribute="centerY" id="sEI-8o-haf"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="EVc-tl-fiA" id="gvI-7O-glB"/>
@@ -287,7 +286,7 @@
         <scene sceneID="6sV-Ki-LKG">
             <objects>
                 <collectionViewController id="YDu-9b-7R6" customClass="FPAccountViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="AAp-gm-cmY">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="AAp-gm-cmY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -415,7 +414,7 @@
         <scene sceneID="X49-Bw-bqe">
             <objects>
                 <collectionViewController id="hkU-i0-Vem" customClass="FPPostDetailViewController" customModule="FriendlyPixSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="id5-1K-0gF">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="id5-1K-0gF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

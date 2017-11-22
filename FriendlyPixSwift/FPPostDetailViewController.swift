@@ -20,9 +20,7 @@ class FPPostDetailViewController: FPFeedViewController {
   var postSnapshot: DataSnapshot!
 
   override func loadData() {
-    if posts.isEmpty {
-      super.loadPost(postSnapshot)
-    }
+    super.loadPost(postSnapshot)
   }
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,

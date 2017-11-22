@@ -22,6 +22,7 @@ class FPCommentViewController: MDCCollectionViewController {
   var post: FPPost!
   var textField: UITextField!
   var comments: DatabaseReference!
+  var commentQuery: DatabaseQuery!
   let attributes: [String: UIFont] = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)]
 
   override func viewDidLoad() {
@@ -48,9 +49,26 @@ class FPCommentViewController: MDCCollectionViewController {
     }
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    let lastCommentId = post.comments.last?.commentID
+    commentQuery = comments
+    if let lastCommentId = lastCommentId {
+      commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
+    }
+    commentQuery.observe(.childAdded, with: { dataSnaphot in
+      if dataSnaphot.key != lastCommentId {
+        self.post.comments.append(FPComment(snapshot: dataSnaphot))
+        self.collectionView?.insertItems(at: [IndexPath(item: self.post.comments.count - 1, section: 0)])
+      }
+    })
+  }
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     self.navigationController?.setToolbarHidden(true, animated: false)
+    self.comments.removeAllObservers()
+    self.commentQuery.removeAllObservers()
   }
 
   @objc func enterPressed() {
@@ -67,7 +85,6 @@ class FPCommentViewController: MDCCollectionViewController {
         return
       }
       reference.observe(.value, with: { snapshot in
-       // if let comment =
         self.post.comments.append(FPComment(snapshot: snapshot))
         self.collectionView?.insertItems(at: [IndexPath(item: self.post.comments.count - 1, section: 0)])
       })

@@ -85,6 +85,5 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
         self.dismiss(animated: true, completion: nil)
       }
     }
-//    })
   }
 }

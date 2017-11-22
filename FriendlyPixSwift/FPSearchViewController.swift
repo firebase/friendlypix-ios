@@ -21,6 +21,8 @@ class FPSearchViewController: MDCCollectionViewController {
   let searchController = UISearchController(searchResultsController: nil)
   let peopleRef = Database.database().reference(withPath: "people")
   var people = [FPUser]()
+  // We keep track of the pending work item as a property
+  private var pendingRequestWorkItem: DispatchWorkItem?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,9 +49,20 @@ class FPSearchViewController: MDCCollectionViewController {
     }
     let searchString = searchText.lowercased()
     people = [FPUser]()
-    self.collectionView?.reloadData()
-    search(searchString, at: "full_name")
-    search(searchString, at: "reversed_full_name")
+    // Cancel the currently pending item
+    pendingRequestWorkItem?.cancel()
+
+    // Wrap our request in a work item
+    let requestWorkItem = DispatchWorkItem { [weak self] in
+      self?.collectionView?.reloadData()
+      self?.search(searchString, at: "full_name")
+      self?.search(searchString, at: "reversed_full_name")
+    }
+
+    // Save the new work item and execute it after 250 ms
+    pendingRequestWorkItem = requestWorkItem
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250),
+                                  execute: requestWorkItem)
   }
 
   private func search(_ searchString: String, at index: String) {
@@ -81,11 +94,6 @@ class FPSearchViewController: MDCCollectionViewController {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     if let cell = cell as? FPSearchCell {
       let user = people[indexPath.item]
-//    if isFiltering() {
-//      candy = filteredCandies[indexPath.row]
-//    } else {
-//      candy = candies[indexPath.row]
-//    }
       if let profilePictureURL = user.profilePictureURL {
         UIImage.circleImage(with: profilePictureURL, to: cell.imageView!)
       }
@@ -106,7 +114,6 @@ class FPSearchViewController: MDCCollectionViewController {
 }
 
 extension FPSearchViewController: UISearchResultsUpdating {
-  // MARK: - UISearchResultsUpdating Delegate
   func updateSearchResults(for searchController: UISearchController) {
     filterContentForSearchText(searchController.searchBar.text!)
   }

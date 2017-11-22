@@ -22,7 +22,7 @@ class FPAccountViewController: MDCCollectionViewController {
   var profile: FPUser!
   var headerView: FPCollectionReusableView!
   let uid = Auth.auth().currentUser!.uid
-  var ref: DatabaseReference!
+  let ref = Database.database().reference()
   var postIds: [String: Any]?
   var postSnapshots = [DataSnapshot]()
   var loadingPostCount = 0
@@ -31,6 +31,22 @@ class FPAccountViewController: MDCCollectionViewController {
     super.viewDidLoad()
     self.styler.cellStyle = .card
     self.styler.cellLayoutType = .grid
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    cleanCollectionView()
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    loadData()
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    loadingPostCount = 0
+    postSnapshots = [DataSnapshot]()
   }
 
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
@@ -45,7 +61,6 @@ class FPAccountViewController: MDCCollectionViewController {
         headerView.followLabel.text = "Enable notifications"
       }
       headerView.profilePictureImageView.sd_setImage(with: profile.profilePictureURL, completed: nil)
-      //UIImage.circleImage(from: user.profilePictureURL, to: headerView.profilePictureImageView)
       return headerView
     }
     return UICollectionReusableView()
@@ -56,14 +71,6 @@ class FPAccountViewController: MDCCollectionViewController {
                                      referenceSizeForHeaderInSection section: Int) -> CGSize {
     let size = CGSize(width: collectionView.frame.size.width, height: 112)
     return size
-  }
-
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    ref = Database.database().reference()
-    if postSnapshots.isEmpty {
-      loadData()
-    }
   }
 
   @IBAction func valueChanged(_ sender: Any) {
@@ -77,7 +84,7 @@ class FPAccountViewController: MDCCollectionViewController {
       return
     }
 
-    headerView.followSwitch.isOn ? follow() : unfollow()
+    toggleFollow(headerView.followSwitch.isOn)
   }
 
   func loadData() {
@@ -150,17 +157,28 @@ class FPAccountViewController: MDCCollectionViewController {
     return cell
   }
 
-  func follow() {
-    let myFeed = ref.child("feed/\(uid)")
+  func toggleFollow(_ follow: Bool) {
+    let myFeed = "feed/\(uid)/"
     ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: { snapshot in
       var lastPostID: Any = true
+      var updateData = [String: Any]()
       if let posts = snapshot.value as? [String: Any] {
+        // Add/remove followed user's posts to the home feed.
         for postId in posts.keys {
-          myFeed.child(postId).setValue(true)
+          updateData[myFeed + postId] = follow ? true : NSNull()
           lastPostID = postId
         }
-        self.ref.updateChildValues(["followers/\(self.profile.userID)/\(self.uid)": lastPostID,
-                                    "people/\(self.uid)/following/\(self.profile.userID)": true])
+
+        // Add/remove followed user to the 'following' list.
+        updateData["people/\(self.uid)/following/\(self.profile.userID)"] = follow ? lastPostID : NSNull()
+
+        // Add/remove signed-in user to the list of followers.
+        updateData["followers/\(self.profile.userID)/\(self.uid)"] = follow ? true : NSNull()
+        self.ref.updateChildValues(updateData) { error, _ in
+          if let error = error {
+            print(error.localizedDescription)
+          }
+        }
       }
     })
   }
@@ -171,19 +189,6 @@ class FPAccountViewController: MDCCollectionViewController {
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     performSegue(withIdentifier: "detail", sender: postSnapshots[indexPath.item])
-  }
-
-  func unfollow() {
-    let myFeed = ref.child("feed/\(uid)")
-    ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: { snapshot in
-      if let posts = snapshot.value as?  [String: Any] {
-        for postId in posts.keys {
-          myFeed.child(postId).removeValue()
-        }
-        self.ref.updateChildValues(["followers/\(self.profile.userID)/\(self.uid)": NSNull(),
-                                    "people/\(self.uid)/following/\(self.profile.userID)": NSNull()])
-      }
-    })
   }
 
   func backButtonAction(_ sender: Any) {

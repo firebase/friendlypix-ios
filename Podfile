@@ -1,17 +1,20 @@
 target 'FriendlyPixSwift' do
   use_frameworks!
 
-  pod 'MaterialComponents'
   pod 'Firebase/Auth'
-  pod 'Firebase/Database'
-  pod 'Firebase/Storage'
-  pod 'Firebase/RemoteConfig'
   pod 'Firebase/AdMob'
+  pod 'Firebase/Database'
   pod 'Firebase/Invites'
   pod 'Firebase/Messaging'
+  pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Storage'
   pod 'FirebaseUI/Auth'
-  pod 'FirebaseUI/Google'
   pod 'FirebaseUI/Facebook'
+  pod 'FirebaseUI/Google'
+  pod 'MaterialComponents/BottomAppBar'
+  pod 'MaterialComponents/Collections'
+  pod 'MaterialComponents/Snackbar'
+  pod 'MaterialComponents/TextFields'
   pod 'MHPrettyDate'
   pod 'SDWebImage'
 
