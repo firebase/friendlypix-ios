@@ -5,8 +5,8 @@ set -eo pipefail
 EXIT_STATUS=0
 
 (xcodebuild \
-  -workspace FriendlyPixSwift.xcworkspace \
-  -scheme FriendlyPixSwift \
+  -workspace FriendlyPix.xcworkspace \
+  -scheme FriendlyPix \
   -sdk iphonesimulator \
   -destination 'platform=iOS Simulator,OS=10.3.1,name=iPhone 7' \
   build \

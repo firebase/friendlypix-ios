@@ -1,5 +1,5 @@
 require 'xcodeproj'
-project_path = "FriendlyPixSwift.xcodeproj"
+project_path = "FriendlyPix.xcodeproj"
 project = Xcodeproj::Project.open(project_path)
 
 # Add a file to the project in the main group

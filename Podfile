@@ -1,4 +1,4 @@
-target 'FriendlyPixSwift' do
+target 'FriendlyPix' do
   use_frameworks!
 
   pod 'Firebase/Auth'
@@ -11,6 +11,8 @@ target 'FriendlyPixSwift' do
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Facebook'
   pod 'FirebaseUI/Google'
+  pod 'ImagePicker'
+  pod 'Lightbox'
   pod 'MaterialComponents/BottomAppBar'
   pod 'MaterialComponents/Collections'
   pod 'MaterialComponents/Snackbar'
