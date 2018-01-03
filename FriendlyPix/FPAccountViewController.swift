@@ -27,16 +27,12 @@ class FPAccountViewController: MDCCollectionViewController {
   var postIds: [String: Any]?
   var postSnapshots = [DataSnapshot]()
   var loadingPostCount = 0
+  var firebaseRefs = [DatabaseReference]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.styler.cellStyle = .card
     self.styler.cellLayoutType = .grid
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    cleanCollectionView()
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -46,8 +42,10 @@ class FPAccountViewController: MDCCollectionViewController {
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    loadingPostCount = 0
-    postSnapshots = [DataSnapshot]()
+    for firebaseRef in firebaseRefs {
+      firebaseRef.removeAllObservers()
+    }
+    firebaseRefs = [DatabaseReference]()
   }
 
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
@@ -88,7 +86,7 @@ class FPAccountViewController: MDCCollectionViewController {
 
   @IBAction func valueChanged(_ sender: Any) {
     if profile.userID == uid {
-      let notificationEnabled = ref.child("people").child(profile.userID).child("notificationEnabled")
+      let notificationEnabled = ref.child("people/\(uid)/notificationEnabled")
       if headerView.followSwitch.isOn {
         notificationEnabled.setValue(true)
       } else {
@@ -100,34 +98,100 @@ class FPAccountViewController: MDCCollectionViewController {
     toggleFollow(headerView.followSwitch.isOn)
   }
 
-  func loadData() {
-    ref.child("people").child(profile.userID).observeSingleEvent(of: .value, with: { userSnapshot in
-      let followingCount = userSnapshot.childSnapshot(forPath: "following").childrenCount
-      self.headerView.followingLabel.text = "\(followingCount)"
+  func registerToFollowStatusUpdate() {
+    let followStatusRef = ref.child("people/\(uid)/following/\(profile.userID)")
+    followStatusRef.observe(.value) {
+      self.headerView.followSwitch.isOn = $0.exists()
+    }
+    firebaseRefs.append(followStatusRef)
+  }
 
-      if self.profile.userID == self.uid {
-        let notificationEnabled = userSnapshot.childSnapshot(forPath: "notificationEnabled")
-        self.headerView.followSwitch.isOn = notificationEnabled.exists() && (notificationEnabled.value as? Bool)!
-      }
+  func registerToNotificationEnabledStatusUpdate() {
+    let notificationEnabledRef  = ref.child("people/\(uid)/notificationEnabled")
+    notificationEnabledRef.observe(.value) {
+      self.headerView.followSwitch.isOn = $0.exists()
+    }
+    firebaseRefs.append(notificationEnabledRef)
+  }
 
-      if let posts = userSnapshot.childSnapshot(forPath: "posts").value as? [String: Any] {
-        self.postIds = posts
-        let postCount = posts.count
-        self.headerView.postsLabel.text = "\(postCount)"
-        self.loadFeed()
-      }
+  func registerForFollowersCount() {
+    let followersRef = ref.child("followers/\(profile.userID)")
+    followersRef.observe(.value, with: {
+      self.headerView.followersLabel.text = "\($0.childrenCount)"
     })
-    ref.child("followers").child(profile.userID).observeSingleEvent(of: .value, with: { snapshot in
-      if let followers = snapshot.value as? [String: Any] {
-        let followersCount = followers.count
-        self.headerView.followersLabel.text = "\(followersCount)"
-        if self.profile.userID != self.uid {
+    firebaseRefs.append(followersRef)
+  }
 
-        // check if the currentUser is following this user
-        self.headerView.followSwitch.isOn = followers[self.uid] != nil ? true : false
+  func registerForFollowingCount() {
+    let followingRef = ref.child("people/\(profile.userID)/following")
+    followingRef.observe(.value, with: {
+      self.headerView.followingLabel.text = "\($0.childrenCount)"
+    })
+    firebaseRefs.append(followingRef)
+  }
+
+  func registerForPostsCount() {
+    let userPostsRef = ref.child("people/\(profile.userID)/posts")
+    userPostsRef.observe(.value, with: {
+      self.headerView.postsLabel.text = "\($0.childrenCount)"
+    })
+  }
+
+  func registerForPostsDeletion() {
+    let userPostsRef = ref.child("people/\(profile.userID)/posts")
+    userPostsRef.observe(.childRemoved, with: { postSnapshot in
+      var index = 0
+      for post in self.postSnapshots {
+        if post.key == postSnapshot.key {
+          self.postSnapshots.remove(at: index)
+          self.loadingPostCount -= 1
+          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+          return
         }
+        index += 1
+      }
+      self.postIds?.removeValue(forKey: postSnapshot.key)
+    })
+  }
+
+
+  func loadUserPosts() {
+    ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: {
+      if var posts = $0.value as? [String: Any] {
+        if !self.postSnapshots.isEmpty {
+          var index = 0
+          self.loadingPostCount = 0
+          self.collectionView?.performBatchUpdates({
+            for post in self.postSnapshots {
+              if posts.removeValue(forKey: post.key) == nil {
+                self.postSnapshots.remove(at: index)
+                self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+                return
+              }
+              index += 1
+            }
+          }, completion: nil)
+          self.postIds = posts
+          self.loadingPostCount = posts.count
+        } else {
+          self.postIds = posts
+          self.loadFeed()
+        }
+        self.registerForPostsDeletion()
       }
     })
+  }
+
+  func loadData() {
+    if profile.userID == uid {
+      registerToNotificationEnabledStatusUpdate()
+    } else {
+      registerToFollowStatusUpdate()
+    }
+    registerForFollowersCount()
+    registerForFollowingCount()
+    registerForPostsCount()
+    loadUserPosts()
   }
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
@@ -138,11 +202,11 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func loadFeed() {
-    loadingPostCount += 10
+    loadingPostCount = postSnapshots.count + 10
     self.collectionView?.performBatchUpdates({
       for _ in 1...10 {
         if let postId = self.postIds?.popFirst()?.key {
-          self.ref.child("posts/" + (postId)).observe(.value, with: { postSnapshot in
+          self.ref.child("posts/" + (postId)).observeSingleEvent(of: .value, with: { postSnapshot in
             self.postSnapshots.append(postSnapshot)
             self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 0)])
           })

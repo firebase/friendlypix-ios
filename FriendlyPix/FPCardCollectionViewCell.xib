@@ -36,7 +36,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMO-FO-hME">
-                        <rect key="frame" x="232.5" y="18" width="31.5" height="17"/>
+                        <rect key="frame" x="232" y="18" width="32" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -45,14 +45,14 @@
                         <rect key="frame" x="1" y="52" width="318" height="207"/>
                     </imageView>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="likes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-bw-Z0o">
-                        <rect key="frame" x="16" y="295" width="31" height="18.5"/>
+                        <rect key="frame" x="16" y="295" width="31" height="19"/>
                         <gestureRecognizers/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T48-rQ-YPz">
-                        <rect key="frame" x="16" y="313.5" width="35.5" height="21"/>
+                        <rect key="frame" x="16" y="314" width="36" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -64,13 +64,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment2" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Af-xI-Tq0">
-                        <rect key="frame" x="16" y="378" width="71.5" height="21"/>
+                        <rect key="frame" x="16" y="378" width="72" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment3" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBg-Le-ZNl">
-                        <rect key="frame" x="16" y="399" width="71.5" height="21"/>
+                        <rect key="frame" x="16" y="399" width="72" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -114,6 +114,18 @@
                             <action selector="viewAllComments:" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="UP2-Rh-TsJ"/>
                         </connections>
                     </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BKP-Ag-fGk">
+                        <rect key="frame" x="280" y="14" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="BKP-Ag-fGk" secondAttribute="height" multiplier="1:1" id="A1E-ut-4Ge"/>
+                            <constraint firstAttribute="width" constant="24" id="qU3-Hu-h1C"/>
+                        </constraints>
+                        <color key="tintColor" red="0.65120442708333337" green="0.0" blue="0.0" alpha="0.8397367294520548" colorSpace="custom" customColorSpace="sRGB"/>
+                        <state key="normal" image="ic_delete"/>
+                        <connections>
+                            <action selector="tappedDelete" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="pcl-qA-qxh"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <gestureRecognizers/>
@@ -122,11 +134,13 @@
                 <constraint firstItem="cCo-VS-WYk" firstAttribute="top" secondItem="QDX-Pc-tzZ" secondAttribute="topMargin" id="8iU-iC-myk"/>
                 <constraint firstItem="Rc6-zj-yAI" firstAttribute="top" secondItem="uLH-WT-gi5" secondAttribute="bottom" constant="8" id="DAJ-iQ-Nap"/>
                 <constraint firstItem="uLH-WT-gi5" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="1" id="FKm-4p-lNB"/>
+                <constraint firstItem="BKP-Ag-fGk" firstAttribute="centerY" secondItem="hMO-FO-hME" secondAttribute="centerY" id="GbW-Cf-CId"/>
                 <constraint firstAttribute="trailing" secondItem="uLH-WT-gi5" secondAttribute="trailing" constant="1" id="Gnr-po-5WB"/>
                 <constraint firstItem="7Af-xI-Tq0" firstAttribute="leading" secondItem="UBg-Le-ZNl" secondAttribute="leading" id="HOK-Oi-gNg"/>
                 <constraint firstItem="cCo-VS-WYk" firstAttribute="centerY" secondItem="2sz-OM-BtW" secondAttribute="centerY" id="Nmp-er-hTf"/>
                 <constraint firstAttribute="trailingMargin" secondItem="hMO-FO-hME" secondAttribute="trailing" constant="40" id="Qfh-jq-oG0"/>
                 <constraint firstItem="7Af-xI-Tq0" firstAttribute="trailing" secondItem="UBg-Le-ZNl" secondAttribute="trailing" id="U15-gV-Mhi"/>
+                <constraint firstAttribute="trailing" secondItem="BKP-Ag-fGk" secondAttribute="trailing" constant="16" id="U3R-v6-Ogh"/>
                 <constraint firstItem="hV4-bw-Z0o" firstAttribute="leading" secondItem="T48-rQ-YPz" secondAttribute="leading" id="VDc-55-EDN"/>
                 <constraint firstItem="5UZ-Mk-cdf" firstAttribute="centerY" secondItem="Rc6-zj-yAI" secondAttribute="centerY" constant="1" id="WCT-W1-D87"/>
                 <constraint firstItem="T48-rQ-YPz" firstAttribute="leading" secondItem="cCo-VS-WYk" secondAttribute="leading" id="ZxD-9V-6Xg"/>
@@ -150,6 +164,7 @@
                 <outlet property="comment2Label" destination="7Af-xI-Tq0" id="7ev-OA-3SN"/>
                 <outlet property="comment3Label" destination="UBg-Le-ZNl" id="8fG-wp-x5z"/>
                 <outlet property="dateLabel" destination="hMO-FO-hME" id="b4m-ce-ZqH"/>
+                <outlet property="deleteButton" destination="BKP-Ag-fGk" id="DsK-3b-Q1F"/>
                 <outlet property="likeButton" destination="Rc6-zj-yAI" id="H49-GT-TvS"/>
                 <outlet property="likesLabel" destination="hV4-bw-Z0o" id="mxR-vl-EPL"/>
                 <outlet property="postImageView" destination="uLH-WT-gi5" id="TY4-CB-CAy"/>
@@ -161,6 +176,7 @@
     </objects>
     <resources>
         <image name="ic_comment" width="24" height="24"/>
+        <image name="ic_delete" width="24" height="24"/>
         <image name="ic_favorite_border" width="24" height="24"/>
     </resources>
 </document>

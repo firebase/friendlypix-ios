@@ -23,7 +23,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   var textField: UITextField!
   var comments: DatabaseReference!
   var commentQuery: DatabaseQuery!
-  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)]
+  let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -92,7 +92,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     textField.resignFirstResponder()
   }
 
-  func keyboardWillShow(notification: NSNotification) {
+  @objc func keyboardWillShow(notification: NSNotification) {
     if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
       if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
         UIView.animate(withDuration: animationDuration) { () -> Void in
@@ -101,7 +101,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
       }
     }
   }
-  func keyboardWillHide(notification: NSNotification) {
+  @objc func keyboardWillHide(notification: NSNotification) {
     if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
       if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
         UIView.animate(withDuration: animationDuration) { () -> Void in
@@ -129,7 +129,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     if let label = recognizer.view as? UILabel, let from = post.comments[label.tag].from,
       recognizer.didTapAttributedTextInLabel(label: label,
                                              inRange: NSRange(location: 0,
-                                                              length: from.fullname.characters.count)) {
+                                                              length: from.fullname.count)) {
       feedViewController?.performSegue(withIdentifier: "account", sender: from)
     }
   }

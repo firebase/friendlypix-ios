@@ -153,7 +153,7 @@
 					10FD8FD21F7E840800BCB991 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = EQHXZ8M8AV;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -368,7 +368,7 @@
 				PROVISIONING_PROFILE = "4cd67004-6614-4dd4-8753-506871bf3a42";
 				PROVISIONING_PROFILE_SPECIFIER = "FriendlyPix Dev";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -388,7 +388,7 @@
 				PROVISIONING_PROFILE = "4cd67004-6614-4dd4-8753-506871bf3a42";
 				PROVISIONING_PROFILE_SPECIFIER = "FriendlyPix Dev";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

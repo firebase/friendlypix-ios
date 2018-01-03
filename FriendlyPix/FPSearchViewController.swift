@@ -37,7 +37,7 @@ class FPSearchViewController: MDCCollectionViewController {
 
   func searchBarIsEmpty() -> Bool {
     // Returns true if the text is empty or nil
-    if let x = searchController.searchBar.text?.characters.count, x > 2 {
+    if let x = searchController.searchBar.text?.count, x > 2 {
       return false
     }
     return true

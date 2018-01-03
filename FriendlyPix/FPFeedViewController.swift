@@ -129,30 +129,22 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     bottomBarView.frame = bottomBarViewFrame
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    cleanCollectionView()
-  }
-
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if let photoURL = Auth.auth().currentUser?.photoURL {
-      UIImage.circleButton(with: photoURL, to: bottomBarView.trailingBarButtonItems![0])
+    if let photoURL = Auth.auth().currentUser?.photoURL, let item = bottomBarView.trailingBarButtonItems?[0] {
+      UIImage.circleButton(with: photoURL, to: item)
     }
-
     loadData()
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    loadingPostCount = 0
-    posts = [FPPost]()
-    nextEntry = nil
     super.viewWillDisappear(animated)
     followingRef.removeAllObservers()
     postsRef.removeAllObservers()
     for observer in observers {
       observer.removeAllObservers()
     }
+    observers = [DatabaseQuery]()
   }
 
   @objc private func homeAction() {
@@ -198,12 +190,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func getHomeFeedPosts() {
     loadFeed()
+    listenDeletes()
   }
 
   func loadData() {
     if showFeed {
       query = postsRef
       loadFeed()
+      listenDeletes()
     } else {
       query = ref.child("feed").child(uid)
       // Make sure the home feed is updated with followed users's new posts.
@@ -212,11 +206,26 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
   }
 
+  func listenDeletes() {
+    postsRef.observe(.childRemoved, with: { postSnapshot in
+      var index = 0
+      for post in self.posts {
+        if post.postID == postSnapshot.key {
+          self.posts.remove(at: index)
+          self.loadingPostCount -= 1
+          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+          break
+        }
+        index += 1
+      }
+    })
+  }
+
   func loadItem(_ item: DataSnapshot) {
     if showFeed {
       loadPost(item)
     } else {
-      ref.child("posts/" + (item.key)).observeSingleEvent(of: .value) { postSnapshot in
+      postsRef.child(item.key).observeSingleEvent(of: .value) { postSnapshot in
         self.loadPost(postSnapshot)
       }
     }
@@ -230,32 +239,66 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func loadFeed() {
-    var query = self.query?.queryOrderedByKey()
-    if let queryEnding = nextEntry {
-      query = query?.queryEnding(atValue: queryEnding)
-    }
-    loadingPostCount += 5
-    query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
-      if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
-        self.nextEntry = reversed[0].key
-        self.collectionView?.performBatchUpdates({
-          for index in stride(from: reversed.count - 1, through: 1, by: -1) {
-            self.loadItem(reversed[index])
-          }
-        }, completion: nil)
-      }
-    })
-    postsRef.observe(.childRemoved, with: { postSnapshot in
-      var index = 0
-      for post in self.posts {
-        if post.postID == postSnapshot.key {
-          self.posts.remove(at: index)
-          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
-          break
+    if observers.isEmpty && !posts.isEmpty {
+      self.collectionView?.performBatchUpdates({
+        var index = 0
+        for post in posts {
+          let current = index
+          postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
+            let indexPath = [IndexPath(item: current, section: 0)]
+            if $0.exists() {
+              self.updatePost(post, at: indexPath)
+            } else {
+              self.posts.remove(at: current)
+              self.loadingPostCount -= 1
+              self.collectionView?.deleteItems(at: indexPath)
+            }
+          })
+          index += 1
         }
-        index += 1
+      }, completion: nil)
+    } else {
+      var query = self.query?.queryOrderedByKey()
+      if let queryEnding = nextEntry {
+        query = query?.queryEnding(atValue: queryEnding)
+      }
+      loadingPostCount = posts.count + 5
+      query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
+        if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
+          self.nextEntry = reversed[0].key
+          self.collectionView?.performBatchUpdates({
+            for index in stride(from: reversed.count - 1, through: 1, by: -1) {
+              self.loadItem(reversed[index])
+            }
+          }, completion: nil)
+        }
+      })
+    }
+  }
+
+  func updatePost(_ post: FPPost, at: [IndexPath]) {
+    var commentQuery: DatabaseQuery = self.commentsRef.child(post.postID)
+    let lastCommentId = post.comments.last?.commentID
+    if let lastCommentId = lastCommentId {
+      commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
+    }
+    commentQuery.observe(.childAdded, with: { dataSnaphot in
+      if dataSnaphot.key != lastCommentId {
+        post.comments.append(FPComment(snapshot: dataSnaphot))
+        self.collectionView?.reloadItems(at: at)
       }
     })
+    self.observers.append(commentQuery)
+    let likesQuery = self.likesRef.child(post.postID)
+    likesQuery.observe(.value, with: {
+      let count = Int($0.childrenCount)
+      if post.likeCount != count {
+        post.likeCount = count
+        post.isLiked = $0.hasChild(self.uid)
+        self.collectionView?.reloadItems(at: at)
+      }
+    })
+    self.observers.append(likesQuery)
   }
 
   func loadPost(_ postSnapshot: DataSnapshot) {
@@ -267,35 +310,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         let comment = FPComment(snapshot: commentSnapshot)
         commentsArray.append(comment)
       }
-      let likesQuery = self.likesRef.child(postId)
-      likesQuery.observeSingleEvent(of: .value, with: { snapshot in
+      self.likesRef.child(postId).observeSingleEvent(of: .value, with: { snapshot in
         let likes = snapshot.value as? [String: Any]
         let post = FPPost(snapshot: postSnapshot, andComments: commentsArray, andLikes: likes)
-        self.commentsRef.child(postId)
         self.posts.append(post)
         let last = self.posts.count - 1
         let lastIndex = [IndexPath(item: last, section: 0)]
-        var commentQuery: DatabaseQuery = self.commentsRef.child(postId)
-        let lastCommentId = commentsArray.last?.commentID
-        if let lastCommentId = lastCommentId {
-          commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
-        }
-        commentQuery.observe(.childAdded, with: { dataSnaphot in
-          if dataSnaphot.key != lastCommentId {
-            post.comments.append(FPComment(snapshot: dataSnaphot))
-            self.collectionView?.reloadItems(at: lastIndex)
-          }
-        })
-        self.observers.append(commentQuery)
-        likesQuery.observe(.value, with: {
-          let count = Int($0.childrenCount)
-          if post.likeCount != count {
-            post.likeCount = count
-            post.isLiked = $0.hasChild(self.uid)
-            self.collectionView?.reloadItems(at: lastIndex)
-          }
-        })
-        self.observers.append(likesQuery)
+        self.updatePost(post, at: lastIndex)
         self.collectionView?.insertItems(at: lastIndex)
       })
     })
@@ -358,6 +379,29 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           return
         }
       }
+    }
+  }
+
+  func deletePost(_ post: FPPost) {
+    let postID = post.postID
+    let update = [ "people/\(uid)/posts/\(postID)": NSNull(),
+                   "comments/\(postID)": NSNull(),
+                   "likes/\(postID)": NSNull(),
+                   "posts/\(postID)": NSNull(),
+                   "feed/\(uid)/\(postID)": NSNull()]
+    ref.updateChildValues(update) { error, reference in
+      if let error = error {
+        print(error.localizedDescription)
+        return
+      }
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: "Your post has been deleted."))
+    }
+    let storage = Storage.storage()
+    if let fullURL = post.fullURL {
+      storage.reference(forURL: fullURL.absoluteString).delete()
+    }
+    if let thumbURL = post.thumbURL {
+      storage.reference(forURL: thumbURL.absoluteString).delete()
     }
   }
 
@@ -451,7 +495,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 }
 
 extension FPFeedViewController: ImagePickerDelegate {
-  func didTapFloatingButton() {
+  @objc func didTapFloatingButton() {
     var config = Configuration()
     config.recordLocation = false
     config.allowMultiplePhotoSelection = false

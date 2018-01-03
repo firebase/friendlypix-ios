@@ -20,7 +20,16 @@ class FPPostDetailViewController: FPFeedViewController {
   var postSnapshot: DataSnapshot!
 
   override func loadData() {
-    super.loadPost(postSnapshot)
+    if let post = posts.first {
+      updatePost(post, at: [IndexPath(item: 0, section: 0)])
+    } else {
+      loadPost(postSnapshot)
+    }
+  }
+
+  override func deletePost(_ post: FPPost) {
+    super.deletePost(post)
+    self.navigationController?.popViewController(animated: true)
   }
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,

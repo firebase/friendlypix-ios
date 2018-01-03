@@ -22,6 +22,7 @@ protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
   func viewComments(_ post: FPPost)
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
+  func deletePost(_ post: FPPost)
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
@@ -32,13 +33,14 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak private var titleLabel: UILabel!
   @IBOutlet weak private var likesLabel: UILabel!
   @IBOutlet weak private var likeButton: UIButton!
+  @IBOutlet weak private var deleteButton: UIButton!
 
   @IBOutlet weak private var comment1Label: UILabel!
   @IBOutlet weak private var comment2Label: UILabel!
   @IBOutlet weak private var comment3Label: UILabel!
   @IBOutlet weak private var viewAllCommentsLabel: UIButton!
   var commentLabels: [UILabel]?
-  let attributes: [String: UIFont] = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)]
+  let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]
 
   var post: FPPost!
   weak var delegate: FPCardCollectionViewCellDelegate?
@@ -84,6 +86,8 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     } else {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite_border"), for: .normal)
     }
+
+    deleteButton.isHidden = !post.mine
 
     if labelConstraints != nil {
       NSLayoutConstraint.deactivate(labelConstraints)
@@ -186,29 +190,33 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     delegate?.toogleLike(post, button: likeButton, label: likesLabel)
   }
 
+  @IBAction func tappedDelete() {
+    delegate?.deletePost(post)
+  }
+
   override func prepareForReuse() {
     super.prepareForReuse()
     NSLayoutConstraint.deactivate(labelConstraints)
     labelConstraints = nil
   }
 
-  func profileTapped() {
+  @objc func profileTapped() {
     delegate?.showProfile(post.author!)
   }
 
-  func handleTapOnProfileLabel(recognizer: UITapGestureRecognizer) {
+  @objc func handleTapOnProfileLabel(recognizer: UITapGestureRecognizer) {
     if recognizer.didTapAttributedTextInLabel(label: titleLabel,
                                               inRange: NSRange(location: 0,
-                                                               length: post.author.fullname.characters.count)) {
+                                                               length: post.author.fullname.count)) {
       profileTapped()
     }
   }
 
-  func handleTapOnComment(recognizer: UITapGestureRecognizer) {
+  @objc func handleTapOnComment(recognizer: UITapGestureRecognizer) {
     if let index = recognizer.view?.tag, let from = post.comments[index].from,
       recognizer.didTapAttributedTextInLabel(label: commentLabels![index],
                                              inRange: NSRange(location: 0,
-                                                              length: from.fullname.characters.count)) {
+                                                              length: from.fullname.count)) {
       delegate?.showProfile(from)
     }
   }
@@ -217,7 +225,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     if let index = recognizer.view?.tag, let from = post.comments[index].from,
       recognizer.didTapAttributedTextInLabel(label: commentLabels![index],
                                              inRange: NSRange(location: 0,
-                                                              length: from.fullname.characters.count)) {
+                                                              length: from.fullname.count)) {
       delegate?.showProfile(from)
     }
   }

@@ -25,6 +25,7 @@ class FPPost {
   var text = ""
   var comments: [FPComment]!
   var isLiked = false
+  var mine = false
   var likeCount = 0
 
   init(snapshot: DataSnapshot, andComments comments: [FPComment], andLikes likes: [String: Any]?) {
@@ -46,5 +47,6 @@ class FPPost {
         isLiked = (likes.index(forKey: uid) != nil)
       }
     }
+    self.mine = self.author.userID == Auth.auth().currentUser?.uid
   }
 }
