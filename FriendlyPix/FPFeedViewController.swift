@@ -95,7 +95,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
     bottomBarView.trailingBarButtonItems = [ profileButton, searchButton ]
-    self.present(FPSignInViewController(), animated: false, completion: nil)
   }
 
   override func viewDidLoad() {
@@ -337,6 +336,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       cell.delegate = self
     }
     return cell
+  }
+  @IBAction func didTapSignOut(_ sender: Any) {
+    do {
+      try Auth.auth().signOut()
+    } catch {
+    }
+    guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
+    appDel.window?.rootViewController = FPSignInViewController()
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {

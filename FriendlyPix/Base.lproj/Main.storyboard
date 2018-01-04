@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -130,11 +131,23 @@
                         <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="done" id="ied-wv-0G2">
                             <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ic_share_white" style="done" id="OqW-p6-z5N">
-                            <connections>
-                                <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="ic_share_white" style="done" id="OqW-p6-z5N">
+                                <connections>
+                                    <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="a3p-hn-f87">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WYk-39-lZu">
+                                    <rect key="frame" x="233" y="7" width="83" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Sign Out"/>
+                                    <connections>
+                                        <action selector="didTapSignOut:" destination="Isc-m4-f4X" eventType="touchUpInside" id="zqY-J6-qWX"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <segue destination="YDu-9b-7R6" kind="show" identifier="account" id="wZe-PH-0eT"/>

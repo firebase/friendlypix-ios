@@ -48,6 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     application.registerForRemoteNotifications()
+    if Auth.auth().currentUser == nil {
+      self.window?.rootViewController = FPSignInViewController()
+    }
     return true
   }
 
