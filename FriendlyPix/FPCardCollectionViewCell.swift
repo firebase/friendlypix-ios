@@ -22,7 +22,7 @@ protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
   func viewComments(_ post: FPPost)
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
-  func deletePost(_ post: FPPost)
+  func deletePost(_ post: FPPost, completion: (() -> Swift.Void)? )
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
@@ -191,7 +191,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   @IBAction func tappedDelete() {
-    delegate?.deletePost(post)
+    delegate?.deletePost(post, completion: nil)
   }
 
   override func prepareForReuse() {

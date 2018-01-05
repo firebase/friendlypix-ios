@@ -21,15 +21,20 @@ class FPPostDetailViewController: FPFeedViewController {
 
   override func loadData() {
     if let post = posts.first {
-      updatePost(post, at: [IndexPath(item: 0, section: 0)])
+      postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
+        if $0.exists() {
+          self.updatePost(post, at: [IndexPath(item: 0, section: 0)])
+        } else {
+          self.navigationController?.popViewController(animated: true)
+        }
+      })
     } else {
       loadPost(postSnapshot)
     }
   }
 
-  override func deletePost(_ post: FPPost) {
-    super.deletePost(post)
-    self.navigationController?.popViewController(animated: true)
+  override func deletePost(_ post: FPPost, completion: (() -> Swift.Void)? = nil) {
+    super.deletePost(post, completion: { self.navigationController?.popViewController(animated: true) })
   }
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,

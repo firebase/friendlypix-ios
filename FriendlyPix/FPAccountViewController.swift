@@ -159,16 +159,15 @@ class FPAccountViewController: MDCCollectionViewController {
     ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: {
       if var posts = $0.value as? [String: Any] {
         if !self.postSnapshots.isEmpty {
-          var index = 0
-          self.loadingPostCount = 0
+          var index = self.postSnapshots.count - 1
           self.collectionView?.performBatchUpdates({
-            for post in self.postSnapshots {
+            for post in self.postSnapshots.reversed() {
               if posts.removeValue(forKey: post.key) == nil {
                 self.postSnapshots.remove(at: index)
                 self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
                 return
               }
-              index += 1
+              index -= 1
             }
           }, completion: nil)
           self.postIds = posts
@@ -270,6 +269,28 @@ class FPAccountViewController: MDCCollectionViewController {
 
   func backButtonAction(_ sender: Any) {
     navigationController?.popViewController(animated: true)
+  }
+
+  @IBAction func tapDeleteAccount() {
+    let alertController = MDCAlertController.init(title: "Delete Account?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
+    let deleteAction = MDCAlertAction(title:"Delete") { _ in
+      Auth.auth().currentUser?.delete(completion: { error in
+        if let error = error {
+          let errorController = MDCAlertController.init(title: "Deletion requires recent authentication", message: "Log in again before retrying.")
+          let okAction = MDCAlertAction(title:"OK") { _ in self.feedViewController?.didTapSignOut(()) }
+          errorController.addAction(okAction)
+          self.present(errorController, animated:true, completion:nil)
+          return
+        }
+        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Account deleted."))
+        self.feedViewController?.didTapSignOut(())
+      })
+    }
+
+    alertController.addAction(deleteAction)
+    alertController.addAction(cancelAction)
+    present(alertController, animated:true, completion:nil)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

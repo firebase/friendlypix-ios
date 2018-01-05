@@ -132,20 +132,21 @@
                             <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="ic_share_white" style="done" id="OqW-p6-z5N">
-                                <connections>
-                                    <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem style="plain" id="a3p-hn-f87">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WYk-39-lZu">
-                                    <rect key="frame" x="233" y="7" width="83" height="30"/>
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WYk-39-lZu">
+                                    <rect key="frame" x="341" y="11" width="18" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Sign Out"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <state key="normal" image="ic_sign_out"/>
                                     <connections>
                                         <action selector="didTapSignOut:" destination="Isc-m4-f4X" eventType="touchUpInside" id="zqY-J6-qWX"/>
                                     </connections>
                                 </button>
+                            </barButtonItem>
+                            <barButtonItem image="ic_share_white" style="done" id="OqW-p6-z5N">
+                                <connections>
+                                    <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -424,6 +425,19 @@
                             <outlet property="delegate" destination="YDu-9b-7R6" id="hRW-BK-ehv"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" id="ChH-bk-KUz">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="yxb-kD-gYd">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A3F-h1-CZ7">
+                                <rect key="frame" x="335" y="10" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.65120442710000004" green="0.0" blue="0.0" alpha="0.8397367295" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="ic_delete_forever"/>
+                                <connections>
+                                    <action selector="tapDeleteAccount" destination="YDu-9b-7R6" eventType="touchUpInside" id="ZVf-FV-Mzv"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="BGQ-EM-eFj"/>
                         <segue destination="hkU-i0-Vem" kind="show" identifier="detail" id="0dF-Vk-Xxj"/>
@@ -474,11 +488,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_delete_forever" width="24" height="24"/>
         <image name="ic_insert_photo_white" width="24" height="24"/>
         <image name="ic_share_white" width="24" height="24"/>
+        <image name="ic_sign_out" width="18" height="18"/>
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WOg-QJ-eeq"/>
+        <segue reference="BGQ-EM-eFj"/>
     </inferredMetricsTieBreakers>
 </document>

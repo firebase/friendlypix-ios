@@ -21,7 +21,6 @@ import Lightbox
 import MaterialComponents
 
 class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
-
   lazy var uid = Auth.auth().currentUser!.uid
 
   lazy var ref = Database.database().reference()
@@ -240,8 +239,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   func loadFeed() {
     if observers.isEmpty && !posts.isEmpty {
       self.collectionView?.performBatchUpdates({
-        var index = 0
-        for post in posts {
+        var index = posts.count - 1
+        for post in posts.reversed() {
           let current = index
           postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
             let indexPath = [IndexPath(item: current, section: 0)]
@@ -253,7 +252,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
               self.collectionView?.deleteItems(at: indexPath)
             }
           })
-          index += 1
+          index -= 1
         }
       }, completion: nil)
     } else {
@@ -389,27 +388,38 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
   }
 
-  func deletePost(_ post: FPPost) {
-    let postID = post.postID
-    let update = [ "people/\(uid)/posts/\(postID)": NSNull(),
-                   "comments/\(postID)": NSNull(),
-                   "likes/\(postID)": NSNull(),
-                   "posts/\(postID)": NSNull(),
-                   "feed/\(uid)/\(postID)": NSNull()]
-    ref.updateChildValues(update) { error, reference in
-      if let error = error {
-        print(error.localizedDescription)
-        return
+  func deletePost(_ post: FPPost, completion: (() -> Swift.Void)? = nil) {
+    let alertController = MDCAlertController.init(title: "Delete Post?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
+    let deleteAction = MDCAlertAction(title:"Delete") { _ in
+      let postID = post.postID
+      let update = [ "people/\(self.uid)/posts/\(postID)": NSNull(),
+                     "comments/\(postID)": NSNull(),
+                     "likes/\(postID)": NSNull(),
+                     "posts/\(postID)": NSNull(),
+                     "feed/\(self.uid)/\(postID)": NSNull()]
+      self.ref.updateChildValues(update) { error, reference in
+        if let error = error {
+          print(error.localizedDescription)
+          return
+        }
+        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Your post has been deleted."))
+        if let completion = completion {
+          completion()
+        }
       }
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: "Your post has been deleted."))
+      let storage = Storage.storage()
+      if let fullURL = post.fullURL {
+        storage.reference(forURL: fullURL.absoluteString).delete()
+      }
+      if let thumbURL = post.thumbURL {
+        storage.reference(forURL: thumbURL.absoluteString).delete()
+      }
     }
-    let storage = Storage.storage()
-    if let fullURL = post.fullURL {
-      storage.reference(forURL: fullURL.absoluteString).delete()
-    }
-    if let thumbURL = post.thumbURL {
-      storage.reference(forURL: thumbURL.absoluteString).delete()
-    }
+
+    alertController.addAction(deleteAction)
+    alertController.addAction(cancelAction)
+    present(alertController, animated:true, completion:nil)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

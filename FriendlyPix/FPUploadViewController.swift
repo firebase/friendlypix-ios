@@ -45,6 +45,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   }
 
   @IBAction func uploadPressed(_ sender: Any) {
+    textField.resignFirstResponder()
     button.isEnabled = false
     let postRef = ref.child("posts").childByAutoId()
     let postId = postRef.key
@@ -60,6 +61,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
       if let error = error {
         message.text = "Error uploading image"
         MDCSnackbarManager.show(message)
+        self.button.isEnabled = true
         print("Error uploading image: \(error.localizedDescription)")
         return
       }
@@ -67,6 +69,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
         if let error = error {
           message.text = "Error uploading thumbnail"
           MDCSnackbarManager.show(message)
+          self.button.isEnabled = true
           print("Error uploading thumbnail: \(error.localizedDescription)")
           return
         }
