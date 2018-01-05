@@ -1,4 +1,4 @@
-osx_image: xcode8.3
+osx_image: xcode9.2
 language: objective-c
 cache:
   - bundler
@@ -6,7 +6,6 @@ cache:
 rvm: 2.3.1
 
 before_install:
-  - open -a "simulator" --args -CurrentDeviceUDID ABBD7191-486B-462F-80B4-AE08C5820DA1
   - bundle install
   - gem install xcpretty
   - bundle exec pod install --repo-update
@@ -16,3 +15,7 @@ before_install:
   - ruby ./info_script.rb
 
 script: ./test.sh
+
+branches:
+  only:
+    - master
