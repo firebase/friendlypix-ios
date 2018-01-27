@@ -29,6 +29,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   lazy var commentsRef = self.ref.child("comments")
   lazy var likesRef = self.ref.child("likes")
 
+  var floatingButtonOffset: CGFloat = 0.0
+
   var query: DatabaseReference!
   var posts = [FPPost]()
   var loadingPostCount = 0
@@ -50,6 +52,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     let lightbox = LightboxController(images: lightboxImages, startIndex: indexPath.item)
     lightbox.dynamicBackground = true
+    LightboxConfig.InfoLabel.textColor = .red
     self.present(lightbox, animated: true, completion: nil)
   }
 
@@ -116,6 +119,35 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right,
                            height: collectionView.bounds.height)
     sizingNibNew.frame = cellFrame
+
+    if #available(iOS 10.0, *) {
+      let refreshControl = UIRefreshControl()
+      let title = NSLocalizedString("PullToRefresh", comment: "Pull to refresh")
+      refreshControl.attributedTitle = NSAttributedString(string: title)
+      refreshControl.addTarget(self,
+                               action: #selector(refreshOptions(sender:)),
+                               for: .valueChanged)
+      collectionView.refreshControl = refreshControl
+    }
+  }
+
+  @objc private func refreshOptions(sender: UIRefreshControl) {
+    reloadFeed()
+    sender.endRefreshing()
+  }
+
+  private func reloadFeed() {
+    followingRef.removeAllObservers()
+    postsRef.removeAllObservers()
+    for observer in observers {
+      observer.removeAllObservers()
+    }
+    observers = [DatabaseQuery]()
+    posts = [FPPost]()
+    loadingPostCount = 0
+    nextEntry = nil
+    cleanCollectionView()
+    loadData()
   }
 
   override func viewWillLayoutSubviews() {
@@ -125,6 +157,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
                                     width: size.width,
                                     height: size.height)
     bottomBarView.frame = bottomBarViewFrame
+    MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -133,6 +166,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       UIImage.circleButton(with: photoURL, to: item)
     }
     loadData()
+    MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -143,39 +177,21 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       observer.removeAllObservers()
     }
     observers = [DatabaseQuery]()
+    MDCSnackbarManager.setBottomOffset(0)
   }
 
   @objc private func homeAction() {
     bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = blue
     bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = .gray
     showFeed = false
-    postsRef.removeAllObservers()
-    for observer in observers {
-      observer.removeAllObservers()
-    }
-    observers = [DatabaseQuery]()
-    posts = [FPPost]()
-    loadingPostCount = 0
-    nextEntry = nil
-    cleanCollectionView()
-    loadData()
+    reloadFeed()
   }
 
   @objc private func feedAction() {
     bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = .gray
     bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = blue
-    followingRef.removeAllObservers()
-    postsRef.removeAllObservers()
-    for observer in observers {
-      observer.removeAllObservers()
-    }
-    observers = [DatabaseQuery]()
     showFeed = true
-    posts = [FPPost]()
-    loadingPostCount = 0
-    nextEntry = nil
-    cleanCollectionView()
-    loadData()
+    reloadFeed()
   }
 
   @objc private func searchAction() {
@@ -516,6 +532,7 @@ extension FPFeedViewController: ImagePickerDelegate {
     var config = Configuration()
     config.recordLocation = false
     config.allowMultiplePhotoSelection = false
+    config.showsImageCountLabel = false
 
     let imagePicker = ImagePickerController(configuration: config)
     imagePicker.delegate = self
@@ -557,9 +574,12 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
   }
 
   func inviteFinished(withInvitations invitationIds: [String], error: Error?) {
-    if let error = error {
+    switch error {
+    case .some(let error as NSError) where error.code == -1009:
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
+    case .some(let error):
       print("Failed: \(error.localizedDescription)")
-    } else {
+    case .none:
       print("\(invitationIds.count) invites sent")
     }
   }
@@ -568,6 +588,8 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
     switch error {
     case .some(let error as NSError) where error.code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue:
       GIDSignIn.sharedInstance().signIn()
+    case .some(let error as NSError) where error.code == -1009:
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
     case .some(let error):
       print("Login error: \(error.localizedDescription)")
     case .none:

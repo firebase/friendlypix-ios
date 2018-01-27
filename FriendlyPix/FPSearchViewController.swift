@@ -17,7 +17,7 @@
 import Firebase
 import MaterialComponents
 
-class FPSearchViewController: MDCCollectionViewController {
+class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, UISearchControllerDelegate {
   let searchController = UISearchController(searchResultsController: nil)
   let peopleRef = Database.database().reference(withPath: "people")
   var people = [FPUser]()
@@ -28,11 +28,48 @@ class FPSearchViewController: MDCCollectionViewController {
     super.viewDidLoad()
     // Setup the Search Controller
     searchController.searchResultsUpdater = self
+    searchController.searchBar.delegate = self
+    searchController.delegate = self
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.hidesNavigationBarDuringPresentation = false
-    searchController.searchBar.placeholder = "Search"
+    searchController.searchBar.placeholder = "Search People"
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).leftViewMode = .never
+    searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_close"), for: .clear, state: .normal)
+    navigationItem.hidesBackButton = true
     navigationItem.titleView = searchController.searchBar
     definesPresentationContext = true
+searchController.searchBar.showsCancelButton = false
+    navigationController?.navigationBar.barTintColor = .white
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .darkGray
+  }
+
+  @IBAction func backPressed(_ sender: Any) {
+    self.navigationController?.popViewController(animated: true)
+  }
+
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    searchController.searchBar.showsCancelButton = false
+    self.searchController.searchBar.becomeFirstResponder()
+  }
+
+  func didPresentSearchController(_ searchController: UISearchController) {
+    searchController.searchBar.showsCancelButton = false
+    self.searchController.searchBar.becomeFirstResponder()
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    navigationController?.navigationBar.barTintColor = .white
+    DispatchQueue.global(qos: .default).async(execute: {() -> Void in
+      DispatchQueue.main.async(execute: {() -> Void in
+        self.searchController.searchBar.becomeFirstResponder()
+      })
+    })
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.navigationBar.barTintColor = UIColor.init(hex: "0288D1")
   }
 
   func searchBarIsEmpty() -> Bool {
@@ -54,9 +91,11 @@ class FPSearchViewController: MDCCollectionViewController {
 
     // Wrap our request in a work item
     let requestWorkItem = DispatchWorkItem { [weak self] in
-      self?.collectionView?.reloadData()
+            self?.collectionView?.reloadData()
+      self?.collectionView?.performBatchUpdates({
       self?.search(searchString, at: "full_name")
       self?.search(searchString, at: "reversed_full_name")
+              }, completion: nil)
     }
 
     // Save the new work item and execute it after 250 ms
@@ -69,7 +108,6 @@ class FPSearchViewController: MDCCollectionViewController {
     peopleRef.queryOrdered(byChild: "_search_index/\(index)").queryStarting(atValue: searchString)
       .queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { snapshot in
         let enumerator = snapshot.children
-        self.collectionView?.performBatchUpdates({
           while let person = enumerator.nextObject() as? DataSnapshot {
             if let value = person.value as? [String: Any], let searchIndex = value["_search_index"] as? [String: Any],
               let fullName = searchIndex[index] as? String, fullName.hasPrefix(searchString) {
@@ -77,7 +115,6 @@ class FPSearchViewController: MDCCollectionViewController {
               self.collectionView?.insertItems(at: [IndexPath(item: self.people.count - 1, section: 0)])
             }
           }
-        }, completion: nil)
     })
   }
 

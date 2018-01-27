@@ -80,7 +80,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 
     titleLabel?.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                             action: #selector(handleTapOnProfileLabel(recognizer:))))
-    likesLabel?.text = "\(post.likeCount) likes"
+    likesLabel?.text = post.likeCount == 1 ? "1 like" : "\(post.likeCount) likes"
     if post.isLiked {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
     } else {

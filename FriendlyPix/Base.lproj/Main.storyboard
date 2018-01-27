@@ -60,13 +60,13 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-X5-YYw" customClass="MDCButton">
-                                <rect key="frame" x="125" y="302" width="126" height="48"/>
+                                <rect key="frame" x="127.5" y="302" width="121" height="48"/>
                                 <color key="backgroundColor" red="1" green="0.792156862745098" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="mbe-qm-CP8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                <state key="normal" title="UPLOAD THIS PIC!">
+                                <state key="normal" title="UPLOAD THIS PIC">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -128,22 +128,19 @@
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Feed" image="ic_trending_up" id="cJo-1n-LDc"/>
                     <navigationItem key="navigationItem" id="wGW-Ei-wAi">
-                        <barButtonItem key="leftBarButtonItem" image="ic_insert_photo_white" style="done" id="ied-wv-0G2">
-                            <inset key="imageInsets" minX="0.0" minY="-1" maxX="-32" maxY="1"/>
-                        </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem style="plain" id="a3p-hn-f87">
+                            <barButtonItem style="done" id="a3p-hn-f87">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WYk-39-lZu">
-                                    <rect key="frame" x="341" y="11" width="18" height="22"/>
+                                    <rect key="frame" x="335" y="10" width="24" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <state key="normal" image="ic_sign_out"/>
+                                    <state key="normal" image="ic_logout"/>
                                     <connections>
                                         <action selector="didTapSignOut:" destination="Isc-m4-f4X" eventType="touchUpInside" id="zqY-J6-qWX"/>
                                     </connections>
                                 </button>
                             </barButtonItem>
-                            <barButtonItem image="ic_share_white" style="done" id="OqW-p6-z5N">
+                            <barButtonItem style="done" systemItem="action" id="OqW-p6-z5N">
                                 <connections>
                                     <action selector="inviteTapped:" destination="Isc-m4-f4X" id="I0Q-XJ-Hic"/>
                                 </connections>
@@ -191,13 +188,13 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hHv-6A-dZn">
-                                            <rect key="frame" x="60" y="69" width="30.5" height="17"/>
+                                            <rect key="frame" x="60" y="28" width="31" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeJ-iT-g3Q">
-                                            <rect key="frame" x="60" y="52" width="35.5" height="17"/>
+                                            <rect key="frame" x="60" y="8" width="36" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -212,6 +209,7 @@
                                     <constraint firstAttribute="bottomMargin" secondItem="hHv-6A-dZn" secondAttribute="bottom" id="MvC-12-VGb"/>
                                     <constraint firstItem="VeJ-iT-g3Q" firstAttribute="top" secondItem="k2P-lS-h8V" secondAttribute="top" id="auj-vd-4wa"/>
                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="VeJ-iT-g3Q" secondAttribute="trailing" constant="8" id="gqL-cy-LvS"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hHv-6A-dZn" secondAttribute="trailing" constant="8" id="yMb-CW-F25"/>
                                     <constraint firstItem="hHv-6A-dZn" firstAttribute="top" secondItem="VeJ-iT-g3Q" secondAttribute="bottom" id="zKW-ur-tnE"/>
                                 </constraints>
                                 <connections>
@@ -228,7 +226,6 @@
                     </collectionView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Comments" id="1wi-i0-zb9"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0L-t6-maU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -288,6 +285,15 @@
                             <outlet property="delegate" destination="O0J-qO-Fl5" id="x4L-fb-Tpv"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" id="fcP-Xi-BBA">
+                        <barButtonItem key="leftBarButtonItem" image="ic_arrow_back" id="rf0-if-CuQ">
+                            <inset key="imageInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                            <connections>
+                                <action selector="backPressed:" destination="O0J-qO-Fl5" id="3kN-81-zBW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="k82-rx-52W" id="4TJ-aa-PBH"/>
                     </connections>
@@ -426,12 +432,11 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="ChH-bk-KUz">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="yxb-kD-gYd">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A3F-h1-CZ7">
-                                <rect key="frame" x="335" y="10" width="24" height="24"/>
+                        <barButtonItem key="rightBarButtonItem" id="yxb-kD-gYd">
+                            <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A3F-h1-CZ7">
+                                <rect key="frame" x="323" y="4" width="36" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.65120442710000004" green="0.0" blue="0.0" alpha="0.8397367295" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="ic_delete_forever"/>
+                                <state key="normal" image="ic_delete_forever_white"/>
                                 <connections>
                                     <action selector="tapDeleteAccount" destination="YDu-9b-7R6" eventType="touchUpInside" id="ZVf-FV-Mzv"/>
                                 </connections>
@@ -439,6 +444,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteAccountButton" destination="A3F-h1-CZ7" id="nDS-7j-z16"/>
                         <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="BGQ-EM-eFj"/>
                         <segue destination="hkU-i0-Vem" kind="show" identifier="detail" id="0dF-Vk-Xxj"/>
                     </connections>
@@ -488,13 +494,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_delete_forever" width="24" height="24"/>
-        <image name="ic_insert_photo_white" width="24" height="24"/>
-        <image name="ic_share_white" width="24" height="24"/>
-        <image name="ic_sign_out" width="18" height="18"/>
+        <image name="ic_arrow_back" width="24" height="24"/>
+        <image name="ic_delete_forever_white" width="24" height="24"/>
+        <image name="ic_logout" width="24" height="24"/>
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BGQ-EM-eFj"/>
+        <segue reference="WOg-QJ-eeq"/>
     </inferredMetricsTieBreakers>
 </document>

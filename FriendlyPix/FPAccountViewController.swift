@@ -19,7 +19,7 @@ import Lightbox
 import MaterialComponents.MaterialCollections
 
 class FPAccountViewController: MDCCollectionViewController {
-
+  @IBOutlet private weak var deleteAccountButton: UIButton!
   var profile: FPUser!
   var headerView: FPCollectionReusableView!
   let uid = Auth.auth().currentUser!.uid
@@ -33,6 +33,9 @@ class FPAccountViewController: MDCCollectionViewController {
     super.viewDidLoad()
     self.styler.cellStyle = .card
     self.styler.cellLayoutType = .grid
+    if profile.userID == uid {
+      deleteAccountButton.isHidden = false
+    }
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -224,11 +227,11 @@ class FPAccountViewController: MDCCollectionViewController {
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     let postSnapshot = postSnapshots[indexPath.item]
-    if let value = postSnapshot.value as? [String: Any],
-      let photoUrl = value["thumb_url"] as? String {
-        let imageView = UIImageView()
-        cell.backgroundView = imageView
-        imageView.sd_setImage(with: URL(string: photoUrl), completed: nil)
+    if let value = postSnapshot.value as? [String: Any], let photoUrl = value["thumb_url"] as? String {
+      let imageView = UIImageView()
+      cell.backgroundView = imageView
+      imageView.sd_setImage(with: URL(string: photoUrl), completed: nil)
+      imageView.contentMode = .scaleAspectFill
     }
     return cell
   }
