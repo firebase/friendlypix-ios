@@ -64,7 +64,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     titleLabel.textColor = UIColor.white
     titleLabel.font = UIFont(name: "Amaranth", size: 24)
     titleLabel.sizeToFit()
-    navigationItem.leftBarButtonItems?.append(UIBarButtonItem(customView: titleLabel))
+    navigationController?.navigationBar.titleTextAttributes![ NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 20)
+    navigationItem.setLeftBarButton(UIBarButtonItem(customView: titleLabel), animated: false)
 
     bottomBarView.autoresizingMask = [ .flexibleWidth, .flexibleTopMargin ]
     view.addSubview(bottomBarView)
@@ -129,6 +130,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
                                for: .valueChanged)
       collectionView.refreshControl = refreshControl
     }
+
+    self.navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "ic_arrow_back")
+
+    self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "ic_arrow_back")
+
+    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
   }
 
   @objc private func refreshOptions(sender: UIRefreshControl) {

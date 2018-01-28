@@ -77,6 +77,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   @IBAction func didTapProfile(_ sender: Any) {
+    guard !postSnapshots.isEmpty else { return }
     let lightboxImages: [LightboxImage] = postSnapshots.flatMap {
       guard let value = $0.value as? [String:Any], let fullURL = (value["full_url"] as? String).flatMap(URL.init) else { return nil }
       return LightboxImage(imageURL: fullURL, text: "\(profile.fullname): \(value["text"] ?? "")")

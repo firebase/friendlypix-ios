@@ -45,6 +45,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     button.setTitle("Post", for: .normal)
     button.setTitleColor(UIColor.init(red: 0, green: 137/255, blue: 249/255, alpha: 1), for: .normal)
     button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+    button.addTarget(self, action: #selector(enterPressed), for: .touchUpInside)
     return button
   }()
 
@@ -152,8 +153,10 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
           self.view.layoutIfNeeded()
         }, completion: { completed in
           if isKeyboardShowing {
-            let indexPath = IndexPath(item: self.post.comments.count - 1, section: 0)
-            self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            if !self.post.comments.isEmpty{
+              let indexPath = IndexPath(item: self.post.comments.count - 1, section: 0)
+              self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            }
           }
         })
       }

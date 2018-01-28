@@ -33,18 +33,15 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.hidesNavigationBarDuringPresentation = false
     searchController.searchBar.placeholder = "Search People"
+
+    //searchController.searchBar.searchTextPositionAdjustment = UIOffsetMake(-4, 0)
     UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).leftViewMode = .never
     searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_close"), for: .clear, state: .normal)
-    navigationItem.hidesBackButton = true
     navigationItem.titleView = searchController.searchBar
     definesPresentationContext = true
-searchController.searchBar.showsCancelButton = false
-    navigationController?.navigationBar.barTintColor = .white
-    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .darkGray
-  }
+    searchController.searchBar.showsCancelButton = false
 
-  @IBAction func backPressed(_ sender: Any) {
-    self.navigationController?.popViewController(animated: true)
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = UIColor.init(red: 0, green: 137/255, blue: 249/255, alpha: 1)
   }
 
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -65,11 +62,13 @@ searchController.searchBar.showsCancelButton = false
         self.searchController.searchBar.becomeFirstResponder()
       })
     })
+    navigationController?.navigationBar.tintColor = .gray
   }
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.barTintColor = UIColor.init(hex: "0288D1")
+    navigationController?.navigationBar.tintColor = .white
   }
 
   func searchBarIsEmpty() -> Bool {
