@@ -40,13 +40,12 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     uploadPressed(button)
-    textField.resignFirstResponder()
     return true
   }
 
   @IBAction func uploadPressed(_ sender: Any) {
-    textField.resignFirstResponder()
     button.isEnabled = false
+    textField.endEditing(true)
     let postRef = ref.child("posts").childByAutoId()
     let postId = postRef.key
     guard let resizedImageData = UIImageJPEGRepresentation(image, 0.9) else { return }
@@ -83,8 +82,6 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
                   "author": FPUser.currentUser().author(), "timestamp": ServerValue.timestamp()] as [String: Any]
         postRef.setValue(data)
         postRef.root.updateChildValues(["people/\(self.uid)/posts/\(postId)": true, "feed/\(self.uid)/\(postId)": true])
-        message.text = "New pic has been posted!"
-        MDCSnackbarManager.show(message)
         self.navigationController?.popViewController(animated: true)
       }
     }

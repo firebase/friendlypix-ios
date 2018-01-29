@@ -58,7 +58,7 @@ class FPAccountViewController: MDCCollectionViewController {
                                                                        withReuseIdentifier: "HeaderView",
                                                                        for: indexPath) as? FPCollectionReusableView {
       self.headerView = headerView
-      navigationItem.title = profile.fullname
+      navigationItem.title = profile.fullname.localizedCapitalized
       if profile.userID == uid {
         headerView.followLabel.text = "Enable notifications"
       }

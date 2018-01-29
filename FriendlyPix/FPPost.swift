@@ -28,9 +28,12 @@ class FPPost {
   var mine = false
   var likeCount = 0
 
-  init(snapshot: DataSnapshot, andComments comments: [FPComment], andLikes likes: [String: Any]?) {
-    guard let value = snapshot.value as? [String: Any] else { return }
-    self.postID = snapshot.key
+  convenience init(snapshot: DataSnapshot, andComments comments: [FPComment], andLikes likes: [String: Any]?) {
+    self.init(id: snapshot.key, value: snapshot.value as! [String : Any], andComments: comments, andLikes: likes)
+  }
+
+  init(id: String, value: [String: Any], andComments comments: [FPComment], andLikes likes: [String: Any]?) {
+    self.postID = id
     if let text = value["text"] as? String {
       self.text = text
     }

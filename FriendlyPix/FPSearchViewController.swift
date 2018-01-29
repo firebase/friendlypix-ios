@@ -84,13 +84,13 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
       return
     }
     let searchString = searchText.lowercased()
-    people = [FPUser]()
     // Cancel the currently pending item
     pendingRequestWorkItem?.cancel()
 
     // Wrap our request in a work item
     let requestWorkItem = DispatchWorkItem { [weak self] in
-            self?.collectionView?.reloadData()
+      self?.people = [FPUser]()
+      self?.collectionView?.reloadData()
       self?.collectionView?.performBatchUpdates({
       self?.search(searchString, at: "full_name")
       self?.search(searchString, at: "reversed_full_name")

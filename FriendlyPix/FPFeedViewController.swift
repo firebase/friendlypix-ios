@@ -24,7 +24,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   lazy var uid = Auth.auth().currentUser!.uid
 
   lazy var ref = Database.database().reference()
-  lazy var followingRef = self.ref.child("people").child(self.uid).child("following")
+  lazy var followingRef = self.ref.child("people/\(self.uid)/following")
   lazy var postsRef = self.ref.child("posts")
   lazy var commentsRef = self.ref.child("comments")
   lazy var likesRef = self.ref.child("likes")
@@ -44,6 +44,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   let feedButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
   let blue = MDCPalette.blue.tint600
   var observers = [DatabaseQuery]()
+  var newPost = false
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let lightboxImages = posts.map {
@@ -169,11 +170,16 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
     if let photoURL = Auth.auth().currentUser?.photoURL, let item = bottomBarView.trailingBarButtonItems?[0] {
       UIImage.circleButton(with: photoURL, to: item)
     }
+    if newPost {
+      reloadFeed()
+      newPost = false
+      return
+    }
     loadData()
-    MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -242,16 +248,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     })
   }
 
-  func loadItem(_ item: DataSnapshot) {
-    if showFeed {
-      loadPost(item)
-    } else {
-      postsRef.child(item.key).observeSingleEvent(of: .value) { postSnapshot in
-        self.loadPost(postSnapshot)
-      }
-    }
-  }
-
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
                                forItemAt indexPath: IndexPath) {
     if indexPath.item == (loadingPostCount - 1) {
@@ -287,9 +283,28 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
         if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
           self.nextEntry = reversed[0].key
+          var results = [Int: DataSnapshot]()
+          let myGroup = DispatchGroup()
           self.collectionView?.performBatchUpdates({
             for index in stride(from: reversed.count - 1, through: 1, by: -1) {
-              self.loadItem(reversed[index])
+              let item = reversed[index]
+              if self.showFeed {
+                self.loadPost(item)
+              } else {
+                myGroup.enter()
+                let current = reversed.count - 1 - index
+                self.postsRef.child(item.key).observeSingleEvent(of: .value) {
+                  results[current] = $0
+                  myGroup.leave()
+                }
+              }
+            }
+            myGroup.notify(queue: .main) {
+              if !self.showFeed {
+                for index in 0..<(reversed.count - 1) {
+                  self.loadPost(results[index]!)
+                }
+              }
             }
           }, completion: nil)
         }
@@ -359,6 +374,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
     return cell
   }
+
   @IBAction func didTapSignOut(_ sender: Any) {
     do {
       try Auth.auth().signOut()
@@ -426,7 +442,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           print(error.localizedDescription)
           return
         }
-        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Your post has been deleted."))
         if let completion = completion {
           completion()
         }
@@ -459,6 +474,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     case "upload":
       if let viewController = segue.destination as? FPUploadViewController, let image = sender as? UIImage {
         viewController.image = image
+        newPost = true
       }
     default:
       break
@@ -508,7 +524,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         return
       }
       var followedUserPostsRef: DatabaseQuery!
+      let myGroup = DispatchGroup()
       for (followedUid, lastSyncedPostId) in following {
+        myGroup.enter()
         followedUserPostsRef = self.ref.child("people").child(followedUid).child("posts")
         var lastSyncedPost = ""
         if let lastSyncedPostId = lastSyncedPostId as? String {
@@ -522,13 +540,19 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
               updates["/feed/\(self.uid)/\(postId)"] = true
               updates["/people/\(self.uid)/following/\(followedUid)"] = postId
             }
-            self.ref.updateChildValues(updates)
+            self.ref.updateChildValues(updates, withCompletionBlock: { error, reference in
+              myGroup.leave()
+            })
+          } else {
+            myGroup.leave()
           }
-          // Add new posts from followers live.
-          self.startHomeFeedLiveUpdaters()
-          // Get home feed posts
-          self.getHomeFeedPosts()
         })
+      }
+      myGroup.notify(queue: .main) {
+        // Add new posts from followers live.
+        self.startHomeFeedLiveUpdaters()
+        // Get home feed posts
+        self.getHomeFeedPosts()
       }
     })
   }
