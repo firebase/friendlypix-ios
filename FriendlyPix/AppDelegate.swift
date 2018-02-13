@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   let mdcAction = MDCSnackbarMessageAction()
   var window: UIWindow?
   let gcmMessageIDKey = "gcm.message_id"
+  var notificationGranted = false
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions
     launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -39,7 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
       UNUserNotificationCenter.current().requestAuthorization(
         options: authOptions,
-        completionHandler: {_, _ in
+        completionHandler: { granted, _ in
+          if granted {
+            if let uid = Auth.auth().currentUser?.uid {
+              Database.database().reference().child("people/\(uid)/notificationEnabled").setValue(true)
+            } else {
+              self.notificationGranted = true
+            }
+          }
       })
     } else {
       let settings: UIUserNotificationSettings =

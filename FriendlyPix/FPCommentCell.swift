@@ -18,6 +18,7 @@ import MaterialComponents
 
 class FPCommentCell: MDCCollectionViewCell {
   @IBOutlet weak var imageView: UIImageView!
+  @IBOutlet weak var moreButton: UIButton!
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
 }

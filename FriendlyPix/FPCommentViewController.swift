@@ -18,7 +18,6 @@ import Firebase
 import MaterialComponents
 import MHPrettyDate
 
-
 class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate {
   var post: FPPost!
 
@@ -26,11 +25,17 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   var commentQuery: DatabaseQuery!
   let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]
   var bottomConstraint: NSLayoutConstraint!
+  var heightConstraint: NSLayoutConstraint!
+  var inputBottomConstraint: NSLayoutConstraint!
+  var sendBottomConstraint: NSLayoutConstraint!
+  var editingIndex: IndexPath?
   let messageInputContainerView: UIView = {
     let view = UIView()
     view.backgroundColor = .white
     return view
   }()
+
+  var bottomAreaInset: CGFloat = 0
 
   let inputTextField: UITextField = {
     let textField = UITextField()
@@ -49,12 +54,31 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     return button
   }()
 
+  // Enable swipe-to-dismiss items.
+  override func collectionViewAllowsSwipe(toDismissItem collectionView: UICollectionView) -> Bool {
+    return true
+  }
 
-  func textFieldDidBeginEditing(_ textField: UITextField) {
+  // Override permissions at specific index paths.
+  override func collectionView(_ collectionView: UICollectionView, canSwipeToDismissItemAt indexPath: IndexPath) -> Bool {
+    return indexPath.item != 0 && post.comments[indexPath.item].from.userID == Auth.auth().currentUser?.uid
+  }
+
+  // Remove swiped index paths from our data.
+  override func collectionView(_ collectionView: UICollectionView, willDeleteItemsAt indexPaths: [IndexPath]) {
+    for indexPath in indexPaths {
+      let commentID = post.comments[indexPath.item].commentID
+      self.post.comments.remove(at: indexPath.item)
+      comments.child(commentID).removeValue()
+    }
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    if #available(iOS 11.0, *) {
+      bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
+    }
 
     comments = Database.database().reference(withPath: "comments/\(post.postID)")
     styler.cellStyle = .card
@@ -71,14 +95,12 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
     view.addSubview(messageInputContainerView)
     view.addConstraintsWithFormat(format: "H:|[v0]|", views: messageInputContainerView)
-        if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
-          // Accommodate insets for iPhone X.
-          view.addConstraintsWithFormat(format: "V:[v0(68)]", views: messageInputContainerView)
-        } else {
-    view.addConstraintsWithFormat(format: "V:[v0(48)]", views: messageInputContainerView)
-        }
+
+    heightConstraint = messageInputContainerView.heightAnchor.constraint(equalToConstant: 48 + bottomAreaInset)
+
     bottomConstraint = NSLayoutConstraint(item: messageInputContainerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
     view.addConstraint(bottomConstraint)
+    view.addConstraint(heightConstraint)
     setupInputComponents()
   }
 
@@ -91,19 +113,26 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
     messageInputContainerView.addConstraintsWithFormat(format:  "H:|-8-[v0][v1(60)]|", views: inputTextField, sendButton)
     messageInputContainerView.addConstraintsWithFormat(format:  "H:|[v0]|", views: topBorderView)
-    if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
-      // Accommodate insets for iPhone X.
-      messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0]-20-|", views: inputTextField)
-      messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0]-20-|", views: sendButton )
-    } else {
-      messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0]|", views: inputTextField)
-      messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0]|", views: sendButton)
+    var bottomAreaInset: CGFloat = 0
+    if #available(iOS 11.0, *) {
+      bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
     }
+
+    inputTextField.topAnchor.constraint(equalTo: messageInputContainerView.topAnchor).isActive = true
+    sendButton.topAnchor.constraint(equalTo: messageInputContainerView.topAnchor).isActive = true
+
+    inputBottomConstraint = messageInputContainerView.bottomAnchor.constraint(equalTo: inputTextField.bottomAnchor, constant: bottomAreaInset)
+    inputBottomConstraint.isActive = true
+
+    sendBottomConstraint = messageInputContainerView.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: bottomAreaInset)
+    sendBottomConstraint.isActive = true
+
     messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0(0.5)]", views: topBorderView)
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    editingIndex = nil
     let lastCommentId = post.comments.last?.commentID
     commentQuery = comments
     if let lastCommentId = lastCommentId {
@@ -117,6 +146,19 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
         self.collectionView?.insertItems(at: [IndexPath(item: self.post.comments.count - 1, section: 0)])
       }
     })
+    comments.observe(.childRemoved) { dataSnaphot in
+      if let index = self.post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        self.post.comments.remove(at: index)
+        self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+      }
+    }
+    comments.observe(.childChanged) { dataSnaphot in
+      if let value = dataSnaphot.value as? [String: Any],
+        let index = self.post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        self.post.comments[index].text = value["text"] as! String
+        self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+      }
+    }
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -133,13 +175,14 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     let data = ["timestamp": ServerValue.timestamp(),
                 "author": ["uid": currentUser.uid, "full_name": currentUser.displayName ?? "",
                            "profile_picture": currentUser.photoURL?.absoluteString], "text": text] as [String: Any]
-    let comment = comments.childByAutoId()
+    let comment = editingIndex == nil ? comments.childByAutoId() : comments.child(post.comments[(editingIndex?.item)!].commentID)
     comment.setValue(data) { error, reference in
       if let error = error {
         print(error.localizedDescription)
         return
       }
     }
+    editingIndex = nil
     inputTextField.text = nil
     inputTextField.endEditing(true)
   }
@@ -148,18 +191,30 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
       let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
       bottomConstraint?.constant = isKeyboardShowing ? -keyboardSize.height : 0
+      heightConstraint?.constant = isKeyboardShowing ? 48 : 48 + bottomAreaInset
+      inputBottomConstraint?.constant = isKeyboardShowing ? 0 : bottomAreaInset
+      sendBottomConstraint?.constant = isKeyboardShowing ? 0 : bottomAreaInset
       if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
         UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
           self.view.layoutIfNeeded()
         }, completion: { completed in
           if isKeyboardShowing {
             if !self.post.comments.isEmpty{
-              let indexPath = IndexPath(item: self.post.comments.count - 1, section: 0)
+              let indexPath = self.editingIndex ?? IndexPath(item: self.post.comments.count - 1, section: 0)
               self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
             }
           }
         })
       }
+    }
+  }
+
+  @IBAction func didTapEdit(_ sender: UIButton) {
+    let buttonPosition = sender.convert(CGPoint(), to: collectionView)
+    if let indexPath = collectionView?.indexPathForItem(at: buttonPosition) {
+      editingIndex = indexPath
+      inputTextField.becomeFirstResponder()
+      inputTextField.text = post.comments[indexPath.item].text
     }
   }
 
@@ -174,6 +229,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    editingIndex = nil
+    inputTextField.text = nil
     inputTextField.endEditing(true)
   }
 
@@ -195,10 +252,14 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
         cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                action: #selector(handleTapOnComment(recognizer:))))
         cell.label.tag = indexPath.item
+        cell.moreButton.isHidden = comment.from.userID != Auth.auth().currentUser?.uid
 
         let text = NSMutableAttributedString(string: from.fullname, attributes: attributes)
         text.append(NSAttributedString(string: " " + comment.text))
         cell.label.attributedText = text
+        cell.label.numberOfLines = 0
+        cell.label.lineBreakMode = .byWordWrapping;
+        cell.label.sizeToFit()
 
         if let profilePictureURL = from.profilePictureURL {
           UIImage.circleImage(with: profilePictureURL, to: cell.imageView)

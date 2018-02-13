@@ -275,20 +275,37 @@ class FPAccountViewController: MDCCollectionViewController {
     navigationController?.popViewController(animated: true)
   }
 
+
+  @IBAction func didTapSignOut() {
+    let alertController = MDCAlertController.init(title: "Log out of \(Auth.auth().currentUser?.displayName ?? "current user")?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
+    let logoutAction = MDCAlertAction(title:"Logout") { _ in
+      do {
+        try Auth.auth().signOut()
+      } catch {
+      }
+      guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
+      appDel.window?.rootViewController = FPSignInViewController()
+    }
+    alertController.addAction(logoutAction)
+    alertController.addAction(cancelAction)
+    present(alertController, animated:true, completion:nil)
+  }
+
   @IBAction func tapDeleteAccount() {
     let alertController = MDCAlertController.init(title: "Delete Account?", message: nil)
     let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
     let deleteAction = MDCAlertAction(title:"Delete") { _ in
       Auth.auth().currentUser?.delete(completion: { error in
-        if let error = error {
+        if error != nil {
           let errorController = MDCAlertController.init(title: "Deletion requires recent authentication", message: "Log in again before retrying.")
-          let okAction = MDCAlertAction(title:"OK") { _ in self.feedViewController?.didTapSignOut(()) }
+          let okAction = MDCAlertAction(title:"OK") { _ in self.didTapSignOut() }
           errorController.addAction(okAction)
           self.present(errorController, animated:true, completion:nil)
           return
         }
         MDCSnackbarManager.show(MDCSnackbarMessage(text: "Account deleted."))
-        self.feedViewController?.didTapSignOut(())
+        self.didTapSignOut()
       })
     }
 

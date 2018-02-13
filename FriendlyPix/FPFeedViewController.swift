@@ -51,9 +51,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       return LightboxImage(imageURL: $0.fullURL, text: "\($0.author.fullname): \($0.text)")
     }
 
+    LightboxConfig.InfoLabel.textAttributes[.font] = UIFont.systemFont(ofSize: 16)
     let lightbox = LightboxController(images: lightboxImages, startIndex: indexPath.item)
     lightbox.dynamicBackground = true
-    LightboxConfig.InfoLabel.textColor = .red
+
     self.present(lightbox, animated: true, completion: nil)
   }
 
@@ -65,7 +66,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     titleLabel.textColor = UIColor.white
     titleLabel.font = UIFont(name: "Amaranth", size: 24)
     titleLabel.sizeToFit()
-    navigationController?.navigationBar.titleTextAttributes![ NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 20)
+    navigationController?.navigationBar.titleTextAttributes![.font] = UIFont.systemFont(ofSize: 20)
     navigationItem.setLeftBarButton(UIBarButtonItem(customView: titleLabel), animated: false)
 
     bottomBarView.autoresizingMask = [ .flexibleWidth, .flexibleTopMargin ]
@@ -124,8 +125,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     if #available(iOS 10.0, *) {
       let refreshControl = UIRefreshControl()
-      let title = NSLocalizedString("PullToRefresh", comment: "Pull to refresh")
-      refreshControl.attributedTitle = NSAttributedString(string: title)
       refreshControl.addTarget(self,
                                action: #selector(refreshOptions(sender:)),
                                for: .valueChanged)
@@ -137,6 +136,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "ic_arrow_back")
 
     self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+
+    if FirebaseApp.app() != nil {
+      if let appDelegateTemp = UIApplication.shared.delegate as? AppDelegate, appDelegateTemp.notificationGranted {
+        ref.child("people/\(uid)/notificationEnabled").setValue(true)
+        appDelegateTemp.notificationGranted = false
+      }
+    }
   }
 
   @objc private func refreshOptions(sender: UIRefreshControl) {
@@ -282,6 +288,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       loadingPostCount = posts.count + 5
       query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
         if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
+          self.collectionView?.backgroundView = nil
           self.nextEntry = reversed[0].key
           var results = [Int: DataSnapshot]()
           let myGroup = DispatchGroup()
@@ -307,6 +314,15 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
               }
             }
           }, completion: nil)
+        } else if self.posts.isEmpty && !self.showFeed {
+          let messageLabel = UILabel()
+          messageLabel.text = "This feed will be populated as you follow more people."
+          messageLabel.textColor = UIColor.black
+          messageLabel.numberOfLines = 0
+          messageLabel.textAlignment = .center
+          messageLabel.font = UIFont.systemFont(ofSize: 20)
+          messageLabel.sizeToFit()
+          self.collectionView?.backgroundView = messageLabel
         }
       })
     }
@@ -359,7 +375,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   // MARK: UICollectionViewDataSource
-
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return posts.count
   }
@@ -373,15 +388,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       cell.delegate = self
     }
     return cell
-  }
-
-  @IBAction func didTapSignOut(_ sender: Any) {
-    do {
-      try Auth.auth().signOut()
-    } catch {
-    }
-    guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
-    appDel.window?.rootViewController = FPSignInViewController()
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
