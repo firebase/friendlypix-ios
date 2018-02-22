@@ -15,11 +15,11 @@
 //
 
 import MaterialComponents
-import MHPrettyDate
 import SDWebImage
 
 protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
+  func showLightbox(_ index: Int)
   func viewComments(_ post: FPPost)
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
   func deletePost(_ post: FPPost, completion: (() -> Swift.Void)? )
@@ -40,7 +40,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak private var comment3Label: UILabel!
   @IBOutlet weak private var viewAllCommentsLabel: UIButton!
   var commentLabels: [UILabel]?
-  let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]
+  let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14, weight: .medium)]
 
   var post: FPPost!
   weak var delegate: FPCardCollectionViewCellDelegate?
@@ -52,6 +52,10 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 
     authorImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileTapped)))
     authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileTapped)))
+    postImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped)))
+    authorImageView.isAccessibilityElement = true
+    authorImageView.accessibilityHint = "Double-tap to open profile."
+    
     commentLabels = [comment1Label, comment2Label, comment3Label]
 
     comment1Label.addGestureRecognizer(UITapGestureRecognizer(target: self,
@@ -62,16 +66,19 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
                                                               action: #selector(handleTapOnComment(recognizer:))))
   }
 
-  func populateContent(post: FPPost, isDryRun: Bool) {
+  func populateContent(post: FPPost, index: Int, isDryRun: Bool) {
     self.post = post
-    let postAuthor = post.author!
+    let postAuthor = post.author
     if !isDryRun, let profilePictureURL = postAuthor.profilePictureURL {
       UIImage.circleImage(with: profilePictureURL, to: authorImageView)
+      authorImageView.accessibilityLabel = postAuthor.fullname
     }
     authorLabel?.text = postAuthor.fullname
-    dateLabel?.text = MHPrettyDate.prettyDate(from: post.postDate, with: MHPrettyDateShortRelativeTime)
+    dateLabel?.text = post.postDate.timeAgo()
+    postImageView.tag = index
     if !isDryRun {
       postImageView?.sd_setImage(with: post.thumbURL, completed: nil)
+      postImageView.accessibilityLabel = "Photo by \(postAuthor.fullname)"
     }
 
     let title = NSMutableAttributedString(string: postAuthor.fullname, attributes: attributes)
@@ -83,8 +90,12 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     likesLabel?.text = post.likeCount == 1 ? "1 like" : "\(post.likeCount) likes"
     if post.isLiked {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
+      likeButton.accessibilityLabel = "you liked this post"
+      likeButton.accessibilityHint = "double-tap to unlike"
     } else {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite_border"), for: .normal)
+      likeButton.accessibilityLabel = "you haven't liked this post"
+      likeButton.accessibilityHint = "double-tap to like"
     }
 
     deleteButton.isHidden = !post.mine
@@ -168,7 +179,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     if let commentLabel = commentLabels?[index] {
       let comment = post.comments[index]
       commentLabel.isHidden = false
-      let text = NSMutableAttributedString(string: comment.from!.fullname, attributes: attributes)
+      let text = NSMutableAttributedString(string: comment.from.fullname, attributes: attributes)
       text.append(NSAttributedString(string: " " + comment.text))
       commentLabel.attributedText = text
     }
@@ -201,7 +212,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   @objc func profileTapped() {
-    delegate?.showProfile(post.author!)
+    delegate?.showProfile(post.author)
+  }
+
+  @objc func imageTapped() {
+    delegate?.showLightbox(postImageView.tag)
   }
 
   @objc func handleTapOnProfileLabel(recognizer: UITapGestureRecognizer) {
@@ -213,20 +228,13 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   @objc func handleTapOnComment(recognizer: UITapGestureRecognizer) {
-    if let index = recognizer.view?.tag, let from = post.comments[index].from,
-      recognizer.didTapAttributedTextInLabel(label: commentLabels![index],
+    if let index = recognizer.view?.tag {
+      let from = post.comments[index].from
+      if recognizer.didTapAttributedTextInLabel(label: commentLabels![index],
                                              inRange: NSRange(location: 0,
                                                               length: from.fullname.count)) {
-      delegate?.showProfile(from)
-    }
-  }
-
-  func handleTapOnPicture(recognizer: UITapGestureRecognizer) {
-    if let index = recognizer.view?.tag, let from = post.comments[index].from,
-      recognizer.didTapAttributedTextInLabel(label: commentLabels![index],
-                                             inRange: NSRange(location: 0,
-                                                              length: from.fullname.count)) {
-      delegate?.showProfile(from)
+        delegate?.showProfile(from)
+      }
     }
   }
 

@@ -30,29 +30,44 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   lazy var likesRef = self.ref.child("likes")
 
   var floatingButtonOffset: CGFloat = 0.0
+  var spinner: UIView!
 
   var query: DatabaseReference!
   var posts = [FPPost]()
   var loadingPostCount = 0
   var nextEntry: String?
-  var sizingNibNew: FPCardCollectionViewCell!
+  var sizingCell: FPCardCollectionViewCell!
   let bottomBarView = MDCBottomAppBarView()
   var alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
   var showFeed = false
-  let homeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_home"), style: .plain, target: self, action: #selector(homeAction))
-  let searchButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(searchAction))
-  let feedButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
+  let homeButton = { () -> UIBarButtonItem in
+    let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_home"), style: .plain, target: self, action: #selector(homeAction))
+    button.accessibilityLabel = "Home tab"
+    return button
+  }()
+  let searchButton = { () -> UIBarButtonItem in
+    let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(searchAction))
+    button.accessibilityLabel = "Search people"
+    return button
+  }()
+  let feedButton = { () -> UIBarButtonItem in
+    let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
+    button.accessibilityLabel = "Feed tab"
+    return button
+  }()
   let blue = MDCPalette.blue.tint600
   var observers = [DatabaseQuery]()
   var newPost = false
+  var followChanged = false
+  var isFirstOpen = true
 
-  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  func showLightbox(_ index: Int) {
     let lightboxImages = posts.map {
       return LightboxImage(imageURL: $0.fullURL, text: "\($0.author.fullname): \($0.text)")
     }
 
     LightboxConfig.InfoLabel.textAttributes[.font] = UIFont.systemFont(ofSize: 16)
-    let lightbox = LightboxController(images: lightboxImages, startIndex: indexPath.item)
+    let lightbox = LightboxController(images: lightboxImages, startIndex: index)
     lightbox.dynamicBackground = true
 
     self.present(lightbox, animated: true, completion: nil)
@@ -67,7 +82,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     titleLabel.font = UIFont(name: "Amaranth", size: 24)
     titleLabel.sizeToFit()
     navigationController?.navigationBar.titleTextAttributes![.font] = UIFont.systemFont(ofSize: 20)
-    navigationItem.setLeftBarButton(UIBarButtonItem(customView: titleLabel), animated: false)
+    navigationItem.leftBarButtonItems = [UIBarButtonItem.init(customView: UIImageView.init(image: #imageLiteral(resourceName: "image_logo"))), UIBarButtonItem(customView: titleLabel)]
 
     bottomBarView.autoresizingMask = [ .flexibleWidth, .flexibleTopMargin ]
     view.addSubview(bottomBarView)
@@ -80,6 +95,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     // Set the image on the floating button.
     bottomBarView.floatingButton.setImage(#imageLiteral(resourceName: "ic_photo_camera"), for: .normal)
     bottomBarView.floatingButton.setImage(#imageLiteral(resourceName: "ic_photo_camera_white"), for: .highlighted)
+    bottomBarView.floatingButton.accessibilityLabel = "Open camera"
 
     // Set the position of the floating button.
     bottomBarView.floatingButtonPosition = .center
@@ -90,8 +106,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     // Configure the navigation buttons to be shown on the bottom app bar.
 
-    let profileButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_insert_photo_white_36pt"), style: .plain, target: self, action: #selector(clickUser))
-    //let spacer = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10)))
+    let profileButton = { () -> UIBarButtonItem in
+      let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_account_circle_36pt"), style: .plain, target: self, action: #selector(clickUser))
+      button.accessibilityLabel = ""
+      button.accessibilityHint = "Double-tap to open your profile."
+      return button
+    }()
 
     navigationController?.setToolbarHidden(true, animated: false)
     homeButton.tintColor = blue
@@ -110,7 +130,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       return
     }
     collectionView.register(nib, forCellWithReuseIdentifier: "cell")
-    sizingNibNew = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0]
+    sizingCell = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0]
       as? FPCardCollectionViewCell
 
     self.styler.cellStyle = .card
@@ -121,7 +141,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
                                      insetForSectionAt: 0)
     let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right,
                            height: collectionView.bounds.height)
-    sizingNibNew.frame = cellFrame
+    sizingCell.frame = cellFrame
 
     if #available(iOS 10.0, *) {
       let refreshControl = UIRefreshControl()
@@ -185,6 +205,11 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       newPost = false
       return
     }
+    if !showFeed && followChanged {
+      reloadFeed()
+      followChanged = false
+      return
+    }
     loadData()
   }
 
@@ -227,6 +252,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func loadData() {
+    spinner = displaySpinner()
     if showFeed {
       query = postsRef
       loadFeed()
@@ -241,15 +267,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func listenDeletes() {
     postsRef.observe(.childRemoved, with: { postSnapshot in
-      var index = 0
-      for post in self.posts {
-        if post.postID == postSnapshot.key {
-          self.posts.remove(at: index)
-          self.loadingPostCount -= 1
-          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
-          break
-        }
-        index += 1
+      if let index = self.posts.index(where: {$0.postID == postSnapshot.key}) {
+        self.posts.remove(at: index)
+        self.loadingPostCount -= 1
+        self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
       }
     })
   }
@@ -263,6 +284,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func loadFeed() {
     if observers.isEmpty && !posts.isEmpty {
+      removeSpinner(spinner: spinner)
       self.collectionView?.performBatchUpdates({
         var index = posts.count - 1
         for post in posts.reversed() {
@@ -270,7 +292,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
             let indexPath = [IndexPath(item: current, section: 0)]
             if $0.exists() {
-              self.updatePost(post, at: indexPath)
+              self.updatePost(post, postSnapshot: $0, at: indexPath)
+              self.listenPost(post, at: indexPath)
             } else {
               self.posts.remove(at: current)
               self.loadingPostCount -= 1
@@ -285,8 +308,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if let queryEnding = nextEntry {
         query = query?.queryEnding(atValue: queryEnding)
       }
-      loadingPostCount = posts.count + 5
-      query?.queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { snapshot in
+      loadingPostCount = posts.count + 3
+      query?.queryLimited(toLast: 4).observeSingleEvent(of: .value, with: { snapshot in
+        self.removeSpinner(spinner: self.spinner)
         if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
           self.collectionView?.backgroundView = nil
           self.nextEntry = reversed[0].key
@@ -315,39 +339,61 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
             }
           }, completion: nil)
         } else if self.posts.isEmpty && !self.showFeed {
-          let messageLabel = UILabel()
-          messageLabel.text = "This feed will be populated as you follow more people."
-          messageLabel.textColor = UIColor.black
-          messageLabel.numberOfLines = 0
-          messageLabel.textAlignment = .center
-          messageLabel.font = UIFont.systemFont(ofSize: 20)
-          messageLabel.sizeToFit()
-          self.collectionView?.backgroundView = messageLabel
+          if self.isFirstOpen {
+            self.feedAction()
+          } else {
+            let messageLabel = UILabel()
+            messageLabel.text = "This feed will be populated as you follow more people."
+            messageLabel.textColor = UIColor.black
+            messageLabel.numberOfLines = 0
+            messageLabel.textAlignment = .center
+            messageLabel.font = UIFont.systemFont(ofSize: 20)
+            messageLabel.sizeToFit()
+            self.collectionView?.backgroundView = messageLabel
+          }
         }
       })
     }
   }
 
-  func updatePost(_ post: FPPost, at: [IndexPath]) {
-    var commentQuery: DatabaseQuery = self.commentsRef.child(post.postID)
+  func listenPost(_ post: FPPost, at: [IndexPath]) {
+    let commentQuery: DatabaseQuery = self.commentsRef.child(post.postID)
+    var lastCommentQuery = commentQuery
     let lastCommentId = post.comments.last?.commentID
     if let lastCommentId = lastCommentId {
-      commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
+      lastCommentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
     }
-    commentQuery.observe(.childAdded, with: { dataSnaphot in
+    lastCommentQuery.observe(.childAdded, with: { dataSnaphot in
       if dataSnaphot.key != lastCommentId {
         post.comments.append(FPComment(snapshot: dataSnaphot))
         self.collectionView?.reloadItems(at: at)
+        self.collectionViewLayout.invalidateLayout()
+      }
+    })
+    commentQuery.observe(.childChanged, with: { dataSnaphot in
+      if let index = post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        post.comments[index] = .init(snapshot: dataSnaphot)
+        self.collectionView?.reloadItems(at: at)
+        self.collectionViewLayout.invalidateLayout()
+      }
+    })
+    commentQuery.observe(.childRemoved, with: { dataSnaphot in
+      if let index = post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        post.comments.remove(at: index)
+        self.collectionView?.reloadItems(at: at)
+        self.collectionViewLayout.invalidateLayout()
       }
     })
     self.observers.append(commentQuery)
+    self.observers.append(lastCommentQuery)
     let likesQuery = self.likesRef.child(post.postID)
     likesQuery.observe(.value, with: {
       let count = Int($0.childrenCount)
-      if post.likeCount != count {
+      if post.likeCount != count || post.isLiked != $0.hasChild(self.uid){
         post.likeCount = count
         post.isLiked = $0.hasChild(self.uid)
         self.collectionView?.reloadItems(at: at)
+        self.collectionViewLayout.invalidateLayout()
       }
     })
     self.observers.append(likesQuery)
@@ -368,9 +414,26 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         self.posts.append(post)
         let last = self.posts.count - 1
         let lastIndex = [IndexPath(item: last, section: 0)]
-        self.updatePost(post, at: lastIndex)
+        self.listenPost(post, at: lastIndex)
         self.collectionView?.insertItems(at: lastIndex)
       })
+    })
+  }
+
+  func updatePost(_ post: FPPost, postSnapshot: DataSnapshot, at: [IndexPath]) {
+    let postId = postSnapshot.key
+    commentsRef.child(postId).observeSingleEvent(of: .value, with: { commentsSnapshot in
+      var commentsArray = [FPComment]()
+      let enumerator = commentsSnapshot.children
+      while let commentSnapshot = enumerator.nextObject() as? DataSnapshot {
+        let comment = FPComment(snapshot: commentSnapshot)
+        commentsArray.append(comment)
+      }
+      if post.comments != commentsArray {
+        post.comments = commentsArray
+        self.collectionView?.reloadItems(at: at)
+        self.collectionViewLayout.invalidateLayout()
+      }
     })
   }
 
@@ -384,7 +447,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     if let cell = cell as? FPCardCollectionViewCell {
       let post = posts[indexPath.item]
-      cell.populateContent(post: post, isDryRun: false)
+      cell.populateContent(post: post, index: indexPath.item, isDryRun: false)
       cell.delegate = self
     }
     return cell
@@ -392,17 +455,17 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
     let post = posts[indexPath.item]
-    sizingNibNew.populateContent(post: post, isDryRun: true)
+    sizingCell.populateContent(post: post, index: indexPath.item, isDryRun: true)
 
-    sizingNibNew.setNeedsUpdateConstraints()
-    sizingNibNew.updateConstraintsIfNeeded()
-    sizingNibNew.contentView.setNeedsLayout()
-    sizingNibNew.contentView.layoutIfNeeded()
+    sizingCell.setNeedsUpdateConstraints()
+    sizingCell.updateConstraintsIfNeeded()
+    sizingCell.contentView.setNeedsLayout()
+    sizingCell.contentView.layoutIfNeeded()
 
     var fittingSize = UILayoutFittingCompressedSize
-    fittingSize.width = sizingNibNew.frame.width
+    fittingSize.width = sizingCell.frame.width
 
-    let size = sizingNibNew.contentView.systemLayoutSizeFitting(fittingSize)
+    let size = sizingCell.contentView.systemLayoutSizeFitting(fittingSize)
     return size.height
   }
 
@@ -453,12 +516,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         }
       }
       let storage = Storage.storage()
-      if let fullURL = post.fullURL {
-        storage.reference(forURL: fullURL.absoluteString).delete()
-      }
-      if let thumbURL = post.thumbURL {
-        storage.reference(forURL: thumbURL.absoluteString).delete()
-      }
+      storage.reference(forURL: post.fullURL.absoluteString).delete()
+      storage.reference(forURL: post.thumbURL.absoluteString).delete()
     }
 
     alertController.addAction(deleteAction)
@@ -467,6 +526,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    isFirstOpen = false
     guard let identifier = segue.identifier else { return }
     switch identifier {
     case "account":
@@ -475,7 +535,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       }
     case "comment":
       if let commentViewController = segue.destination as? FPCommentViewController, let post = sender as? FPPost {
-       commentViewController.post = post
+        commentViewController.post = post
       }
     case "upload":
       if let viewController = segue.destination as? FPUploadViewController, let image = sender as? UIImage {
@@ -638,7 +698,6 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
         // received invitation type. For example, in an email invite this appears as the subject.
         invite.setMessage("Try this out!\n -\(Auth.auth().currentUser!.displayName ?? "")")
         // Title for the dialog, this is what the user sees before sending the invites.
-        //let x 
         //invite.setCustomImage(#imageLiteral(resourceName: "ic_insert_photo_white").imageAsset.)
         invite.setTitle("Friendly Pix")
         invite.setDeepLink("app_url")
@@ -657,6 +716,26 @@ extension MDCCollectionViewController {
   internal func cleanCollectionView() {
     if collectionView!.numberOfItems(inSection: 0) > 0 {
       collectionView!.reloadSections([0])
+    }
+  }
+
+  func displaySpinner() -> UIView {
+    let spinnerView = UIView.init(frame: view.bounds)
+    spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+    let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+    ai.startAnimating()
+    ai.center = spinnerView.center
+
+    DispatchQueue.main.async {
+      spinnerView.addSubview(ai)
+      self.view.addSubview(spinnerView)
+    }
+    return spinnerView
+  }
+
+  func removeSpinner(spinner :UIView) {
+    DispatchQueue.main.async {
+      spinner.removeFromSuperview()
     }
   }
 }

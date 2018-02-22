@@ -19,6 +19,5 @@ target 'FriendlyPix' do
   pod 'MaterialComponents/Dialogs'
   pod 'MaterialComponents/Snackbar'
   pod 'MaterialComponents/TextFields'
-  pod 'MHPrettyDate'
   pod 'SDWebImage'
 end

@@ -20,14 +20,15 @@ import MaterialComponents.MaterialCollections
 
 class FPAccountViewController: MDCCollectionViewController {
   @IBOutlet private weak var deleteAccountButton: UIButton!
+  var headerView: FPAccountHeader!
   var profile: FPUser!
-  var headerView: FPCollectionReusableView!
   let uid = Auth.auth().currentUser!.uid
   let ref = Database.database().reference()
   var postIds: [String: Any]?
   var postSnapshots = [DataSnapshot]()
   var loadingPostCount = 0
   var firebaseRefs = [DatabaseReference]()
+  var insets: UIEdgeInsets!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,6 +37,10 @@ class FPAccountViewController: MDCCollectionViewController {
     if profile.userID == uid {
       deleteAccountButton.isHidden = false
     }
+    navigationItem.title = profile.fullname.localizedCapitalized
+    insets = self.collectionView(collectionView!,
+                                 layout: collectionViewLayout,
+                                 insetForSectionAt: 0)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -51,43 +56,6 @@ class FPAccountViewController: MDCCollectionViewController {
     firebaseRefs = [DatabaseReference]()
   }
 
-  override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-                               at indexPath: IndexPath) -> UICollectionReusableView {
-    if kind == UICollectionElementKindSectionHeader,
-      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
-                                                                       withReuseIdentifier: "HeaderView",
-                                                                       for: indexPath) as? FPCollectionReusableView {
-      self.headerView = headerView
-      navigationItem.title = profile.fullname.localizedCapitalized
-      if profile.userID == uid {
-        headerView.followLabel.text = "Enable notifications"
-      }
-      headerView.profilePictureImageView.sd_setImage(with: profile.profilePictureURL, completed: nil)
-      return headerView
-    }
-    return UICollectionReusableView()
-
-  }
-
-  @objc override func collectionView(_ collectionView: UICollectionView,
-                                     layout  collectionViewLayout: UICollectionViewLayout,
-                                     referenceSizeForHeaderInSection section: Int) -> CGSize {
-    let size = CGSize(width: collectionView.frame.size.width, height: 112)
-    return size
-  }
-
-  @IBAction func didTapProfile(_ sender: Any) {
-    guard !postSnapshots.isEmpty else { return }
-    let lightboxImages: [LightboxImage] = postSnapshots.flatMap {
-      guard let value = $0.value as? [String:Any], let fullURL = (value["full_url"] as? String).flatMap(URL.init) else { return nil }
-      return LightboxImage(imageURL: fullURL, text: "\(profile.fullname): \(value["text"] ?? "")")
-    }
-
-    let lightbox = LightboxController(images: lightboxImages)
-    lightbox.dynamicBackground = true
-    self.present(lightbox, animated: true, completion: nil)
-  }
-
   @IBAction func valueChanged(_ sender: Any) {
     if profile.userID == uid {
       let notificationEnabled = ref.child("people/\(uid)/notificationEnabled")
@@ -100,6 +68,13 @@ class FPAccountViewController: MDCCollectionViewController {
     }
 
     toggleFollow(headerView.followSwitch.isOn)
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    if indexPath.section == 0 {
+      return CGSize(width: collectionView.bounds.size.width - insets.left - insets.right, height: 112)
+    }
+    return super.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
   }
 
   func registerToFollowStatusUpdate() {
@@ -149,7 +124,7 @@ class FPAccountViewController: MDCCollectionViewController {
         if post.key == postSnapshot.key {
           self.postSnapshots.remove(at: index)
           self.loadingPostCount -= 1
-          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 1)])
           return
         }
         index += 1
@@ -168,7 +143,7 @@ class FPAccountViewController: MDCCollectionViewController {
             for post in self.postSnapshots.reversed() {
               if posts.removeValue(forKey: post.key) == nil {
                 self.postSnapshots.remove(at: index)
-                self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+                self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 1)])
                 return
               }
               index -= 1
@@ -199,7 +174,7 @@ class FPAccountViewController: MDCCollectionViewController {
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
                                forItemAt indexPath: IndexPath) {
-    if indexPath.item == (loadingPostCount - 3) {
+    if indexPath.section == 1 && indexPath.item == (loadingPostCount - 3) {
       loadFeed()
     }
   }
@@ -211,7 +186,7 @@ class FPAccountViewController: MDCCollectionViewController {
         if let postId = self.postIds?.popFirst()?.key {
           self.ref.child("posts/" + (postId)).observeSingleEvent(of: .value, with: { postSnapshot in
             self.postSnapshots.append(postSnapshot)
-            self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 0)])
+            self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 1)])
           })
         } else {
           break
@@ -220,24 +195,48 @@ class FPAccountViewController: MDCCollectionViewController {
     }, completion: nil)
   }
 
+  override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 2
+  }
+
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    if section == 0 {
+      return 1
+    }
     return postSnapshots.count
   }
 
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-    let postSnapshot = postSnapshots[indexPath.item]
-    if let value = postSnapshot.value as? [String: Any], let photoUrl = value["thumb_url"] as? String {
-      let imageView = UIImageView()
-      cell.backgroundView = imageView
-      imageView.sd_setImage(with: URL(string: photoUrl), completed: nil)
-      imageView.contentMode = .scaleAspectFill
+    if indexPath.section == 0 {
+      let header = collectionView.dequeueReusableCell(withReuseIdentifier: "header", for: indexPath) as! FPAccountHeader
+      headerView = header
+      if profile.userID == uid {
+        header.followLabel.text = "Enable notifications"
+        header.followSwitch.accessibilityLabel = header.followSwitch.isOn ? "Notifications are on" : "Notifications are off"
+        header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "disable" : "enable") notifications"
+      }
+      header.profilePictureImageView.sd_setImage(with: profile.profilePictureURL, completed: nil)
+      header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "un" : "")follow"
+      header.followSwitch.accessibilityLabel = "\(header.followSwitch.isOn ? "" : "not ")following \(profile.fullname)"
+      return header
+    } else {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+      let postSnapshot = postSnapshots[indexPath.item]
+      if let value = postSnapshot.value as? [String: Any], let photoUrl = value["thumb_url"] as? String {
+        let imageView = UIImageView()
+        cell.backgroundView = imageView
+        imageView.sd_setImage(with: URL(string: photoUrl), completed: nil)
+        imageView.contentMode = .scaleAspectFill
+        imageView.isAccessibilityElement = true
+        imageView.accessibilityLabel = "Photo by \(profile.fullname)"
+      }
+      return cell
     }
-    return cell
   }
 
   func toggleFollow(_ follow: Bool) {
+    feedViewController?.followChanged = true
     let myFeed = "feed/\(uid)/"
     ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: { snapshot in
       var lastPostID: Any = true
@@ -268,7 +267,9 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    performSegue(withIdentifier: "detail", sender: postSnapshots[indexPath.item])
+    if indexPath.section != 0 {
+      performSegue(withIdentifier: "detail", sender: postSnapshots[indexPath.item])
+    }
   }
 
   func backButtonAction(_ sender: Any) {

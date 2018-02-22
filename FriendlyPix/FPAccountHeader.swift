@@ -15,8 +15,9 @@
 //
 
 import UIKit
+import MaterialComponents
 
-class FPCollectionReusableView: UICollectionReusableView {
+class FPAccountHeader: MDCCollectionViewCell {
   @IBOutlet weak var postsLabel: UILabel!
   @IBOutlet weak var followingLabel: UILabel!
   @IBOutlet weak var followersLabel: UILabel!

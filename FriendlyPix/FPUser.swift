@@ -16,26 +16,23 @@
 
 import Firebase
 
-class FPUser: NSObject {
-  var userID = ""
-  var fullname = ""
+class FPUser {
+  var userID: String
+  var fullname: String
   var profilePictureURL: URL?
 
   init(snapshot: DataSnapshot) {
     self.userID = snapshot.key
-    guard let value = snapshot.value as? [String: Any] else { return }
-    guard let fullname = value["full_name"] as? String else { return }
-    self.fullname = fullname
+    let value = snapshot.value as! [String: Any]
+    self.fullname = value["full_name"] as! String
     guard let profile_picture = value["profile_picture"] as? String,
       let profilePictureURL = URL(string: profile_picture) else { return }
     self.profilePictureURL = profilePictureURL
   }
 
   init(dictionary: [String: String]) {
-    guard let uid = dictionary["uid"] else { return }
-    self.userID = uid
-    guard let fullname = dictionary["full_name"] else { return }
-    self.fullname = fullname
+    self.userID = dictionary["uid"]!
+    self.fullname = dictionary["full_name"]!
     guard let profile_picture = dictionary["profile_picture"],
       let profilePictureURL = URL(string: profile_picture) else { return }
     self.profilePictureURL = profilePictureURL
@@ -54,5 +51,10 @@ class FPUser: NSObject {
   func author() -> [String: String] {
     return ["uid": userID, "full_name": fullname, "profile_picture": profilePictureURL?.absoluteString ?? ""]
   }
+}
 
+extension FPUser: Equatable {
+  static func ==(lhs: FPUser, rhs: FPUser) -> Bool {
+    return lhs.userID == rhs.userID
+  }
 }

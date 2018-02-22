@@ -14,6 +14,7 @@
 //  limitations under the License.
 //
 
+import Firebase
 import MaterialComponents
 
 class FPCommentCell: MDCCollectionViewCell {
@@ -21,4 +22,19 @@ class FPCommentCell: MDCCollectionViewCell {
   @IBOutlet weak var moreButton: UIButton!
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
+  let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14, weight: .medium)]
+
+  func populateContent(from: FPUser, text: String, date: Date, index: Int, isDryRun: Bool) {
+    let attrText = NSMutableAttributedString(string: from.fullname , attributes: attributes)
+    attrText.append(NSAttributedString(string: " " + text))
+    label.attributedText = attrText
+    if let profilePictureURL = from.profilePictureURL, !isDryRun {
+      UIImage.circleImage(with: profilePictureURL, to: imageView)
+      imageView.accessibilityLabel = from.fullname
+      imageView.accessibilityHint = "Double-tap to open profile."
+    }
+    imageView.tag = index
+    label.tag = index
+    dateLabel.text = date.timeAgo()
+  }
 }

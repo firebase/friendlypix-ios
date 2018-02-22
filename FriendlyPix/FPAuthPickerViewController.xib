@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -21,29 +22,37 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The friendliest way to share your pics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-WR-tar">
-                    <rect key="frame" x="58" y="319" width="279" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="The friendliest way to share your pics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-WR-tar">
+                    <rect key="frame" x="48.333333333333343" y="340" width="278.33333333333326" height="17"/>
                     <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="0.79834653249999998" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Friendly Pix" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="114-C8-0hD">
-                    <rect key="frame" x="116" y="251" width="186" height="60"/>
+                    <rect key="frame" x="94.666666666666686" y="281" width="186" height="35"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="60" id="KW9-4k-f7K"/>
+                        <constraint firstAttribute="height" constant="35" id="KW9-4k-f7K"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="34"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_insert_photo_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="T4p-Jh-hKT">
-                    <rect key="frame" x="85" y="260" width="36" height="36"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Y7s-Jb-aBs">
+                    <rect key="frame" x="65.666666666666671" y="281" width="29" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Y7s-Jb-aBs" secondAttribute="height" multiplier="1:1" id="OpP-Kp-cSy"/>
+                        <constraint firstAttribute="width" constant="29" id="h5G-1s-UOe"/>
+                    </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a sample app. Please do not post personal data." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64w-nh-eqr">
-                    <rect key="frame" x="65" y="362" width="249" height="41"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This app is showcasing Firebase Platform. Please do not post personal data." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9GM-ZR-zRD">
+                    <rect key="frame" x="22.666666666666657" y="381" width="330" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="YSK-Qp-oD8"/>
+                        <constraint firstAttribute="width" constant="330" id="fma-dJ-ZZk"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                     <nil key="highlightedColor"/>
@@ -51,20 +60,19 @@
             </subviews>
             <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="64w-nh-eqr" secondAttribute="trailing" constant="61" id="1x3-1S-Enl"/>
-                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="T4p-Jh-hKT" secondAttribute="bottom" constant="23" id="9eC-WH-mzd"/>
-                <constraint firstItem="T4p-Jh-hKT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="85" id="E8f-V0-QJ5"/>
-                <constraint firstItem="kpQ-WR-tar" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="58" id="GgY-w3-j8P"/>
-                <constraint firstItem="64w-nh-eqr" firstAttribute="top" secondItem="kpQ-WR-tar" secondAttribute="bottom" constant="26" id="UMs-5H-5S8"/>
-                <constraint firstAttribute="trailing" secondItem="114-C8-0hD" secondAttribute="trailing" constant="73" id="Wtu-BK-8zX"/>
-                <constraint firstItem="64w-nh-eqr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="65" id="dID-LZ-jyY"/>
-                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="8" symbolic="YES" id="eD5-Qy-yMe"/>
-                <constraint firstItem="114-C8-0hD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="251" id="o9c-kx-WCS"/>
+                <constraint firstItem="kpQ-WR-tar" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="UVD-Tw-GVu"/>
+                <constraint firstItem="9GM-ZR-zRD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Wnp-k2-PTp"/>
+                <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="24" id="eD5-Qy-yMe"/>
+                <constraint firstItem="Y7s-Jb-aBs" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="top" id="gNp-fp-X7C"/>
+                <constraint firstItem="9GM-ZR-zRD" firstAttribute="top" secondItem="kpQ-WR-tar" secondAttribute="bottom" constant="24" id="hIM-8k-ztj"/>
+                <constraint firstItem="9GM-ZR-zRD" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="s4d-Uq-8TX"/>
+                <constraint firstItem="114-C8-0hD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sjq-Hp-tee"/>
+                <constraint firstItem="114-C8-0hD" firstAttribute="leading" secondItem="Y7s-Jb-aBs" secondAttribute="trailing" id="u6D-tS-ghY"/>
             </constraints>
             <point key="canvasLocation" x="34.5" y="53.5"/>
         </view>
     </objects>
     <resources>
-        <image name="ic_insert_photo_white_36pt" width="36" height="36"/>
+        <image name="image_logo" width="29" height="29"/>
     </resources>
 </document>

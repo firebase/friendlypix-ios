@@ -15,7 +15,7 @@
 		105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756421F7EF5D400DF3352 /* UIImage+Circle.swift */; };
 		105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19411F8422D0008C282C /* FPAccountViewController.swift */; };
 		106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106820581FAA9E950065C393 /* FPSearchViewController.swift */; };
-		10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */; };
+		10721AB11FA28A0800C2911A /* FPAccountHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB01FA28A0800C2911A /* FPAccountHeader.swift */; };
 		107B7B891FB6686B00434803 /* FPSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B7B881FB6686B00434803 /* FPSearchCell.swift */; };
 		1082A0391FB0F8D2000C594F /* FPUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */; };
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
@@ -26,6 +26,7 @@
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
 		10E32C85200685A7008E62E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10E32C84200685A7008E62E2 /* GoogleService-Info.plist */; };
 		10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */; };
+		10F919132034D2C100147230 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F919122034D2C100147230 /* DateExtension.swift */; };
 		10FD8FD71F7E840800BCB991 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD61F7E840800BCB991 /* AppDelegate.swift */; };
 		10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD81F7E840800BCB991 /* FPFeedViewController.swift */; };
 		10FD8FDE1F7E840800BCB991 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FDC1F7E840800BCB991 /* Main.storyboard */; };
@@ -42,7 +43,7 @@
 		105756421F7EF5D400DF3352 /* UIImage+Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Circle.swift"; sourceTree = "<group>"; };
 		105D19411F8422D0008C282C /* FPAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountViewController.swift; sourceTree = "<group>"; };
 		106820581FAA9E950065C393 /* FPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchViewController.swift; sourceTree = "<group>"; };
-		10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCollectionReusableView.swift; sourceTree = "<group>"; };
+		10721AB01FA28A0800C2911A /* FPAccountHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountHeader.swift; sourceTree = "<group>"; };
 		107B7B881FB6686B00434803 /* FPSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchCell.swift; sourceTree = "<group>"; };
 		1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPUploadViewController.swift; sourceTree = "<group>"; };
 		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
@@ -54,6 +55,7 @@
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
 		10E32C84200685A7008E62E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPCardCollectionViewCell.xib; sourceTree = "<group>"; };
+		10F919122034D2C100147230 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		10FD8FD31F7E840800BCB991 /* FriendlyPix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendlyPix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10FD8FD61F7E840800BCB991 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10FD8FD81F7E840800BCB991 /* FPFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPFeedViewController.swift; sourceTree = "<group>"; };
@@ -113,12 +115,13 @@
 				10FD8FE41F7E840800BCB991 /* Info.plist */,
 				10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */,
 				1047E9891FB614C20084B4DD /* LaunchScreen.xib */,
-				10721AB01FA28A0800C2911A /* FPCollectionReusableView.swift */,
+				10721AB01FA28A0800C2911A /* FPAccountHeader.swift */,
 				109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */,
 				106820581FAA9E950065C393 /* FPSearchViewController.swift */,
 				10FEA3D31FAB927200BAD9FD /* FPPostDetailViewController.swift */,
 				1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */,
 				107B7B881FB6686B00434803 /* FPSearchCell.swift */,
+				10F919122034D2C100147230 /* DateExtension.swift */,
 			);
 			path = FriendlyPix;
 			sourceTree = "<group>";
@@ -219,7 +222,7 @@
 				105756351F7E93B900DF3352 /* FPUser.swift in Sources */,
 				102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */,
 				109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */,
-				10721AB11FA28A0800C2911A /* FPCollectionReusableView.swift in Sources */,
+				10721AB11FA28A0800C2911A /* FPAccountHeader.swift in Sources */,
 				10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */,
 				10FEA3D41FAB927200BAD9FD /* FPPostDetailViewController.swift in Sources */,
 				106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */,
@@ -228,6 +231,7 @@
 				1082A0391FB0F8D2000C594F /* FPUploadViewController.swift in Sources */,
 				105756431F7EF5D400DF3352 /* UIImage+Circle.swift in Sources */,
 				10FD8FD91F7E840800BCB991 /* FPFeedViewController.swift in Sources */,
+				10F919132034D2C100147230 /* DateExtension.swift in Sources */,
 				105756331F7E8F7500DF3352 /* FPComment.swift in Sources */,
 				10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */,
 				107B7B891FB6686B00434803 /* FPSearchCell.swift in Sources */,
@@ -252,7 +256,6 @@
 		10FD8FE51F7E840800BCB991 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -310,7 +313,6 @@
 		10FD8FE61F7E840800BCB991 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -361,9 +363,7 @@
 		10FD8FE81F7E840800BCB991 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = FriendlyPix/FriendlyPix.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -382,9 +382,7 @@
 		10FD8FE91F7E840800BCB991 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = FriendlyPix/FriendlyPix.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;

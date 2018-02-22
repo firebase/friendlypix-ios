@@ -16,14 +16,14 @@
 
 import Firebase
 import MaterialComponents
-import MHPrettyDate
 
 class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate {
   var post: FPPost!
+  var comments: [FPComment]!
 
-  var comments: DatabaseReference!
+  var commentsRef: DatabaseReference!
   var commentQuery: DatabaseQuery!
-  let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]
+  let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14, weight: .medium)]
   var bottomConstraint: NSLayoutConstraint!
   var heightConstraint: NSLayoutConstraint!
   var inputBottomConstraint: NSLayoutConstraint!
@@ -34,6 +34,10 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     view.backgroundColor = .white
     return view
   }()
+
+  var sizingCell: FPCardCollectionViewCell!
+
+  var insets: UIEdgeInsets!
 
   var bottomAreaInset: CGFloat = 0
 
@@ -48,6 +52,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   let sendButton: UIButton = {
     let button = UIButton(type: .system)
     button.setTitle("Post", for: .normal)
+    button.accessibilityHint = "Double-tap to post your comment"
     button.setTitleColor(UIColor.init(red: 0, green: 137/255, blue: 249/255, alpha: 1), for: .normal)
     button.titleLabel?.font = .boldSystemFont(ofSize: 16)
     button.addTarget(self, action: #selector(enterPressed), for: .touchUpInside)
@@ -61,26 +66,35 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
   // Override permissions at specific index paths.
   override func collectionView(_ collectionView: UICollectionView, canSwipeToDismissItemAt indexPath: IndexPath) -> Bool {
-    return indexPath.item != 0 && post.comments[indexPath.item].from.userID == Auth.auth().currentUser?.uid
+    return indexPath.section != 0 && comments[indexPath.item].from.userID == Auth.auth().currentUser?.uid
   }
 
   // Remove swiped index paths from our data.
   override func collectionView(_ collectionView: UICollectionView, willDeleteItemsAt indexPaths: [IndexPath]) {
     for indexPath in indexPaths {
-      let commentID = post.comments[indexPath.item].commentID
-      self.post.comments.remove(at: indexPath.item)
-      comments.child(commentID).removeValue()
+      let commentID = comments[indexPath.item].commentID
+      self.comments.remove(at: indexPath.item)
+      commentsRef.child(commentID).removeValue()
     }
+  }
+
+  override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 2
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    comments = post.comments
+
+    guard let collectionView = collectionView else {
+      return
+    }
 
     if #available(iOS 11.0, *) {
       bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
     }
 
-    comments = Database.database().reference(withPath: "comments/\(post.postID)")
+    commentsRef = Database.database().reference(withPath: "comments/\(post.postID)")
     styler.cellStyle = .card
 
     inputTextField.delegate = self
@@ -89,9 +103,14 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
                                            name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification),
                                            name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
-      flowLayout.estimatedItemSize = CGSize(width: 300, height: 50)
-    }
+    insets = self.collectionView(collectionView,
+                                 layout: collectionViewLayout,
+                                 insetForSectionAt: 0)
+
+    let col = collectionViewLayout as! UICollectionViewFlowLayout
+    col.estimatedItemSize = CGSize.init(width: collectionView.bounds.width - insets.left - insets.right, height: 52)
+
+
 
     view.addSubview(messageInputContainerView)
     view.addConstraintsWithFormat(format: "H:|[v0]|", views: messageInputContainerView)
@@ -133,8 +152,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     editingIndex = nil
-    let lastCommentId = post.comments.last?.commentID
-    commentQuery = comments
+    let lastCommentId = comments.last?.commentID
+    commentQuery = commentsRef
     if let lastCommentId = lastCommentId {
       commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
     } else {
@@ -142,21 +161,22 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     }
     commentQuery.observe(.childAdded, with: { dataSnaphot in
       if dataSnaphot.key != lastCommentId {
-        self.post.comments.append(FPComment(snapshot: dataSnaphot))
-        self.collectionView?.insertItems(at: [IndexPath(item: self.post.comments.count - 1, section: 0)])
+        self.comments.append(FPComment(snapshot: dataSnaphot))
+        self.collectionView?.insertItems(at: [IndexPath(item: self.comments.count - 1, section: 1)])
       }
     })
-    comments.observe(.childRemoved) { dataSnaphot in
-      if let index = self.post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
-        self.post.comments.remove(at: index)
-        self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+    commentsRef.observe(.childRemoved) { dataSnaphot in
+      if let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        self.comments.remove(at: index)
+        self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 1)])
       }
     }
-    comments.observe(.childChanged) { dataSnaphot in
+    commentsRef.observe(.childChanged) { dataSnaphot in
       if let value = dataSnaphot.value as? [String: Any],
-        let index = self.post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
-        self.post.comments[index].text = value["text"] as! String
-        self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+        let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        self.comments[index].text = value["text"] as! String
+        self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 1)])
+        self.collectionViewLayout.invalidateLayout()
       }
     }
   }
@@ -164,7 +184,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     self.navigationController?.setToolbarHidden(true, animated: false)
-    self.comments.removeAllObservers()
+    self.commentsRef.removeAllObservers()
     self.commentQuery.removeAllObservers()
   }
 
@@ -175,7 +195,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     let data = ["timestamp": ServerValue.timestamp(),
                 "author": ["uid": currentUser.uid, "full_name": currentUser.displayName ?? "",
                            "profile_picture": currentUser.photoURL?.absoluteString], "text": text] as [String: Any]
-    let comment = editingIndex == nil ? comments.childByAutoId() : comments.child(post.comments[(editingIndex?.item)!].commentID)
+    let comment = editingIndex == nil ? commentsRef.childByAutoId() : commentsRef.child(comments[(editingIndex?.item)!].commentID)
+
     comment.setValue(data) { error, reference in
       if let error = error {
         print(error.localizedDescription)
@@ -199,8 +220,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
           self.view.layoutIfNeeded()
         }, completion: { completed in
           if isKeyboardShowing {
-            if !self.post.comments.isEmpty{
-              let indexPath = self.editingIndex ?? IndexPath(item: self.post.comments.count - 1, section: 0)
+            if !self.comments.isEmpty{
+              let indexPath = self.editingIndex ?? IndexPath(item: self.comments.count - 1, section: 1)
               self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
             }
           }
@@ -211,20 +232,24 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
   @IBAction func didTapEdit(_ sender: UIButton) {
     let buttonPosition = sender.convert(CGPoint(), to: collectionView)
-    if let indexPath = collectionView?.indexPathForItem(at: buttonPosition) {
+    if let indexPath = collectionView?.indexPathForItem(at: buttonPosition), indexPath.section == 1 {
       editingIndex = indexPath
       inputTextField.becomeFirstResponder()
-      inputTextField.text = post.comments[indexPath.item].text
+      inputTextField.text = comments[indexPath.item].text
     }
   }
 
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return post.comments.count
+    if section == 0 {
+      return 1
+    }
+    return comments.count
   }
 
   @objc func showProfile(sender: UITapGestureRecognizer) {
     if let index = sender.view?.tag {
-      feedViewController?.performSegue(withIdentifier: "account", sender: post.comments[index].from)
+      let sender = index == -1 ? post.author : comments[index].from
+      feedViewController?.performSegue(withIdentifier: "account", sender: sender)
     }
   }
 
@@ -235,40 +260,48 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   }
 
   @objc func handleTapOnComment(recognizer: UITapGestureRecognizer) {
-    if let label = recognizer.view as? UILabel, let from = post.comments[label.tag].from,
-      recognizer.didTapAttributedTextInLabel(label: label,
+    guard let label = recognizer.view as? UILabel else { return }
+    let from = label.tag == -1 ? post.author : comments[label.tag].from
+    if recognizer.didTapAttributedTextInLabel(label: label,
                                              inRange: NSRange(location: 0,
                                                               length: from.fullname.count)) {
       feedViewController?.performSegue(withIdentifier: "account", sender: from)
     }
   }
 
+  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+    let comment = comments[indexPath.item]
+    let from = indexPath.section == 0 ? post.author : comment.from
+    let label = UILabel()
+    let text = NSMutableAttributedString(string: from.fullname , attributes: attributes)
+    text.append(NSAttributedString(string: " " + (indexPath.section == 0 ? post.text : comment.text)))
+
+    label.attributedText = text
+    label.numberOfLines = 0
+    label.contentMode = .left
+    label.lineBreakMode = .byWordWrapping
+    label.baselineAdjustment = .alignBaselines
+    label.font = UIFont.systemFont(ofSize: 14)
+    let size = label.sizeThatFits(CGSize(width: collectionView.bounds.width - insets.left - insets.right - 8 - 36 - 16 - 40, height: .greatestFiniteMagnitude))
+    return size.height + 35.333333
+  }
+
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     if let cell = cell as? FPCommentCell {
-      let comment = post.comments[indexPath.item]
-      if let from = comment.from {
-        cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                               action: #selector(handleTapOnComment(recognizer:))))
-        cell.label.tag = indexPath.item
+      cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                             action: #selector(handleTapOnComment(recognizer:))))
+      cell.imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showProfile(sender:))))
+
+      cell.label.preferredMaxLayoutWidth = collectionView.bounds.width - insets.left - insets.right - 8 - 36 - 16 - 40
+      if indexPath.section == 0 {
+        cell.populateContent(from: post.author, text: post.text, date: post.postDate, index: -1, isDryRun: false)
+      } else {
+        let comment = comments[indexPath.item]
+        cell.populateContent(from: comment.from, text: comment.text, date: comment.postDate, index: indexPath.item, isDryRun: false)
         cell.moreButton.isHidden = comment.from.userID != Auth.auth().currentUser?.uid
-
-        let text = NSMutableAttributedString(string: from.fullname, attributes: attributes)
-        text.append(NSAttributedString(string: " " + comment.text))
-        cell.label.attributedText = text
-        cell.label.numberOfLines = 0
-        cell.label.lineBreakMode = .byWordWrapping;
-        cell.label.sizeToFit()
-
-        if let profilePictureURL = from.profilePictureURL {
-          UIImage.circleImage(with: profilePictureURL, to: cell.imageView)
-        }
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showProfile(sender:)))
-        cell.imageView.tag = indexPath.item
-        cell.imageView.addGestureRecognizer(tapGestureRecognizer)
       }
-      cell.dateLabel.text = MHPrettyDate.prettyDate(from: comment.postDate, with: MHPrettyDateShortRelativeTime)
     }
     return cell
   }

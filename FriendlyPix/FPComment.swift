@@ -15,21 +15,26 @@
 //
 
 import Firebase
-import MHPrettyDate
 
 class FPComment {
-  var commentID = ""
-  var text = ""
-  var postDate: Date!
-  var from: FPUser!
+  var commentID: String
+  var text: String
+  var postDate: Date
+  var from: FPUser
 
   init(snapshot: DataSnapshot) {
     self.commentID = snapshot.key
-    guard let value = snapshot.value as? [String: Any] else { return }
+    let value = snapshot.value as! [String: Any]
     self.text = value["text"] as? String ?? ""
-    guard let timestamp = value["timestamp"] as? Double else { return }
+    let timestamp = value["timestamp"] as! Double
     self.postDate = Date(timeIntervalSince1970: timestamp / 1_000.0)
-    guard let author = value["author"] as? [String: String] else { return }
+    let author = value["author"] as! [String: String]
     self.from = FPUser(dictionary: author)
+  }
+}
+
+extension FPComment: Equatable {
+  static func ==(lhs: FPComment, rhs: FPComment) -> Bool {
+    return lhs.commentID == rhs.commentID && lhs.postDate == rhs.postDate
   }
 }

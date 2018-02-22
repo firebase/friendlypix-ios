@@ -17,13 +17,13 @@
 import Firebase
 
 class FPPost {
-  var postID = ""
-  var postDate: Date!
-  var thumbURL: URL!
-  var fullURL: URL!
-  var author: FPUser!
-  var text = ""
-  var comments: [FPComment]!
+  var postID: String
+  var postDate: Date
+  var thumbURL: URL
+  var fullURL: URL
+  var author: FPUser
+  var text: String
+  var comments: [FPComment]
   var isLiked = false
   var mine = false
   var likeCount = 0
@@ -34,15 +34,13 @@ class FPPost {
 
   init(id: String, value: [String: Any], andComments comments: [FPComment], andLikes likes: [String: Any]?) {
     self.postID = id
-    if let text = value["text"] as? String {
-      self.text = text
-    }
-    guard let timestamp = value["timestamp"] as? Double else { return }
+    self.text = value["text"] as! String
+    let timestamp = value["timestamp"] as! Double
     self.postDate = Date(timeIntervalSince1970: (timestamp / 1_000.0))
-    guard let author = value["author"] as? [String: String] else { return }
+    let author = value["author"] as! [String: String]
     self.author = FPUser(dictionary: author)
-    self.thumbURL = (value["thumb_url"] as? String).flatMap(URL.init)
-    self.fullURL = (value["full_url"] as? String).flatMap(URL.init)
+    self.thumbURL = URL(string: value["thumb_url"] as! String)!
+    self.fullURL = URL(string: value["full_url"] as! String)!
     self.comments = comments
     if let likes = likes {
       likeCount = likes.count
@@ -51,5 +49,11 @@ class FPPost {
       }
     }
     self.mine = self.author.userID == Auth.auth().currentUser?.uid
+  }
+}
+
+extension FPPost: Equatable {
+  static func ==(lhs: FPPost, rhs: FPPost) -> Bool {
+    return lhs.postID == rhs.postID
   }
 }
