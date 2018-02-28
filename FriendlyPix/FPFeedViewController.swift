@@ -30,7 +30,21 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   lazy var likesRef = self.ref.child("likes")
 
   var floatingButtonOffset: CGFloat = 0.0
-  var spinner: UIView!
+  var spinner: UIView?
+  static let postsPerLoad: Int = 3
+  static let postsLimit: UInt = 4
+  var lightboxCurrentPage: Int?
+
+  let emptyHomeLabel: UILabel = {
+    let messageLabel = UILabel()
+    messageLabel.text = "This feed will be populated as you follow more people."
+    messageLabel.textColor = UIColor.black
+    messageLabel.numberOfLines = 0
+    messageLabel.textAlignment = .center
+    messageLabel.font = UIFont.systemFont(ofSize: 20)
+    messageLabel.sizeToFit()
+    return messageLabel
+  }()
 
   var query: DatabaseReference!
   var posts = [FPPost]()
@@ -69,8 +83,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     LightboxConfig.InfoLabel.textAttributes[.font] = UIFont.systemFont(ofSize: 16)
     let lightbox = LightboxController(images: lightboxImages, startIndex: index)
     lightbox.dynamicBackground = true
+    lightbox.dismissalDelegate = self
 
-    self.present(lightbox, animated: true, completion: nil)
+    self.present(lightbox, animated: true, completion: {print("xxcvsdv")})
   }
 
   override func awakeFromNib() {
@@ -222,6 +237,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
     observers = [DatabaseQuery]()
     MDCSnackbarManager.setBottomOffset(0)
+    if let spinner = spinner {
+      removeSpinner(spinner: spinner)
+    }
   }
 
   @objc private func homeAction() {
@@ -284,7 +302,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func loadFeed() {
     if observers.isEmpty && !posts.isEmpty {
-      removeSpinner(spinner: spinner)
+      if let spinner = spinner {
+        removeSpinner(spinner: spinner)
+      }
       self.collectionView?.performBatchUpdates({
         var index = posts.count - 1
         for post in posts.reversed() {
@@ -298,6 +318,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
               self.posts.remove(at: current)
               self.loadingPostCount -= 1
               self.collectionView?.deleteItems(at: indexPath)
+              if self.posts.isEmpty {
+                self.collectionView?.backgroundView = self.emptyHomeLabel
+              }
             }
           })
           index -= 1
@@ -308,16 +331,19 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if let queryEnding = nextEntry {
         query = query?.queryEnding(atValue: queryEnding)
       }
-      loadingPostCount = posts.count + 3
-      query?.queryLimited(toLast: 4).observeSingleEvent(of: .value, with: { snapshot in
-        self.removeSpinner(spinner: self.spinner)
+      loadingPostCount = posts.count + FPFeedViewController.postsPerLoad
+      query?.queryLimited(toLast: FPFeedViewController.postsLimit).observeSingleEvent(of: .value, with: { snapshot in
+        if let spinner = self.spinner {
+          self.removeSpinner(spinner: spinner)
+        }
         if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
           self.collectionView?.backgroundView = nil
           self.nextEntry = reversed[0].key
           var results = [Int: DataSnapshot]()
           let myGroup = DispatchGroup()
+          let extraElement = reversed.count > FPFeedViewController.postsPerLoad ? 1 : 0
           self.collectionView?.performBatchUpdates({
-            for index in stride(from: reversed.count - 1, through: 1, by: -1) {
+            for index in stride(from: reversed.count - 1, through: extraElement, by: -1) {
               let item = reversed[index]
               if self.showFeed {
                 self.loadPost(item)
@@ -332,7 +358,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
             }
             myGroup.notify(queue: .main) {
               if !self.showFeed {
-                for index in 0..<(reversed.count - 1) {
+                for index in 0..<(reversed.count - extraElement) {
+                  if let spinner = self.spinner {
+                    self.removeSpinner(spinner: spinner)
+                  }
                   self.loadPost(results[index]!)
                 }
               }
@@ -341,15 +370,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         } else if self.posts.isEmpty && !self.showFeed {
           if self.isFirstOpen {
             self.feedAction()
+            self.isFirstOpen = false
           } else {
-            let messageLabel = UILabel()
-            messageLabel.text = "This feed will be populated as you follow more people."
-            messageLabel.textColor = UIColor.black
-            messageLabel.numberOfLines = 0
-            messageLabel.textAlignment = .center
-            messageLabel.font = UIFont.systemFont(ofSize: 20)
-            messageLabel.sizeToFit()
-            self.collectionView?.backgroundView = messageLabel
+            self.collectionView?.backgroundView = self.emptyHomeLabel
           }
         }
       })
@@ -393,7 +416,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         post.likeCount = count
         post.isLiked = $0.hasChild(self.uid)
         self.collectionView?.reloadItems(at: at)
-        self.collectionViewLayout.invalidateLayout()
       }
     })
     self.observers.append(likesQuery)
@@ -624,6 +646,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 }
 
+extension FPFeedViewController: LightboxControllerDismissalDelegate{
+  func lightboxControllerWillDismiss(_ controller: LightboxController) {
+    self.collectionView?.scrollToItem(at: IndexPath.init(item: controller.currentPage, section: 0), at: .top, animated: false)
+  }
+}
+
 extension FPFeedViewController: ImagePickerDelegate {
   @objc func didTapFloatingButton() {
     var config = Configuration()
@@ -733,7 +761,7 @@ extension MDCCollectionViewController {
     return spinnerView
   }
 
-  func removeSpinner(spinner :UIView) {
+  func removeSpinner(spinner: UIView) {
     DispatchQueue.main.async {
       spinner.removeFromSuperview()
     }

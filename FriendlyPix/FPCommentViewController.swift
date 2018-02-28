@@ -9,7 +9,7 @@
 //
 //  Unless required by applicable law or agreed to in writing, software
 //  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, eitheimputVir express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
@@ -28,12 +28,15 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   var heightConstraint: NSLayoutConstraint!
   var inputBottomConstraint: NSLayoutConstraint!
   var sendBottomConstraint: NSLayoutConstraint!
-  var editingIndex: IndexPath?
+  var editingIndex: IndexPath!
   let messageInputContainerView: UIView = {
     let view = UIView()
     view.backgroundColor = .white
     return view
   }()
+  var isEditingComment = false
+
+  let commentDeleteText = MDCSnackbarMessage.init(text: "Comment deleted")
 
   var sizingCell: FPCardCollectionViewCell!
 
@@ -48,6 +51,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     textField.addTarget(self, action: #selector(enterPressed), for: .touchUpInside)
     return textField
   }()
+
+  var updatedLabel: UILabel!
 
   let sendButton: UIButton = {
     let button = UIButton(type: .system)
@@ -75,6 +80,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
       let commentID = comments[indexPath.item].commentID
       self.comments.remove(at: indexPath.item)
       commentsRef.child(commentID).removeValue()
+      MDCSnackbarManager.show(commentDeleteText)      
     }
   }
 
@@ -149,9 +155,12 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0(0.5)]", views: topBorderView)
   }
 
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    editingIndex = nil
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
+                                    collectionView)
+    isEditingComment = false
     let lastCommentId = comments.last?.commentID
     commentQuery = commentsRef
     if let lastCommentId = lastCommentId {
@@ -162,7 +171,11 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     commentQuery.observe(.childAdded, with: { dataSnaphot in
       if dataSnaphot.key != lastCommentId {
         self.comments.append(FPComment(snapshot: dataSnaphot))
-        self.collectionView?.insertItems(at: [IndexPath(item: self.comments.count - 1, section: 1)])
+        let index = IndexPath(item: self.comments.count - 1, section: 1)
+        self.collectionView?.insertItems(at: [index])
+        self.updatedLabel = (self.collectionView?.cellForItem(at: index) as! FPCommentCell).label
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
+                                        self.updatedLabel)
       }
     })
     commentsRef.observe(.childRemoved) { dataSnaphot in
@@ -175,8 +188,12 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
       if let value = dataSnaphot.value as? [String: Any],
         let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
         self.comments[index].text = value["text"] as! String
-        self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 1)])
+        let indexPath = IndexPath(item: index, section: 1)
+        self.collectionView?.reloadItems(at: [indexPath])
         self.collectionViewLayout.invalidateLayout()
+        self.updatedLabel = (self.collectionView?.cellForItem(at: indexPath) as! FPCommentCell).label
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
+                                        self.updatedLabel)
       }
     }
   }
@@ -192,18 +209,25 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     guard let currentUser = Auth.auth().currentUser else { return }
     guard let text = inputTextField.text else { return }
 
-    let data = ["timestamp": ServerValue.timestamp(),
-                "author": ["uid": currentUser.uid, "full_name": currentUser.displayName ?? "",
-                           "profile_picture": currentUser.photoURL?.absoluteString], "text": text] as [String: Any]
-    let comment = editingIndex == nil ? commentsRef.childByAutoId() : commentsRef.child(comments[(editingIndex?.item)!].commentID)
+    if !text.isEmpty {
+      let data = ["timestamp": ServerValue.timestamp(),
+                  "author": ["uid": currentUser.uid,
+                             "full_name": currentUser.displayName ?? "",
+                             "profile_picture": currentUser.photoURL?.absoluteString],
+                  "text": text] as [String: Any]
+      let comment = isEditingComment ? commentsRef.child(comments[editingIndex.item].commentID) : commentsRef.childByAutoId()
 
-    comment.setValue(data) { error, reference in
-      if let error = error {
-        print(error.localizedDescription)
-        return
+      comment.setValue(data) { error, reference in
+        if let error = error {
+          print(error.localizedDescription)
+          return
+        }
       }
+    } else if isEditingComment {
+      collectionView(collectionView!, willDeleteItemsAt: [editingIndex])
+      collectionView?.deleteItems(at: [editingIndex])
     }
-    editingIndex = nil
+    isEditingComment = false
     inputTextField.text = nil
     inputTextField.endEditing(true)
   }
@@ -221,8 +245,13 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
         }, completion: { completed in
           if isKeyboardShowing {
             if !self.comments.isEmpty{
-              let indexPath = self.editingIndex ?? IndexPath(item: self.comments.count - 1, section: 1)
-              self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+              let indexPath = self.isEditingComment ? self.editingIndex : IndexPath(item: self.comments.count - 1, section: 1)
+              self.collectionView?.scrollToItem(at: indexPath!, at: .bottom, animated: true)
+            }
+          } else {
+            if let updatedLabel = self.updatedLabel {
+              UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
+                                            updatedLabel)
             }
           }
         })
@@ -233,6 +262,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   @IBAction func didTapEdit(_ sender: UIButton) {
     let buttonPosition = sender.convert(CGPoint(), to: collectionView)
     if let indexPath = collectionView?.indexPathForItem(at: buttonPosition), indexPath.section == 1 {
+      isEditingComment = true
       editingIndex = indexPath
       inputTextField.becomeFirstResponder()
       inputTextField.text = comments[indexPath.item].text
@@ -254,7 +284,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    editingIndex = nil
+    isEditingComment = false
     inputTextField.text = nil
     inputTextField.endEditing(true)
   }
@@ -270,18 +300,17 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
-    let comment = comments[indexPath.item]
-    let from = indexPath.section == 0 ? post.author : comment.from
+    let from = indexPath.section == 0 ? post.author : comments[indexPath.item].from
     let label = UILabel()
     let text = NSMutableAttributedString(string: from.fullname , attributes: attributes)
-    text.append(NSAttributedString(string: " " + (indexPath.section == 0 ? post.text : comment.text)))
+    text.append(NSAttributedString(string: " " + (indexPath.section == 0 ? post.text : comments[indexPath.item].text)))
+    text.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, text.length))
 
     label.attributedText = text
     label.numberOfLines = 0
     label.contentMode = .left
     label.lineBreakMode = .byWordWrapping
     label.baselineAdjustment = .alignBaselines
-    label.font = UIFont.systemFont(ofSize: 14)
     let size = label.sizeThatFits(CGSize(width: collectionView.bounds.width - insets.left - insets.right - 8 - 36 - 16 - 40, height: .greatestFiniteMagnitude))
     return size.height + 35.333333
   }

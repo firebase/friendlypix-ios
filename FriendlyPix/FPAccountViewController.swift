@@ -97,6 +97,7 @@ class FPAccountViewController: MDCCollectionViewController {
     let followersRef = ref.child("followers/\(profile.userID)")
     followersRef.observe(.value, with: {
       self.headerView.followersLabel.text = "\($0.childrenCount)"
+      self.headerView.followersLabel.accessibilityLabel = "\($0.childrenCount) followers"
     })
     firebaseRefs.append(followersRef)
   }
@@ -105,6 +106,7 @@ class FPAccountViewController: MDCCollectionViewController {
     let followingRef = ref.child("people/\(profile.userID)/following")
     followingRef.observe(.value, with: {
       self.headerView.followingLabel.text = "\($0.childrenCount)"
+      self.headerView.followingLabel.accessibilityLabel = "\($0.childrenCount) following"
     })
     firebaseRefs.append(followingRef)
   }
@@ -113,6 +115,7 @@ class FPAccountViewController: MDCCollectionViewController {
     let userPostsRef = ref.child("people/\(profile.userID)/posts")
     userPostsRef.observe(.value, with: {
       self.headerView.postsLabel.text = "\($0.childrenCount)"
+      self.headerView.postsLabel.accessibilityLabel = "\($0.childrenCount) posts"
     })
   }
 
@@ -210,15 +213,17 @@ class FPAccountViewController: MDCCollectionViewController {
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if indexPath.section == 0 {
       let header = collectionView.dequeueReusableCell(withReuseIdentifier: "header", for: indexPath) as! FPAccountHeader
+      header.inkView?.removeFromSuperview()
       headerView = header
       if profile.userID == uid {
         header.followLabel.text = "Enable notifications"
         header.followSwitch.accessibilityLabel = header.followSwitch.isOn ? "Notifications are on" : "Notifications are off"
         header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "disable" : "enable") notifications"
+      } else {
+        header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "un" : "")follow"
+        header.followSwitch.accessibilityLabel = "\(header.followSwitch.isOn ? "" : "not ")following \(profile.fullname)"
       }
       header.profilePictureImageView.sd_setImage(with: profile.profilePictureURL, completed: nil)
-      header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "un" : "")follow"
-      header.followSwitch.accessibilityLabel = "\(header.followSwitch.isOn ? "" : "not ")following \(profile.fullname)"
       return header
     } else {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)

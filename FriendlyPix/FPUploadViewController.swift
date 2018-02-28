@@ -25,6 +25,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet weak private var button: MDCButton!
   let ref = Database.database().reference()
   let uid = Auth.auth().currentUser!.uid
+  var fullmetadata: StorageMetadata?
+  var thumbmetadata:  StorageMetadata?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -56,6 +58,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     metadata.contentType = "image/jpeg"
     let storageRef = Storage.storage().reference()
     let message = MDCSnackbarMessage()
+    let myGroup = DispatchGroup()
+    myGroup.enter()
     storageRef.child(fullFilePath).putData(resizedImageData, metadata: metadata) { fullmetadata, error in
       if let error = error {
         message.text = "Error uploading image"
@@ -64,26 +68,33 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
         print("Error uploading image: \(error.localizedDescription)")
         return
       }
-      storageRef.child(thumbFilePath).putData(thumbnailImageData, metadata: metadata) { thumbmetadata, error in
-        if let error = error {
-          message.text = "Error uploading thumbnail"
-          MDCSnackbarManager.show(message)
-          self.button.isEnabled = true
-          print("Error uploading thumbnail: \(error.localizedDescription)")
-          return
-        }
-        let fullUrl = fullmetadata?.downloadURLs?[0].absoluteString
-        let fullstorageUri = storageRef.child((fullmetadata?.path!)!).description
-        let thumbUrl = thumbmetadata?.downloadURLs?[0].absoluteString
-        let thumbstorageUri = storageRef.child((thumbmetadata?.path!)!).description
-        let trimmedComment = self.textField.text?.trimmingCharacters(in: CharacterSet.whitespaces)
-        let data = ["full_url": fullUrl ?? "", "full_storage_uri": fullstorageUri,
-                    "thumb_url": thumbUrl ?? "", "thumb_storage_uri": thumbstorageUri, "text": trimmedComment ?? "",
-                  "author": FPUser.currentUser().author(), "timestamp": ServerValue.timestamp()] as [String: Any]
-        postRef.setValue(data)
-        postRef.root.updateChildValues(["people/\(self.uid)/posts/\(postId)": true, "feed/\(self.uid)/\(postId)": true])
-        self.navigationController?.popViewController(animated: true)
+      self.fullmetadata = fullmetadata
+      myGroup.leave()
+    }
+    myGroup.enter()
+    storageRef.child(thumbFilePath).putData(thumbnailImageData, metadata: metadata) { thumbmetadata, error in
+      if let error = error {
+        message.text = "Error uploading thumbnail"
+        MDCSnackbarManager.show(message)
+        self.button.isEnabled = true
+        print("Error uploading thumbnail: \(error.localizedDescription)")
+        return
       }
+      self.thumbmetadata = thumbmetadata
+      myGroup.leave()
+    }
+    myGroup.notify(queue: .main) {
+      let fullUrl = self.fullmetadata?.downloadURLs?[0].absoluteString
+      let fullstorageUri = storageRef.child((self.fullmetadata?.path!)!).description
+      let thumbUrl = self.thumbmetadata?.downloadURLs?[0].absoluteString
+      let thumbstorageUri = storageRef.child((self.thumbmetadata?.path!)!).description
+      let trimmedComment = self.textField.text?.trimmingCharacters(in: CharacterSet.whitespaces)
+      let data = ["full_url": fullUrl ?? "", "full_storage_uri": fullstorageUri,
+                  "thumb_url": thumbUrl ?? "", "thumb_storage_uri": thumbstorageUri, "text": trimmedComment ?? "",
+                  "author": FPUser.currentUser().author(), "timestamp": ServerValue.timestamp()] as [String: Any]
+      postRef.setValue(data)
+      postRef.root.updateChildValues(["people/\(self.uid)/posts/\(postId)": true, "feed/\(self.uid)/\(postId)": true])
+      self.navigationController?.popViewController(animated: true)
     }
   }
 }

@@ -22,12 +22,15 @@ class FPCommentCell: MDCCollectionViewCell {
   @IBOutlet weak var moreButton: UIButton!
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
+
   let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14, weight: .medium)]
 
   func populateContent(from: FPUser, text: String, date: Date, index: Int, isDryRun: Bool) {
     let attrText = NSMutableAttributedString(string: from.fullname , attributes: attributes)
     attrText.append(NSAttributedString(string: " " + text))
+    attrText.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, attrText.length))
     label.attributedText = attrText
+    label.accessibilityLabel = "\(from.fullname) said, \(text)"
     if let profilePictureURL = from.profilePictureURL, !isDryRun {
       UIImage.circleImage(with: profilePictureURL, to: imageView)
       imageView.accessibilityLabel = from.fullname
@@ -37,4 +40,12 @@ class FPCommentCell: MDCCollectionViewCell {
     label.tag = index
     dateLabel.text = date.timeAgo()
   }
+}
+
+extension FPCommentCell {
+  static let paragraphStyle = { () -> NSMutableParagraphStyle in
+    let style = NSMutableParagraphStyle()
+    style.lineSpacing = 5
+    return style
+  }()
 }

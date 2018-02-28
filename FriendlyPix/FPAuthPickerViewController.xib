@@ -26,13 +26,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="The friendliest way to share your pics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-WR-tar">
-                    <rect key="frame" x="48.333333333333343" y="340" width="278.33333333333326" height="17"/>
+                    <rect key="frame" x="48.666666666666657" y="397.66666666666669" width="278" height="17"/>
                     <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="0.79834653249999998" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Friendly Pix" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="114-C8-0hD">
-                    <rect key="frame" x="94.666666666666686" y="281" width="186" height="35"/>
+                    <rect key="frame" x="94.666666666666686" y="338.66666666666669" width="186" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="KW9-4k-f7K"/>
                     </constraints>
@@ -41,31 +41,19 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Y7s-Jb-aBs">
-                    <rect key="frame" x="65.666666666666671" y="281" width="29" height="29"/>
+                    <rect key="frame" x="65.666666666666686" y="338.66666666666669" width="29" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Y7s-Jb-aBs" secondAttribute="height" multiplier="1:1" id="OpP-Kp-cSy"/>
                         <constraint firstAttribute="width" constant="29" id="h5G-1s-UOe"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This app is showcasing Firebase Platform. Please do not post personal data." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9GM-ZR-zRD">
-                    <rect key="frame" x="22.666666666666657" y="381" width="330" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="YSK-Qp-oD8"/>
-                        <constraint firstAttribute="width" constant="330" id="fma-dJ-ZZk"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="kpQ-WR-tar" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="4Tq-aU-yLy"/>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="UVD-Tw-GVu"/>
-                <constraint firstItem="9GM-ZR-zRD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Wnp-k2-PTp"/>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="24" id="eD5-Qy-yMe"/>
                 <constraint firstItem="Y7s-Jb-aBs" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="top" id="gNp-fp-X7C"/>
-                <constraint firstItem="9GM-ZR-zRD" firstAttribute="top" secondItem="kpQ-WR-tar" secondAttribute="bottom" constant="24" id="hIM-8k-ztj"/>
-                <constraint firstItem="9GM-ZR-zRD" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="s4d-Uq-8TX"/>
                 <constraint firstItem="114-C8-0hD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sjq-Hp-tee"/>
                 <constraint firstItem="114-C8-0hD" firstAttribute="leading" secondItem="Y7s-Jb-aBs" secondAttribute="trailing" id="u6D-tS-ghY"/>
             </constraints>

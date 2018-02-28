@@ -21,6 +21,16 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
   let searchController = UISearchController(searchResultsController: nil)
   let peopleRef = Database.database().reference(withPath: "people")
   var people = [FPUser]()
+  let emptyLabel: UILabel = {
+    let messageLabel = UILabel()
+    messageLabel.text = "No people found."
+    messageLabel.textColor = UIColor.black
+    messageLabel.numberOfLines = 0
+    messageLabel.textAlignment = .center
+    messageLabel.font = UIFont.systemFont(ofSize: 20)
+    messageLabel.sizeToFit()
+    return messageLabel
+  }()
   // We keep track of the pending work item as a property
   private var pendingRequestWorkItem: DispatchWorkItem?
 
@@ -34,7 +44,6 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
     searchController.hidesNavigationBarDuringPresentation = false
     searchController.searchBar.placeholder = "Search People"
 
-    //searchController.searchBar.searchTextPositionAdjustment = UIOffsetMake(-4, 0)
     UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).leftViewMode = .never
     searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_close"), for: .clear, state: .normal)
     navigationItem.titleView = searchController.searchBar
@@ -56,7 +65,6 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    navigationController?.navigationBar.barTintColor = .white
     DispatchQueue.global(qos: .default).async(execute: {() -> Void in
       DispatchQueue.main.async(execute: {() -> Void in
         self.searchController.searchBar.becomeFirstResponder()
@@ -65,22 +73,19 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
     navigationController?.navigationBar.tintColor = .gray
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.navigationBar.barTintColor = .white
+  }
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.barTintColor = UIColor.init(hex: "0288D1")
     navigationController?.navigationBar.tintColor = .white
   }
 
-  func searchBarIsEmpty() -> Bool {
-    // Returns true if the text is empty or nil
-    if let x = searchController.searchBar.text?.count, x > 2 {
-      return false
-    }
-    return true
-  }
-
   func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-    if searchBarIsEmpty() {
+    if searchText.isEmpty {
       return
     }
     let searchString = searchText.lowercased()
@@ -117,11 +122,8 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
     })
   }
 
-  func isFiltering() -> Bool {
-    return searchController.isActive && !searchBarIsEmpty()
-  }
-
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    collectionView.backgroundView = people.isEmpty ? emptyLabel : nil
     return people.count
   }
 

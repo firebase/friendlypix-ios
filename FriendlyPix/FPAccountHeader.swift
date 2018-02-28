@@ -23,5 +23,5 @@ class FPAccountHeader: MDCCollectionViewCell {
   @IBOutlet weak var followersLabel: UILabel!
   @IBOutlet weak var profilePictureImageView: UIImageView!
   @IBOutlet weak var followLabel: UILabel!
-  @IBOutlet weak var followSwitch: UISwitch!  
+  @IBOutlet weak var followSwitch: UISwitch!
 }

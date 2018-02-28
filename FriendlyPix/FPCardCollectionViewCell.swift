@@ -64,6 +64,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
                                                               action: #selector(handleTapOnComment(recognizer:))))
     comment3Label.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                               action: #selector(handleTapOnComment(recognizer:))))
+    print(self.bounds.width)
+    titleLabel.preferredMaxLayoutWidth = self.bounds.width - 24
+    comment1Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
+    comment2Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
+    comment3Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
   }
 
   func populateContent(post: FPPost, index: Int, isDryRun: Bool) {
@@ -83,7 +88,9 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 
     let title = NSMutableAttributedString(string: postAuthor.fullname, attributes: attributes)
     title.append(NSAttributedString(string: " " + post.text))
+    title.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, title.length))
     titleLabel?.attributedText = title
+    titleLabel?.accessibilityLabel = "\(post.text), posted by \(postAuthor.fullname)"
 
     titleLabel?.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                             action: #selector(handleTapOnProfileLabel(recognizer:))))
@@ -105,7 +112,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       labelConstraints = nil
     }
 
-    let betweenConstant: CGFloat = 1.0
+    let betweenConstant: CGFloat = 0
     let bottomConstant: CGFloat = -8
     let commentCount = post.comments.count
     switch commentCount {
@@ -179,8 +186,10 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     if let commentLabel = commentLabels?[index] {
       let comment = post.comments[index]
       commentLabel.isHidden = false
+      commentLabel.accessibilityLabel = "\(comment.from.fullname) said, \(comment.text)"
       let text = NSMutableAttributedString(string: comment.from.fullname, attributes: attributes)
       text.append(NSAttributedString(string: " " + comment.text))
+      text.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, text.length))
       commentLabel.attributedText = text
     }
   }
