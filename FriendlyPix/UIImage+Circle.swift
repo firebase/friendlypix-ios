@@ -91,14 +91,14 @@ extension UIImage {
   static func circleButton(with url: URL, to button: UIBarButtonItem) {
     let urlString = url.absoluteString
     if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
-      button.image = image.resizeImage(36)
+      button.setBackgroundImage(image.resizeImage(36), for: UIControlState.normal, barMetrics: UIBarMetrics.default)
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: url, options: .highPriority, progress: nil) { image, _, _, _ in
       if let image = image {
         let circleImage = image.circle
         SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
-        button.image = circleImage?.resizeImage(36)
+              button.setBackgroundImage(circleImage?.resizeImage(36), for: UIControlState.normal, barMetrics: UIBarMetrics.default)
       }
     }
   }

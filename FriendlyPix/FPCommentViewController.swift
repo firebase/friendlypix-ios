@@ -17,13 +17,14 @@
 import Firebase
 import MaterialComponents
 
-class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate {
+class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   var post: FPPost!
   var comments: [FPComment]!
 
   var commentsRef: DatabaseReference!
   var commentQuery: DatabaseQuery!
-  let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14, weight: .medium)]
+  let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
+  let attributes2 = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .footnote)]
   var bottomConstraint: NSLayoutConstraint!
   var heightConstraint: NSLayoutConstraint!
   var inputBottomConstraint: NSLayoutConstraint!
@@ -44,48 +45,59 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
   var bottomAreaInset: CGFloat = 0
 
-  let inputTextField: UITextField = {
-    let textField = UITextField()
-    textField.placeholder = "Add a comment"
-    textField.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
-    textField.addTarget(self, action: #selector(enterPressed), for: .touchUpInside)
-    return textField
+  let inputTextView: UITextView = {
+    let textView = UITextView(placeholder: "Add a comment")
+
+    textView.font = UIFont.preferredFont(forTextStyle: .footnote)
+    textView.isScrollEnabled = false
+    return textView
   }()
 
   var updatedLabel: UILabel!
 
   let sendButton: UIButton = {
-    let button = UIButton(type: .system)
-    button.setTitle("Post", for: .normal)
-    button.accessibilityHint = "Double-tap to post your comment"
-    button.setTitleColor(UIColor.init(red: 0, green: 137/255, blue: 249/255, alpha: 1), for: .normal)
-    button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+    let button = UIButton(type: .custom)
+    button.setImage(#imageLiteral(resourceName: "ic_send"), for: .normal)
+    button.tintColor = UIColor.init(red: 0, green: 137/255, blue: 249/255, alpha: 1)
+    button.accessibilityLabel = "Send comment"
+    button.isEnabled = false
     button.addTarget(self, action: #selector(enterPressed), for: .touchUpInside)
     return button
   }()
 
-  // Enable swipe-to-dismiss items.
-  override func collectionViewAllowsSwipe(toDismissItem collectionView: UICollectionView) -> Bool {
-    return true
-  }
-
-  // Override permissions at specific index paths.
-  override func collectionView(_ collectionView: UICollectionView, canSwipeToDismissItemAt indexPath: IndexPath) -> Bool {
-    return indexPath.section != 0 && comments[indexPath.item].from.userID == Auth.auth().currentUser?.uid
-  }
-
-  // Remove swiped index paths from our data.
-  override func collectionView(_ collectionView: UICollectionView, willDeleteItemsAt indexPaths: [IndexPath]) {
-    for indexPath in indexPaths {
-      let commentID = comments[indexPath.item].commentID
-      self.comments.remove(at: indexPath.item)
-      commentsRef.child(commentID).removeValue()
-      MDCSnackbarManager.show(commentDeleteText)      
+  func deleteComment(_ indexPath: IndexPath) {
+    let requestWorkItem = DispatchWorkItem { [weak self] in
+      let commentID = self?.comments[indexPath.item].commentID
+      self?.comments.remove(at: indexPath.item)
+      self?.collectionView?.deleteItems(at: [indexPath])
+      self?.commentsRef.child(commentID!).removeValue()
     }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4),
+                                  execute: requestWorkItem)
+
+    let action = MDCSnackbarMessageAction()
+    action.handler = { requestWorkItem.cancel() }
+    action.title = "Undo"
+    commentDeleteText.action = action
+    MDCSnackbarManager.show(commentDeleteText)
   }
 
   override func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 2
+  }
+
+  func textViewDidEndEditing(_ textView: UITextView) {
+    isEditingComment = false
+    sendButton.isEnabled = false
+    heightConstraint.constant = 48 + bottomAreaInset
+  }
+
+  func textViewDidChange(_ textView: UITextView) {
+    sendButton.isEnabled = !textView.text.isEmpty
+    let size = CGSize(width: view.frame.width - 60, height: .infinity)
+    let estimatedSize = textView.sizeThatFits(size)
+    heightConstraint.constant = estimatedSize.height + 14
   }
 
   override func viewDidLoad() {
@@ -103,7 +115,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     commentsRef = Database.database().reference(withPath: "comments/\(post.postID)")
     styler.cellStyle = .card
 
-    inputTextField.delegate = self
+    inputTextView.delegate = self
 
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification),
                                            name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -119,6 +131,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
 
     view.addSubview(messageInputContainerView)
+
     view.addConstraintsWithFormat(format: "H:|[v0]|", views: messageInputContainerView)
 
     heightConstraint = messageInputContainerView.heightAnchor.constraint(equalToConstant: 48 + bottomAreaInset)
@@ -132,24 +145,23 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   private func setupInputComponents() {
     let topBorderView = UIView()
     topBorderView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-    messageInputContainerView.addSubview(inputTextField)
+    messageInputContainerView.addSubview(inputTextView)
     messageInputContainerView.addSubview(sendButton)
     messageInputContainerView.addSubview(topBorderView)
 
-    messageInputContainerView.addConstraintsWithFormat(format:  "H:|-8-[v0][v1(60)]|", views: inputTextField, sendButton)
+    messageInputContainerView.addConstraintsWithFormat(format:  "H:|-8-[v0][v1(52)]|", views: inputTextView, sendButton)
     messageInputContainerView.addConstraintsWithFormat(format:  "H:|[v0]|", views: topBorderView)
     var bottomAreaInset: CGFloat = 0
     if #available(iOS 11.0, *) {
       bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
     }
 
-    inputTextField.topAnchor.constraint(equalTo: messageInputContainerView.topAnchor).isActive = true
-    sendButton.topAnchor.constraint(equalTo: messageInputContainerView.topAnchor).isActive = true
+    inputTextView.topAnchor.constraint(equalTo: messageInputContainerView.topAnchor, constant: 6).isActive = true
 
-    inputBottomConstraint = messageInputContainerView.bottomAnchor.constraint(equalTo: inputTextField.bottomAnchor, constant: bottomAreaInset)
+    inputBottomConstraint = messageInputContainerView.bottomAnchor.constraint(equalTo: inputTextView.bottomAnchor, constant: bottomAreaInset)
     inputBottomConstraint.isActive = true
 
-    sendBottomConstraint = messageInputContainerView.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: bottomAreaInset)
+    sendBottomConstraint = messageInputContainerView.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: bottomAreaInset + 12)
     sendBottomConstraint.isActive = true
 
     messageInputContainerView.addConstraintsWithFormat(format:  "V:|[v0(0.5)]", views: topBorderView)
@@ -160,13 +172,14 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     super.viewWillAppear(animated)
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
                                     collectionView)
+    MDCSnackbarManager.setBottomOffset(0)
     isEditingComment = false
     let lastCommentId = comments.last?.commentID
     commentQuery = commentsRef
     if let lastCommentId = lastCommentId {
       commentQuery = commentQuery.queryOrderedByKey().queryStarting(atValue: lastCommentId)
     } else {
-      inputTextField.becomeFirstResponder()
+      inputTextView.becomeFirstResponder()
     }
     commentQuery.observe(.childAdded, with: { dataSnaphot in
       if dataSnaphot.key != lastCommentId {
@@ -199,6 +212,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   }
 
   override func viewWillDisappear(_ animated: Bool) {
+    inputTextView.endEditing(true)
     super.viewWillDisappear(animated)
     self.navigationController?.setToolbarHidden(true, animated: false)
     self.commentsRef.removeAllObservers()
@@ -207,7 +221,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
 
   @objc func enterPressed() {
     guard let currentUser = Auth.auth().currentUser else { return }
-    guard let text = inputTextField.text else { return }
+    guard let text = inputTextView.text else { return }
 
     if !text.isEmpty {
       let data = ["timestamp": ServerValue.timestamp(),
@@ -223,22 +237,19 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
           return
         }
       }
-    } else if isEditingComment {
-      collectionView(collectionView!, willDeleteItemsAt: [editingIndex])
-      collectionView?.deleteItems(at: [editingIndex])
+      inputTextView.text = nil
     }
-    isEditingComment = false
-    inputTextField.text = nil
-    inputTextField.endEditing(true)
+    inputTextView.endEditing(true)
   }
 
   @objc func handleKeyboardNotification(notification: NSNotification) {
     if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
       let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
       bottomConstraint?.constant = isKeyboardShowing ? -keyboardSize.height : 0
-      heightConstraint?.constant = isKeyboardShowing ? 48 : 48 + bottomAreaInset
+      let inset = isKeyboardShowing ? -bottomAreaInset : bottomAreaInset
+      heightConstraint?.constant += inset
       inputBottomConstraint?.constant = isKeyboardShowing ? 0 : bottomAreaInset
-      sendBottomConstraint?.constant = isKeyboardShowing ? 0 : bottomAreaInset
+      sendBottomConstraint?.constant += inset
       if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
         UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
           self.view.layoutIfNeeded()
@@ -249,6 +260,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
               self.collectionView?.scrollToItem(at: indexPath!, at: .bottom, animated: true)
             }
           } else {
+            MDCSnackbarManager.setBottomOffset(0)
             if let updatedLabel = self.updatedLabel {
               UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
                                             updatedLabel)
@@ -262,11 +274,26 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   @IBAction func didTapEdit(_ sender: UIButton) {
     let buttonPosition = sender.convert(CGPoint(), to: collectionView)
     if let indexPath = collectionView?.indexPathForItem(at: buttonPosition), indexPath.section == 1 {
-      isEditingComment = true
-      editingIndex = indexPath
-      inputTextField.becomeFirstResponder()
-      inputTextField.text = comments[indexPath.item].text
+      let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+      alert.addAction(UIAlertAction(title: "Edit", style: .default , handler:{ (UIAlertAction)in
+        self.editComment(indexPath)
+      }))
+
+      alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction)in
+        self.deleteComment(indexPath)
+      }))
+
+      self.present(alert, animated: true, completion: nil)
     }
+  }
+
+  func editComment(_ indexPath: IndexPath) {
+    isEditingComment = true
+    editingIndex = indexPath
+    inputTextView.text = comments[indexPath.item].text
+    inputTextView.becomeFirstResponder()
+    textViewDidChange(inputTextView)
   }
 
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -274,6 +301,10 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
       return 1
     }
     return comments.count
+  }
+
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    textViewDidChange(textView)
   }
 
   @objc func showProfile(sender: UITapGestureRecognizer) {
@@ -284,9 +315,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    isEditingComment = false
-    inputTextField.text = nil
-    inputTextField.endEditing(true)
+    inputTextView.endEditing(true)
   }
 
   @objc func handleTapOnComment(recognizer: UITapGestureRecognizer) {
@@ -303,7 +332,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     let from = indexPath.section == 0 ? post.author : comments[indexPath.item].from
     let label = UILabel()
     let text = NSMutableAttributedString(string: from.fullname , attributes: attributes)
-    text.append(NSAttributedString(string: " " + (indexPath.section == 0 ? post.text : comments[indexPath.item].text)))
+    text.append(NSAttributedString(string: " " + (indexPath.section == 0 ? post.text : comments[indexPath.item].text), attributes: attributes2))
     text.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, text.length))
 
     label.attributedText = text
@@ -311,8 +340,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
     label.contentMode = .left
     label.lineBreakMode = .byWordWrapping
     label.baselineAdjustment = .alignBaselines
-    let size = label.sizeThatFits(CGSize(width: collectionView.bounds.width - insets.left - insets.right - 8 - 36 - 16 - 40, height: .greatestFiniteMagnitude))
-    return size.height + 35.333333
+    let size = label.sizeThatFits(CGSize(width: collectionView.bounds.width - insets.left - insets.right - 100, height: .greatestFiniteMagnitude))
+    return size.height + 32.333333
   }
 
   override func collectionView(_ collectionView: UICollectionView,
@@ -323,7 +352,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextFieldDelegate 
                                                              action: #selector(handleTapOnComment(recognizer:))))
       cell.imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showProfile(sender:))))
 
-      cell.label.preferredMaxLayoutWidth = collectionView.bounds.width - insets.left - insets.right - 8 - 36 - 16 - 40
+      cell.label.preferredMaxLayoutWidth = collectionView.bounds.width - insets.left - insets.right - 100
       if indexPath.section == 0 {
         cell.populateContent(from: post.author, text: post.text, date: post.postDate, index: -1, isDryRun: false)
       } else {

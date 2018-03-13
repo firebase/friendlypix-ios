@@ -27,6 +27,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   let uid = Auth.auth().currentUser!.uid
   var fullmetadata: StorageMetadata?
   var thumbmetadata:  StorageMetadata?
+  var spinner: UIView?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,12 +41,20 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     button.setElevation(ShadowElevation.raisedButtonPressed, for: .highlighted)
   }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    if let spinner = spinner {
+      removeSpinner(spinner)
+    }
+  }
+
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     uploadPressed(button)
     return true
   }
 
   @IBAction func uploadPressed(_ sender: Any) {
+    spinner = displaySpinner()
     button.isEnabled = false
     textField.endEditing(true)
     let postRef = ref.child("posts").childByAutoId()
@@ -84,6 +93,9 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
       myGroup.leave()
     }
     myGroup.notify(queue: .main) {
+      if let spinner = self.spinner {
+        self.removeSpinner(spinner)        
+      }
       let fullUrl = self.fullmetadata?.downloadURLs?[0].absoluteString
       let fullstorageUri = storageRef.child((self.fullmetadata?.path!)!).description
       let thumbUrl = self.thumbmetadata?.downloadURLs?[0].absoluteString

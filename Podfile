@@ -2,7 +2,6 @@ target 'FriendlyPix' do
   use_frameworks!
 
   pod 'Firebase/Auth'
-  pod 'Firebase/AdMob'
   pod 'Firebase/Database'
   pod 'Firebase/Invites'
   pod 'Firebase/Messaging'

@@ -26,22 +26,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="The friendliest way to share your pics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-WR-tar">
-                    <rect key="frame" x="48.666666666666657" y="397.66666666666669" width="278" height="17"/>
+                    <rect key="frame" x="49.333333333333343" y="397.66666666666669" width="278.33333333333326" height="17"/>
                     <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="0.79834653249999998" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Friendly Pix" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="114-C8-0hD">
-                    <rect key="frame" x="94.666666666666686" y="338.66666666666669" width="186" height="35"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="35" id="KW9-4k-f7K"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="34"/>
+                    <rect key="frame" x="103.66666666666669" y="342.66666666666669" width="169" height="31"/>
+                    <fontDescription key="fontDescription" name="Amaranth-Bold" family="Amaranth" pointSize="31"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Y7s-Jb-aBs">
-                    <rect key="frame" x="65.666666666666686" y="338.66666666666669" width="29" height="29"/>
+                    <rect key="frame" x="75.333333333333329" y="342.66666666666669" width="29" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Y7s-Jb-aBs" secondAttribute="height" multiplier="1:1" id="OpP-Kp-cSy"/>
                         <constraint firstAttribute="width" constant="29" id="h5G-1s-UOe"/>
@@ -53,11 +50,11 @@
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="4Tq-aU-yLy"/>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="UVD-Tw-GVu"/>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="24" id="eD5-Qy-yMe"/>
-                <constraint firstItem="Y7s-Jb-aBs" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="top" id="gNp-fp-X7C"/>
                 <constraint firstItem="114-C8-0hD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sjq-Hp-tee"/>
                 <constraint firstItem="114-C8-0hD" firstAttribute="leading" secondItem="Y7s-Jb-aBs" secondAttribute="trailing" id="u6D-tS-ghY"/>
+                <constraint firstItem="Y7s-Jb-aBs" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="top" id="vHf-ic-Xm3"/>
             </constraints>
-            <point key="canvasLocation" x="34.5" y="53.5"/>
+            <point key="canvasLocation" x="34.5" y="53"/>
         </view>
     </objects>
     <resources>

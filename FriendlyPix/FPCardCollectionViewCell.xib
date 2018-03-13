@@ -20,16 +20,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sz-OM-BtW">
-                        <rect key="frame" x="68" y="10" width="46" height="18"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sz-OM-BtW">
+                        <rect key="frame" x="68" y="10" width="47.5" height="19.5"/>
                         <gestureRecognizers/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cCo-VS-WYk">
                         <rect key="frame" x="16" y="8" width="36" height="36"/>
                         <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" image="YES"/>
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                         <gestureRecognizers/>
@@ -45,34 +46,28 @@
                         </accessibility>
                         <gestureRecognizers/>
                     </imageView>
-                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="likes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-bw-Z0o">
-                        <rect key="frame" x="16" y="299" width="30" height="19"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-bw-Z0o">
+                        <rect key="frame" x="16" y="299" width="27.5" height="19"/>
                         <gestureRecognizers/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T48-rQ-YPz">
-                        <rect key="frame" x="16" y="318" width="36" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T48-rQ-YPz">
+                        <rect key="frame" x="16" y="318" width="33" height="21"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment1" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPr-WU-9fW">
-                        <rect key="frame" x="16" y="361" width="70" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment1" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPr-WU-9fW">
+                        <rect key="frame" x="16" y="361" width="65" height="21"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment2" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Af-xI-Tq0">
-                        <rect key="frame" x="16" y="382" width="72" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment3" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBg-Le-ZNl">
-                        <rect key="frame" x="16" y="403" width="72" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <label opaque="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment2" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Af-xI-Tq0">
+                        <rect key="frame" x="16" y="382" width="67" height="21"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -103,22 +98,22 @@
                             <action selector="viewAllComments:" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="8Wr-bK-Ppg"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97U-my-Cm3">
-                        <rect key="frame" x="16" y="336" width="121" height="30"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97U-my-Cm3">
+                        <rect key="frame" x="16" y="336" width="114" height="30"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <state key="normal" title="View all comments">
-                            <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         </state>
                         <connections>
                             <action selector="viewAllComments:" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="UP2-Rh-TsJ"/>
                         </connections>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BKP-Ag-fGk">
-                        <rect key="frame" x="288" y="265" width="24" height="24"/>
+                        <rect key="frame" x="284" y="265" width="28" height="24"/>
                         <accessibility key="accessibilityConfiguration" label="Delete post"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="BKP-Ag-fGk" secondAttribute="height" multiplier="1:1" id="A1E-ut-4Ge"/>
-                            <constraint firstAttribute="width" constant="24" id="qU3-Hu-h1C"/>
+                            <constraint firstAttribute="width" constant="28" id="qU3-Hu-h1C"/>
                         </constraints>
                         <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <state key="normal" image="ic_delete"/>
@@ -126,10 +121,10 @@
                             <action selector="tappedDelete" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="pcl-qA-qxh"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMO-FO-hME">
-                        <rect key="frame" x="68" y="28" width="25.5" height="13.5"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
-                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMO-FO-hME">
+                        <rect key="frame" x="68" y="29.5" width="25" height="13.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                        <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -143,9 +138,7 @@
                 <constraint firstItem="hMO-FO-hME" firstAttribute="leading" secondItem="2sz-OM-BtW" secondAttribute="leading" id="Ec8-aP-Cr8"/>
                 <constraint firstItem="uLH-WT-gi5" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="1" id="FKm-4p-lNB"/>
                 <constraint firstAttribute="trailing" secondItem="uLH-WT-gi5" secondAttribute="trailing" constant="1" id="Gnr-po-5WB"/>
-                <constraint firstItem="7Af-xI-Tq0" firstAttribute="leading" secondItem="UBg-Le-ZNl" secondAttribute="leading" id="HOK-Oi-gNg"/>
                 <constraint firstAttribute="trailing" secondItem="BKP-Ag-fGk" secondAttribute="trailing" constant="8" id="Pi8-zG-hk4"/>
-                <constraint firstItem="7Af-xI-Tq0" firstAttribute="trailing" secondItem="UBg-Le-ZNl" secondAttribute="trailing" id="U15-gV-Mhi"/>
                 <constraint firstItem="hV4-bw-Z0o" firstAttribute="leading" secondItem="T48-rQ-YPz" secondAttribute="leading" id="VDc-55-EDN"/>
                 <constraint firstItem="5UZ-Mk-cdf" firstAttribute="centerY" secondItem="Rc6-zj-yAI" secondAttribute="centerY" constant="1" id="WCT-W1-D87"/>
                 <constraint firstItem="T48-rQ-YPz" firstAttribute="leading" secondItem="cCo-VS-WYk" secondAttribute="leading" id="ZxD-9V-6Xg"/>
@@ -167,7 +160,6 @@
                 <outlet property="authorLabel" destination="2sz-OM-BtW" id="9hs-58-cWP"/>
                 <outlet property="comment1Label" destination="VPr-WU-9fW" id="ddf-vT-5Zx"/>
                 <outlet property="comment2Label" destination="7Af-xI-Tq0" id="7ev-OA-3SN"/>
-                <outlet property="comment3Label" destination="UBg-Le-ZNl" id="8fG-wp-x5z"/>
                 <outlet property="dateLabel" destination="hMO-FO-hME" id="b4m-ce-ZqH"/>
                 <outlet property="deleteButton" destination="BKP-Ag-fGk" id="DsK-3b-Q1F"/>
                 <outlet property="likeButton" destination="Rc6-zj-yAI" id="H49-GT-TvS"/>
@@ -181,7 +173,7 @@
     </objects>
     <resources>
         <image name="ic_comment" width="36" height="36"/>
-        <image name="ic_delete" width="24" height="24"/>
+        <image name="ic_delete" width="36" height="36"/>
         <image name="ic_favorite_border" width="36" height="36"/>
     </resources>
 </document>

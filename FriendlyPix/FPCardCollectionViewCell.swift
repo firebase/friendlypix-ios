@@ -37,10 +37,9 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 
   @IBOutlet weak private var comment1Label: UILabel!
   @IBOutlet weak private var comment2Label: UILabel!
-  @IBOutlet weak private var comment3Label: UILabel!
   @IBOutlet weak private var viewAllCommentsLabel: UIButton!
   var commentLabels: [UILabel]?
-  let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14, weight: .medium)]
+  let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
 
   var post: FPPost!
   weak var delegate: FPCardCollectionViewCellDelegate?
@@ -56,19 +55,15 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     authorImageView.isAccessibilityElement = true
     authorImageView.accessibilityHint = "Double-tap to open profile."
     
-    commentLabels = [comment1Label, comment2Label, comment3Label]
+    commentLabels = [comment1Label, comment2Label]
 
     comment1Label.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                               action: #selector(handleTapOnComment(recognizer:))))
     comment2Label.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                               action: #selector(handleTapOnComment(recognizer:))))
-    comment3Label.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                              action: #selector(handleTapOnComment(recognizer:))))
-    print(self.bounds.width)
-    titleLabel.preferredMaxLayoutWidth = self.bounds.width - 24
+    titleLabel.preferredMaxLayoutWidth = self.bounds.width - 16
     comment1Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
     comment2Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
-    comment3Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
   }
 
   func populateContent(post: FPPost, index: Int, isDryRun: Bool) {
@@ -112,72 +107,50 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       labelConstraints = nil
     }
 
-    let betweenConstant: CGFloat = 0
-    let bottomConstant: CGFloat = -8
+    let betweenConstant: CGFloat = 2
+    let bottomConstant: CGFloat = 8
     let commentCount = post.comments.count
     switch commentCount {
     case 0:
-      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                             constant: bottomConstant)]
+      labelConstraints = [contentView.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                                              constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
       comment1Label.isHidden = true
       comment1Label.text = nil
       comment2Label.isHidden = true
       comment2Label.text = nil
-      comment3Label.isHidden = true
-      comment3Label.text = nil
     case 1:
       labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
                                                              constant: betweenConstant),
-                      comment1Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                            constant: bottomConstant)]
+                          contentView.bottomAnchor.constraint(equalTo: comment1Label.bottomAnchor,
+                                                              constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
       attributeComment(index: 0)
       comment2Label.isHidden = true
       comment2Label.text = nil
-      comment3Label.isHidden = true
-      comment3Label.text = nil
     case 2:
       labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
                                                              constant: betweenConstant),
-                      comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor,
-                                                         constant: betweenConstant),
-                      comment2Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                            constant: bottomConstant)]
-      viewAllCommentsLabel.isHidden = true
-      attributeComment(index: 0)
-      attributeComment(index: 1)
-      comment3Label.isHidden = true
-      comment3Label.text = nil
-    case 3:
-      labelConstraints = [comment1Label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
-                                                             constant: betweenConstant),
                           comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor,
                                                              constant: betweenConstant),
-                          comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor,
-                                                             constant: betweenConstant),
-                          comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                                constant: bottomConstant)]
+                          contentView.bottomAnchor.constraint(equalTo: comment2Label.bottomAnchor,
+                                                              constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = true
       attributeComment(index: 0)
       attributeComment(index: 1)
-      attributeComment(index: 2)
     default:
-      labelConstraints = [titleLabel.bottomAnchor.constraint(equalTo: viewAllCommentsLabel.topAnchor,
+      labelConstraints = [viewAllCommentsLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
                                                              constant: betweenConstant),
-                          viewAllCommentsLabel.bottomAnchor.constraint(equalTo: comment1Label.topAnchor,
+                          comment1Label.topAnchor.constraint(equalTo: viewAllCommentsLabel.bottomAnchor,
                                                                        constant: betweenConstant),
                           comment2Label.topAnchor.constraint(equalTo: comment1Label.bottomAnchor,
                                                              constant: betweenConstant),
-                      comment3Label.topAnchor.constraint(equalTo: comment2Label.bottomAnchor,
-                                                         constant: betweenConstant),
-                      comment3Label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                          contentView.bottomAnchor.constraint(equalTo: comment2Label.bottomAnchor,
                                                             constant: bottomConstant)]
       viewAllCommentsLabel.isHidden = false
       viewAllCommentsLabel.setTitle("View all \(commentCount) comments", for: .normal)
       attributeComment(index: 0)
       attributeComment(index: 1)
-      attributeComment(index: 2)
     }
     NSLayoutConstraint.activate(labelConstraints)
   }

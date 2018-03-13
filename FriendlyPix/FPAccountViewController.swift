@@ -34,9 +34,7 @@ class FPAccountViewController: MDCCollectionViewController {
     super.viewDidLoad()
     self.styler.cellStyle = .card
     self.styler.cellLayoutType = .grid
-    if profile.userID == uid {
-      deleteAccountButton.isHidden = false
-    }
+
     navigationItem.title = profile.fullname.localizedCapitalized
     insets = self.collectionView(collectionView!,
                                  layout: collectionViewLayout,
@@ -96,8 +94,7 @@ class FPAccountViewController: MDCCollectionViewController {
   func registerForFollowersCount() {
     let followersRef = ref.child("followers/\(profile.userID)")
     followersRef.observe(.value, with: {
-      self.headerView.followersLabel.text = "\($0.childrenCount)"
-      self.headerView.followersLabel.accessibilityLabel = "\($0.childrenCount) followers"
+      self.headerView.followersLabel.text = "\($0.childrenCount) follower\($0.childrenCount != 1 ? "s" : "")"
     })
     firebaseRefs.append(followersRef)
   }
@@ -105,8 +102,7 @@ class FPAccountViewController: MDCCollectionViewController {
   func registerForFollowingCount() {
     let followingRef = ref.child("people/\(profile.userID)/following")
     followingRef.observe(.value, with: {
-      self.headerView.followingLabel.text = "\($0.childrenCount)"
-      self.headerView.followingLabel.accessibilityLabel = "\($0.childrenCount) following"
+      self.headerView.followingLabel.text = "\($0.childrenCount) following"
     })
     firebaseRefs.append(followingRef)
   }
@@ -114,8 +110,7 @@ class FPAccountViewController: MDCCollectionViewController {
   func registerForPostsCount() {
     let userPostsRef = ref.child("people/\(profile.userID)/posts")
     userPostsRef.observe(.value, with: {
-      self.headerView.postsLabel.text = "\($0.childrenCount)"
-      self.headerView.postsLabel.accessibilityLabel = "\($0.childrenCount) posts"
+      self.headerView.postsLabel.text = "\($0.childrenCount) post\($0.childrenCount != 1 ? "s" : "")"
     })
   }
 
@@ -216,7 +211,7 @@ class FPAccountViewController: MDCCollectionViewController {
       header.inkView?.removeFromSuperview()
       headerView = header
       if profile.userID == uid {
-        header.followLabel.text = "Enable notifications"
+        header.followLabel.text = "Notifications"
         header.followSwitch.accessibilityLabel = header.followSwitch.isOn ? "Notifications are on" : "Notifications are off"
         header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "disable" : "enable") notifications"
       } else {
@@ -238,6 +233,24 @@ class FPAccountViewController: MDCCollectionViewController {
       }
       return cell
     }
+  }
+
+  @IBAction func didTapMore(_ sender: Any) {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+    alert.addAction(UIAlertAction(title: "Help", style: .default , handler:{ (UIAlertAction)in
+      print("Help")
+    }))
+
+    alert.addAction(UIAlertAction(title: "Sign out", style: .cancel , handler:{ (UIAlertAction)in
+      self.signOut()
+    }))
+
+    alert.addAction(UIAlertAction(title: "Delete account", style: .destructive , handler:{ _ in
+      self.deleteAccount()
+    }))
+
+    self.present(alert, animated: true, completion: nil)
   }
 
   func toggleFollow(_ follow: Bool) {
@@ -268,6 +281,9 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+    if indexPath.section == 0 {
+      return 112
+    }
     return MDCCeil(((self.collectionView?.bounds.width)! - 14) * 0.325)
   }
 
@@ -282,7 +298,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
 
-  @IBAction func didTapSignOut() {
+  func signOut() {
     let alertController = MDCAlertController.init(title: "Log out of \(Auth.auth().currentUser?.displayName ?? "current user")?", message: nil)
     let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
     let logoutAction = MDCAlertAction(title:"Logout") { _ in
@@ -298,20 +314,20 @@ class FPAccountViewController: MDCCollectionViewController {
     present(alertController, animated:true, completion:nil)
   }
 
-  @IBAction func tapDeleteAccount() {
+  func deleteAccount() {
     let alertController = MDCAlertController.init(title: "Delete Account?", message: nil)
     let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
     let deleteAction = MDCAlertAction(title:"Delete") { _ in
       Auth.auth().currentUser?.delete(completion: { error in
         if error != nil {
           let errorController = MDCAlertController.init(title: "Deletion requires recent authentication", message: "Log in again before retrying.")
-          let okAction = MDCAlertAction(title:"OK") { _ in self.didTapSignOut() }
+          let okAction = MDCAlertAction(title:"OK") { _ in self.signOut() }
           errorController.addAction(okAction)
           self.present(errorController, animated:true, completion:nil)
           return
         }
         MDCSnackbarManager.show(MDCSnackbarMessage(text: "Account deleted."))
-        self.didTapSignOut()
+        self.signOut()
       })
     }
 

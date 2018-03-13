@@ -19,7 +19,6 @@ import FirebaseAuthUI
 import FirebaseFacebookAuthUI
 import FirebaseGoogleAuthUI
 
-private let kFacebookAppID = "FACEBOOK_APP_ID"
 private let kFirebaseTermsOfService = URL(string: "https://firebase.google.com/terms/")!
 
 class FPSignInViewController: UIViewController, FUIAuthDelegate {

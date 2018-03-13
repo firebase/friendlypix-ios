@@ -41,7 +41,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     messageLabel.textColor = UIColor.black
     messageLabel.numberOfLines = 0
     messageLabel.textAlignment = .center
-    messageLabel.font = UIFont.systemFont(ofSize: 20)
+    messageLabel.font = UIFont.preferredFont(forTextStyle: .title3)
     messageLabel.sizeToFit()
     return messageLabel
   }()
@@ -52,21 +52,15 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   var nextEntry: String?
   var sizingCell: FPCardCollectionViewCell!
   let bottomBarView = MDCBottomAppBarView()
-  var alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
   var showFeed = false
   let homeButton = { () -> UIBarButtonItem in
     let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_home"), style: .plain, target: self, action: #selector(homeAction))
-    button.accessibilityLabel = "Home tab"
-    return button
-  }()
-  let searchButton = { () -> UIBarButtonItem in
-    let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(searchAction))
-    button.accessibilityLabel = "Search people"
+    button.accessibilityLabel = "Home"
     return button
   }()
   let feedButton = { () -> UIBarButtonItem in
     let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_trending_up"), style: .plain, target: self, action: #selector(feedAction))
-    button.accessibilityLabel = "Feed tab"
+    button.accessibilityLabel = "Feed"
     return button
   }()
   let blue = MDCPalette.blue.tint600
@@ -80,12 +74,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       return LightboxImage(imageURL: $0.fullURL, text: "\($0.author.fullname): \($0.text)")
     }
 
-    LightboxConfig.InfoLabel.textAttributes[.font] = UIFont.systemFont(ofSize: 16)
+    LightboxConfig.InfoLabel.textAttributes[.font] = UIFont.preferredFont(forTextStyle: .body)
     let lightbox = LightboxController(images: lightboxImages, startIndex: index)
     lightbox.dynamicBackground = true
     lightbox.dismissalDelegate = self
 
-    self.present(lightbox, animated: true, completion: {print("xxcvsdv")})
+    self.present(lightbox, animated: true, completion: nil)
   }
 
   override func awakeFromNib() {
@@ -96,7 +90,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     titleLabel.textColor = UIColor.white
     titleLabel.font = UIFont(name: "Amaranth", size: 24)
     titleLabel.sizeToFit()
-    navigationController?.navigationBar.titleTextAttributes![.font] = UIFont.systemFont(ofSize: 20)
+    navigationController?.navigationBar.titleTextAttributes![.font] = UIFont.preferredFont(forTextStyle: .title3)
     navigationItem.leftBarButtonItems = [UIBarButtonItem.init(customView: UIImageView.init(image: #imageLiteral(resourceName: "image_logo"))), UIBarButtonItem(customView: titleLabel)]
 
     bottomBarView.autoresizingMask = [ .flexibleWidth, .flexibleTopMargin ]
@@ -121,21 +115,21 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
     // Configure the navigation buttons to be shown on the bottom app bar.
 
-    let profileButton = { () -> UIBarButtonItem in
-      let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_account_circle_36pt"), style: .plain, target: self, action: #selector(clickUser))
-      button.accessibilityLabel = ""
-      button.accessibilityHint = "Double-tap to open your profile."
-      return button
-    }()
-
     navigationController?.setToolbarHidden(true, animated: false)
     homeButton.tintColor = blue
     feedButton.tintColor = .gray
-    searchButton.tintColor = .gray
+
 
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
-    bottomBarView.trailingBarButtonItems = [ profileButton, searchButton ]
+    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraitSelected
+    bottomBarView.subviews[2].subviews[1].accessibilityTraits = UIAccessibilityTraitTabBar
+    let inviteButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_person_add"), style: .plain, target: self, action: #selector(inviteTapped))
+    inviteButton.tintColor = .gray
+    inviteButton.accessibilityLabel = "invite friends"
+    bottomBarView.trailingBarButtonItems = [ inviteButton ]
   }
+
+  @objc
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -166,11 +160,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       collectionView.refreshControl = refreshControl
     }
 
-    self.navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "ic_arrow_back")
 
-    self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "ic_arrow_back")
-
-    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
 
     if FirebaseApp.app() != nil {
       if let appDelegateTemp = UIApplication.shared.delegate as? AppDelegate, appDelegateTemp.notificationGranted {
@@ -212,9 +202,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
-    if let photoURL = Auth.auth().currentUser?.photoURL, let item = bottomBarView.trailingBarButtonItems?[0] {
+    if let photoURL = Auth.auth().currentUser?.photoURL, let item = navigationItem.rightBarButtonItems?[0] {
       UIImage.circleButton(with: photoURL, to: item)
+      item.accessibilityLabel = ""
+      item.accessibilityHint = "Double-tap to open your profile."
     }
+    navigationItem.rightBarButtonItems?[1].accessibilityLabel = "Search people"
     if newPost {
       reloadFeed()
       newPost = false
@@ -238,29 +231,33 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     observers = [DatabaseQuery]()
     MDCSnackbarManager.setBottomOffset(0)
     if let spinner = spinner {
-      removeSpinner(spinner: spinner)
+      removeSpinner(spinner)
     }
   }
 
   @objc private func homeAction() {
     bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = blue
+    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraitSelected
     bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = .gray
+    bottomBarView.subviews[2].subviews[1].subviews[1].accessibilityTraits = UIAccessibilityTraitNone
     showFeed = false
     reloadFeed()
   }
 
   @objc private func feedAction() {
     bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = .gray
+    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraitNone
     bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = blue
+    bottomBarView.subviews[2].subviews[1].subviews[1].accessibilityTraits = UIAccessibilityTraitSelected
     showFeed = true
     reloadFeed()
   }
 
-  @objc private func searchAction() {
+  @IBAction func didTapSearch(_ sender: Any) {
     performSegue(withIdentifier: "search", sender: self)
   }
 
-  @objc private func clickUser() {
+  @IBAction func didTapProfile(_ sender: Any) {
     showProfile(FPUser.currentUser())
   }
 
@@ -303,7 +300,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   func loadFeed() {
     if observers.isEmpty && !posts.isEmpty {
       if let spinner = spinner {
-        removeSpinner(spinner: spinner)
+        removeSpinner(spinner)
       }
       self.collectionView?.performBatchUpdates({
         var index = posts.count - 1
@@ -334,7 +331,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       loadingPostCount = posts.count + FPFeedViewController.postsPerLoad
       query?.queryLimited(toLast: FPFeedViewController.postsLimit).observeSingleEvent(of: .value, with: { snapshot in
         if let spinner = self.spinner {
-          self.removeSpinner(spinner: spinner)
+          self.removeSpinner(spinner)
         }
         if let reversed = snapshot.children.allObjects as? [DataSnapshot], !reversed.isEmpty {
           self.collectionView?.backgroundView = nil
@@ -360,7 +357,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
               if !self.showFeed {
                 for index in 0..<(reversed.count - extraElement) {
                   if let spinner = self.spinner {
-                    self.removeSpinner(spinner: spinner)
+                    self.removeSpinner(spinner)
                   }
                   self.loadPost(results[index]!)
                 }
@@ -689,7 +686,7 @@ extension FPFeedViewController: ImagePickerDelegate {
 }
 
 extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
-  @IBAction func inviteTapped(_ sender: Any) {
+  @objc func inviteTapped() {
     GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
     GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/userinfo.email",
                                          "https://www.googleapis.com/auth/userinfo.profile"]
@@ -746,7 +743,9 @@ extension MDCCollectionViewController {
       collectionView!.reloadSections([0])
     }
   }
+}
 
+extension UIViewController {
   func displaySpinner() -> UIView {
     let spinnerView = UIView.init(frame: view.bounds)
     spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
@@ -761,7 +760,7 @@ extension MDCCollectionViewController {
     return spinnerView
   }
 
-  func removeSpinner(spinner: UIView) {
+  func removeSpinner(_ spinner: UIView) {
     DispatchQueue.main.async {
       spinner.removeFromSuperview()
     }

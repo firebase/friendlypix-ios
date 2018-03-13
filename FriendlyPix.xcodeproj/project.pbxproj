@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EA05B1F82E4030051D6D1 /* FPCardCollectionViewCell.swift */; };
-		1047E98A1FB614C20084B4DD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1047E9891FB614C20084B4DD /* LaunchScreen.xib */; };
+		104556702051C579008FC691 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1045566F2051C579008FC691 /* GoogleService-Info.plist */; };
 		105756331F7E8F7500DF3352 /* FPComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756321F7E8F7500DF3352 /* FPComment.swift */; };
 		105756351F7E93B900DF3352 /* FPUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756341F7E93B900DF3352 /* FPUser.swift */; };
 		105756371F7E9E1C00DF3352 /* FPPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756361F7E9E1C00DF3352 /* FPPost.swift */; };
@@ -16,15 +16,16 @@
 		105D19421F8422D0008C282C /* FPAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D19411F8422D0008C282C /* FPAccountViewController.swift */; };
 		106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106820581FAA9E950065C393 /* FPSearchViewController.swift */; };
 		10721AB11FA28A0800C2911A /* FPAccountHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10721AB01FA28A0800C2911A /* FPAccountHeader.swift */; };
+		10757BCC20587C87007623FD /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10757BCB20587C87007623FD /* Launch.storyboard */; };
 		107B7B891FB6686B00434803 /* FPSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B7B881FB6686B00434803 /* FPSearchCell.swift */; };
 		1082A0391FB0F8D2000C594F /* FPUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */; };
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
 		109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */; };
+		10AC7EDB2057903200B73B29 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
 		10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB281F840843001CDB18 /* FPSignInViewController.swift */; };
 		10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */; };
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
-		10E32C85200685A7008E62E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10E32C84200685A7008E62E2 /* GoogleService-Info.plist */; };
 		10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */; };
 		10F919132034D2C100147230 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F919122034D2C100147230 /* DateExtension.swift */; };
 		10FD8FD71F7E840800BCB991 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FD8FD61F7E840800BCB991 /* AppDelegate.swift */; };
@@ -32,11 +33,22 @@
 		10FD8FDE1F7E840800BCB991 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FDC1F7E840800BCB991 /* Main.storyboard */; };
 		10FD8FE01F7E840800BCB991 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FDF1F7E840800BCB991 /* Assets.xcassets */; };
 		10FEA3D41FAB927200BAD9FD /* FPPostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FEA3D31FAB927200BAD9FD /* FPPostDetailViewController.swift */; };
+		10FEF57D20474EE400423CF7 /* FriendlyPixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FEF57C20474EE400423CF7 /* FriendlyPixTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		10FEF57F20474EE400423CF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10FD8FCB1F7E840800BCB991 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10FD8FD21F7E840800BCB991;
+			remoteInfo = FriendlyPix;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		102EA05B1F82E4030051D6D1 /* FPCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPCardCollectionViewCell.swift; sourceTree = "<group>"; };
-		1047E9891FB614C20084B4DD /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		1045566F2051C579008FC691 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		105756321F7E8F7500DF3352 /* FPComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPComment.swift; sourceTree = "<group>"; };
 		105756341F7E93B900DF3352 /* FPUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPUser.swift; sourceTree = "<group>"; };
 		105756361F7E9E1C00DF3352 /* FPPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPPost.swift; sourceTree = "<group>"; };
@@ -44,16 +56,17 @@
 		105D19411F8422D0008C282C /* FPAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountViewController.swift; sourceTree = "<group>"; };
 		106820581FAA9E950065C393 /* FPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchViewController.swift; sourceTree = "<group>"; };
 		10721AB01FA28A0800C2911A /* FPAccountHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAccountHeader.swift; sourceTree = "<group>"; };
+		10757BCB20587C87007623FD /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		107B7B881FB6686B00434803 /* FPSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSearchCell.swift; sourceTree = "<group>"; };
 		1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPUploadViewController.swift; sourceTree = "<group>"; };
 		10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amaranth-Bold.otf"; sourceTree = "<group>"; };
 		108CF6571FCD9E6100124FB4 /* FriendlyPix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FriendlyPix.entitlements; sourceTree = "<group>"; };
 		109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentCell.swift; sourceTree = "<group>"; };
+		10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
 		10E1DB281F840843001CDB18 /* FPSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSignInViewController.swift; sourceTree = "<group>"; };
 		10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAuthPickerViewController.swift; sourceTree = "<group>"; };
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
-		10E32C84200685A7008E62E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPCardCollectionViewCell.xib; sourceTree = "<group>"; };
 		10F919122034D2C100147230 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		10FD8FD31F7E840800BCB991 /* FriendlyPix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendlyPix.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,10 +76,20 @@
 		10FD8FDF1F7E840800BCB991 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10FD8FE41F7E840800BCB991 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10FEA3D31FAB927200BAD9FD /* FPPostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPPostDetailViewController.swift; sourceTree = "<group>"; };
+		10FEF57A20474EE400423CF7 /* FriendlyPixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendlyPixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		10FEF57C20474EE400423CF7 /* FriendlyPixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlyPixTests.swift; sourceTree = "<group>"; };
+		10FEF57E20474EE400423CF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		10FD8FD01F7E840800BCB991 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		10FEF57720474EE400423CF7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -79,8 +102,9 @@
 		10FD8FCA1F7E840800BCB991 = {
 			isa = PBXGroup;
 			children = (
-				10E32C84200685A7008E62E2 /* GoogleService-Info.plist */,
+				1045566F2051C579008FC691 /* GoogleService-Info.plist */,
 				10FD8FD51F7E840800BCB991 /* FriendlyPix */,
+				10FEF57B20474EE400423CF7 /* FriendlyPixTests */,
 				10FD8FD41F7E840800BCB991 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				10FD8FD31F7E840800BCB991 /* FriendlyPix.app */,
+				10FEF57A20474EE400423CF7 /* FriendlyPixTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,7 +139,6 @@
 				10FD8FDF1F7E840800BCB991 /* Assets.xcassets */,
 				10FD8FE41F7E840800BCB991 /* Info.plist */,
 				10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */,
-				1047E9891FB614C20084B4DD /* LaunchScreen.xib */,
 				10721AB01FA28A0800C2911A /* FPAccountHeader.swift */,
 				109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */,
 				106820581FAA9E950065C393 /* FPSearchViewController.swift */,
@@ -122,8 +146,19 @@
 				1082A0381FB0F8D2000C594F /* FPUploadViewController.swift */,
 				107B7B881FB6686B00434803 /* FPSearchCell.swift */,
 				10F919122034D2C100147230 /* DateExtension.swift */,
+				10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */,
+				10757BCB20587C87007623FD /* Launch.storyboard */,
 			);
 			path = FriendlyPix;
+			sourceTree = "<group>";
+		};
+		10FEF57B20474EE400423CF7 /* FriendlyPixTests */ = {
+			isa = PBXGroup;
+			children = (
+				10FEF57C20474EE400423CF7 /* FriendlyPixTests.swift */,
+				10FEF57E20474EE400423CF7 /* Info.plist */,
+			);
+			path = FriendlyPixTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,13 +181,31 @@
 			productReference = 10FD8FD31F7E840800BCB991 /* FriendlyPix.app */;
 			productType = "com.apple.product-type.application";
 		};
+		10FEF57920474EE400423CF7 /* FriendlyPixTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 10FEF58320474EE400423CF7 /* Build configuration list for PBXNativeTarget "FriendlyPixTests" */;
+			buildPhases = (
+				10FEF57620474EE400423CF7 /* Sources */,
+				10FEF57720474EE400423CF7 /* Frameworks */,
+				10FEF57820474EE400423CF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				10FEF58020474EE400423CF7 /* PBXTargetDependency */,
+			);
+			name = FriendlyPixTests;
+			productName = FriendlyPixTests;
+			productReference = 10FEF57A20474EE400423CF7 /* FriendlyPixTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		10FD8FCB1F7E840800BCB991 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Ibrahim Ulukaya";
 				TargetAttributes = {
@@ -176,6 +229,11 @@
 							};
 						};
 					};
+					10FEF57920474EE400423CF7 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 10FD8FD21F7E840800BCB991;
+					};
 				};
 			};
 			buildConfigurationList = 10FD8FCE1F7E840800BCB991 /* Build configuration list for PBXProject "FriendlyPix" */;
@@ -192,6 +250,7 @@
 			projectRoot = "";
 			targets = (
 				10FD8FD21F7E840800BCB991 /* FriendlyPix */,
+				10FEF57920474EE400423CF7 /* FriendlyPixTests */,
 			);
 		};
 /* End PBXProject section */
@@ -203,11 +262,18 @@
 			files = (
 				10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */,
 				10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */,
-				1047E98A1FB614C20084B4DD /* LaunchScreen.xib in Resources */,
 				10FD8FE01F7E840800BCB991 /* Assets.xcassets in Resources */,
+				10757BCC20587C87007623FD /* Launch.storyboard in Resources */,
 				10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */,
 				10FD8FDE1F7E840800BCB991 /* Main.storyboard in Resources */,
-				10E32C85200685A7008E62E2 /* GoogleService-Info.plist in Resources */,
+				104556702051C579008FC691 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		10FEF57820474EE400423CF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +290,7 @@
 				109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */,
 				10721AB11FA28A0800C2911A /* FPAccountHeader.swift in Sources */,
 				10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */,
+				10AC7EDB2057903200B73B29 /* UITextViewPlaceholder.swift in Sources */,
 				10FEA3D41FAB927200BAD9FD /* FPPostDetailViewController.swift in Sources */,
 				106820591FAA9E950065C393 /* FPSearchViewController.swift in Sources */,
 				10FD8FD71F7E840800BCB991 /* AppDelegate.swift in Sources */,
@@ -239,7 +306,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		10FEF57620474EE400423CF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10FEF57D20474EE400423CF7 /* FriendlyPixTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10FEF58020474EE400423CF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 10FD8FD21F7E840800BCB991 /* FriendlyPix */;
+			targetProxy = 10FEF57F20474EE400423CF7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		10FD8FDC1F7E840800BCB991 /* Main.storyboard */ = {
@@ -398,6 +481,52 @@
 			};
 			name = Release;
 		};
+		10FEF58120474EE400423CF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = FriendlyPixTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyPix.app/FriendlyPix";
+			};
+			name = Debug;
+		};
+		10FEF58220474EE400423CF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = FriendlyPixTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyPix.app/FriendlyPix";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -415,6 +544,15 @@
 			buildConfigurations = (
 				10FD8FE81F7E840800BCB991 /* Debug */,
 				10FD8FE91F7E840800BCB991 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		10FEF58320474EE400423CF7 /* Build configuration list for PBXNativeTarget "FriendlyPixTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				10FEF58120474EE400423CF7 /* Debug */,
+				10FEF58220474EE400423CF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

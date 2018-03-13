@@ -27,7 +27,7 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
     messageLabel.textColor = UIColor.black
     messageLabel.numberOfLines = 0
     messageLabel.textAlignment = .center
-    messageLabel.font = UIFont.systemFont(ofSize: 20)
+    messageLabel.font = UIFont.preferredFont(forTextStyle: .title3)
     messageLabel.sizeToFit()
     return messageLabel
   }()
@@ -46,11 +46,28 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
 
     UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).leftViewMode = .never
     searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_close"), for: .clear, state: .normal)
+    //searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_arrow_back"), for: .search, state: .normal)
+    UIImageView.appearance(whenContainedInInstancesOf: [UISearchBar.self]).bounds = CGRect(x: 0, y: 0, width: 24, height: 24)
+
+    let x = UIButton.init()
+    x.setImage(#imageLiteral(resourceName: "ic_arrow_back"), for: .normal)
+    x.addTarget(self, action: #selector(back), for: .touchUpInside)
+
+    UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).translatesAutoresizingMaskIntoConstraints = false
+    UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -4)
+
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: x)
+
     navigationItem.titleView = searchController.searchBar
+    navigationItem.hidesBackButton = true
     definesPresentationContext = true
     searchController.searchBar.showsCancelButton = false
 
     UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = UIColor.init(red: 0, green: 137/255, blue: 249/255, alpha: 1)
+  }
+
+  @objc func back() {
+   navigationController?.popViewController(animated: true)
   }
 
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
