@@ -24,7 +24,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   var commentsRef: DatabaseReference!
   var commentQuery: DatabaseQuery!
   let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
-  let attributes2 = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .footnote)]
+  let attributes2 = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
   var bottomConstraint: NSLayoutConstraint!
   var heightConstraint: NSLayoutConstraint!
   var inputBottomConstraint: NSLayoutConstraint!
@@ -35,6 +35,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     view.backgroundColor = .white
     return view
   }()
+  var requestWorkItem: DispatchWorkItem?
   var isEditingComment = false
 
   let commentDeleteText = MDCSnackbarMessage.init(text: "Comment deleted")
@@ -66,18 +67,25 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   }()
 
   func deleteComment(_ indexPath: IndexPath) {
-    let requestWorkItem = DispatchWorkItem { [weak self] in
-      let commentID = self?.comments[indexPath.item].commentID
-      self?.comments.remove(at: indexPath.item)
-      self?.collectionView?.deleteItems(at: [indexPath])
-      self?.commentsRef.child(commentID!).removeValue()
+    requestWorkItem?.perform()
+    let commentID = comments[indexPath.item].commentID
+    let comment = comments.remove(at: indexPath.item)
+    collectionView?.deleteItems(at: [indexPath])
+
+    requestWorkItem = DispatchWorkItem { [weak self] in
+      self?.commentsRef.child(commentID).removeValue()
     }
 
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4),
-                                  execute: requestWorkItem)
+                                  execute: requestWorkItem!)
 
     let action = MDCSnackbarMessageAction()
-    action.handler = { requestWorkItem.cancel() }
+    action.handler = {
+      self.requestWorkItem?.cancel()
+      let index = min(indexPath.item, self.comments.count)
+      self.comments.insert(comment, at: index)
+      self.collectionView?.insertItems(at: [IndexPath(item: index, section: 1)])
+    }
     action.title = "Undo"
     commentDeleteText.action = action
     MDCSnackbarManager.show(commentDeleteText)
@@ -97,7 +105,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     sendButton.isEnabled = !textView.text.isEmpty
     let size = CGSize(width: view.frame.width - 60, height: .infinity)
     let estimatedSize = textView.sizeThatFits(size)
-    heightConstraint.constant = estimatedSize.height + 14
+    heightConstraint.constant = estimatedSize.height + 14 + (bottomConstraint.constant == 0 ? bottomAreaInset : 0)
   }
 
   override func viewDidLoad() {
@@ -217,6 +225,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     self.navigationController?.setToolbarHidden(true, animated: false)
     self.commentsRef.removeAllObservers()
     self.commentQuery.removeAllObservers()
+    MDCSnackbarManager.dismissAndCallCompletionBlocks(withCategory: nil)
+    requestWorkItem?.perform()
   }
 
   @objc func enterPressed() {
@@ -238,6 +248,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         }
       }
       inputTextView.text = nil
+      inputTextView.textViewDidChange(inputTextView)
     }
     inputTextView.endEditing(true)
   }
@@ -249,7 +260,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       let inset = isKeyboardShowing ? -bottomAreaInset : bottomAreaInset
       heightConstraint?.constant += inset
       inputBottomConstraint?.constant = isKeyboardShowing ? 0 : bottomAreaInset
-      sendBottomConstraint?.constant += inset
+      sendBottomConstraint?.constant = isKeyboardShowing ? 12 : (12 + bottomAreaInset)
       if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
         UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
           self.view.layoutIfNeeded()
@@ -284,6 +295,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         self.deleteComment(indexPath)
       }))
 
+      alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+
       self.present(alert, animated: true, completion: nil)
     }
   }
@@ -291,8 +304,9 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   func editComment(_ indexPath: IndexPath) {
     isEditingComment = true
     editingIndex = indexPath
-    inputTextView.text = comments[indexPath.item].text
     inputTextView.becomeFirstResponder()
+    inputTextView.text = comments[indexPath.item].text
+    inputTextView.textViewDidChange(inputTextView)
     textViewDidChange(inputTextView)
   }
 

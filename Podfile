@@ -1,11 +1,13 @@
 target 'FriendlyPix' do
   use_frameworks!
 
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Invites'
   pod 'Firebase/Messaging'
-  pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Performance'
   pod 'Firebase/Storage'
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Facebook'

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EA05B1F82E4030051D6D1 /* FPCardCollectionViewCell.swift */; };
-		104556702051C579008FC691 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1045566F2051C579008FC691 /* GoogleService-Info.plist */; };
 		105756331F7E8F7500DF3352 /* FPComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756321F7E8F7500DF3352 /* FPComment.swift */; };
 		105756351F7E93B900DF3352 /* FPUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756341F7E93B900DF3352 /* FPUser.swift */; };
 		105756371F7E9E1C00DF3352 /* FPPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105756361F7E9E1C00DF3352 /* FPPost.swift */; };
@@ -23,7 +22,6 @@
 		109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */; };
 		10AC7EDB2057903200B73B29 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
-		10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB281F840843001CDB18 /* FPSignInViewController.swift */; };
 		10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */; };
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
 		10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */; };
@@ -48,7 +46,6 @@
 
 /* Begin PBXFileReference section */
 		102EA05B1F82E4030051D6D1 /* FPCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPCardCollectionViewCell.swift; sourceTree = "<group>"; };
-		1045566F2051C579008FC691 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		105756321F7E8F7500DF3352 /* FPComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPComment.swift; sourceTree = "<group>"; };
 		105756341F7E93B900DF3352 /* FPUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPUser.swift; sourceTree = "<group>"; };
 		105756361F7E9E1C00DF3352 /* FPPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPPost.swift; sourceTree = "<group>"; };
@@ -64,7 +61,6 @@
 		109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentCell.swift; sourceTree = "<group>"; };
 		10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
-		10E1DB281F840843001CDB18 /* FPSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSignInViewController.swift; sourceTree = "<group>"; };
 		10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAuthPickerViewController.swift; sourceTree = "<group>"; };
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
 		10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPCardCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -102,7 +98,6 @@
 		10FD8FCA1F7E840800BCB991 = {
 			isa = PBXGroup;
 			children = (
-				1045566F2051C579008FC691 /* GoogleService-Info.plist */,
 				10FD8FD51F7E840800BCB991 /* FriendlyPix */,
 				10FEF57B20474EE400423CF7 /* FriendlyPixTests */,
 				10FD8FD41F7E840800BCB991 /* Products */,
@@ -132,7 +127,6 @@
 				102EA05B1F82E4030051D6D1 /* FPCardCollectionViewCell.swift */,
 				10F13D5A1F953E1900A4975F /* FPCardCollectionViewCell.xib */,
 				10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */,
-				10E1DB281F840843001CDB18 /* FPSignInViewController.swift */,
 				10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */,
 				10FD8FDC1F7E840800BCB991 /* Main.storyboard */,
 				10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */,
@@ -171,6 +165,7 @@
 				10FD8FCF1F7E840800BCB991 /* Sources */,
 				10FD8FD01F7E840800BCB991 /* Frameworks */,
 				10FD8FD11F7E840800BCB991 /* Resources */,
+				10A1818620607B4900133918 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -266,7 +261,6 @@
 				10757BCC20587C87007623FD /* Launch.storyboard in Resources */,
 				10F13D5C1F953E1900A4975F /* FPCardCollectionViewCell.xib in Resources */,
 				10FD8FDE1F7E840800BCB991 /* Main.storyboard in Resources */,
-				104556702051C579008FC691 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,12 +273,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		10A1818620607B4900133918 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		10FD8FCF1F7E840800BCB991 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10E1DB291F840843001CDB18 /* FPSignInViewController.swift in Sources */,
 				105756351F7E93B900DF3352 /* FPUser.swift in Sources */,
 				102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */,
 				109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */,

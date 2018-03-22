@@ -16,9 +16,13 @@
 
 import Firebase
 import FirebaseAuthUI
+import FirebaseFacebookAuthUI
+import FirebaseGoogleAuthUI
 import GoogleSignIn
 import MaterialComponents
 import UserNotifications
+
+private let kFirebaseTermsOfService = URL(string: "https://firebase.google.com/terms/")!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -56,9 +60,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     application.registerForRemoteNotifications()
-    if Auth.auth().currentUser == nil {
-      self.window?.rootViewController = FPSignInViewController()
-    }
+
+    let authUI = FUIAuth.defaultAuthUI()
+    authUI?.delegate = self
+    authUI?.tosurl = kFirebaseTermsOfService
+    authUI?.isSignInWithEmailHidden = true
+    let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth()]
+    authUI?.providers = providers
+
     return true
   }
 
@@ -118,6 +127,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // this callback will not be fired till the user taps on the notification launching the application.
     showAlert(userInfo)
     completionHandler(.newData)
+  }
+}
+
+extension AppDelegate: FUIAuthDelegate {
+  func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
+    switch error {
+    case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.userCancelledSignIn.rawValue:
+      print("User cancelled sign-in")
+    case .some(let error as NSError) where error.userInfo[NSUnderlyingErrorKey] != nil:
+      print("Login error: \(error.userInfo[NSUnderlyingErrorKey]!)")
+    case .some(let error):
+      print("Login error: \(error.localizedDescription)")
+    case .none:
+      if let user = authDataResult?.user {
+        signed(in: user)
+      }
+    }
+  }
+
+  func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
+    return FPAuthPickerViewController(nibName: "FPAuthPickerViewController", bundle: Bundle.main, authUI: authUI)
+  }
+
+  func signed(in user: User) {
+    var values: [String: Any] = ["profile_picture": user.photoURL?.absoluteString ?? "",
+                                 "full_name": user.displayName ?? "",
+                                 "_search_index": ["full_name": user.displayName?.lowercased(),
+                                                   "reversed_full_name": user.displayName?.components(separatedBy: " ")
+                                                    .reversed().joined(separator: "")]]
+    if notificationGranted {
+      values["notificationEnabled"] = true
+      notificationGranted = false
+    }
+    Database.database().reference(withPath: "people/\(user.uid)")
+      .updateChildValues(values)
   }
 }
 

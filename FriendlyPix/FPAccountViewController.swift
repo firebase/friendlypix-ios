@@ -19,7 +19,7 @@ import Lightbox
 import MaterialComponents.MaterialCollections
 
 class FPAccountViewController: MDCCollectionViewController {
-  @IBOutlet private weak var deleteAccountButton: UIButton!
+  @IBOutlet private weak var moreButton: UIBarButtonItem!
   var headerView: FPAccountHeader!
   var profile: FPUser!
   let uid = Auth.auth().currentUser!.uid
@@ -39,6 +39,9 @@ class FPAccountViewController: MDCCollectionViewController {
     insets = self.collectionView(collectionView!,
                                  layout: collectionViewLayout,
                                  insetForSectionAt: 0)
+    if profile.userID == uid {
+      moreButton.isEnabled = true
+    }
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -238,18 +241,15 @@ class FPAccountViewController: MDCCollectionViewController {
   @IBAction func didTapMore(_ sender: Any) {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-    alert.addAction(UIAlertAction(title: "Help", style: .default , handler:{ (UIAlertAction)in
-      print("Help")
-    }))
-
-    alert.addAction(UIAlertAction(title: "Sign out", style: .cancel , handler:{ (UIAlertAction)in
-      self.signOut()
+    alert.addAction(UIAlertAction(title: "Sign out", style: .default , handler:{ (UIAlertAction)in
+      self.didSelectSignOut()
     }))
 
     alert.addAction(UIAlertAction(title: "Delete account", style: .destructive , handler:{ _ in
       self.deleteAccount()
     }))
 
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
     self.present(alert, animated: true, completion: nil)
   }
 
@@ -297,18 +297,19 @@ class FPAccountViewController: MDCCollectionViewController {
     navigationController?.popViewController(animated: true)
   }
 
-
   func signOut() {
+    do {
+      try Auth.auth().signOut()
+    } catch {
+    }
+    self.navigationController?.popToRootViewController(animated: false)
+  }
+
+
+  func didSelectSignOut() {
     let alertController = MDCAlertController.init(title: "Log out of \(Auth.auth().currentUser?.displayName ?? "current user")?", message: nil)
     let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
-    let logoutAction = MDCAlertAction(title:"Logout") { _ in
-      do {
-        try Auth.auth().signOut()
-      } catch {
-      }
-      guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
-      appDel.window?.rootViewController = FPSignInViewController()
-    }
+    let logoutAction = MDCAlertAction(title:"Logout") { _ in self.signOut() }
     alertController.addAction(logoutAction)
     alertController.addAction(cancelAction)
     present(alertController, animated:true, completion:nil)
@@ -326,7 +327,6 @@ class FPAccountViewController: MDCCollectionViewController {
           self.present(errorController, animated:true, completion:nil)
           return
         }
-        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Account deleted."))
         self.signOut()
       })
     }

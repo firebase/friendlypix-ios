@@ -44,11 +44,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>24</string>
 	<key>FacebookAppID</key>
 	<string>{your-app-id}</string>
 	<key>FacebookDisplayName</key>
 	<string>FriendlyPix</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -66,17 +68,17 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Take and upload photos to Cloud Storage</string>
+	<string>to take photos to upload.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Invite your friends</string>
+	<string>to invite your friends.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload photo to Cloud Storage</string>
+	<string>to present photos to upload.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>FPAuthPickerViewController</string>
+	<string>Launch</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

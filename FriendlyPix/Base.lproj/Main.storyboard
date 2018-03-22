@@ -406,13 +406,14 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="ChH-bk-KUz">
-                        <barButtonItem key="rightBarButtonItem" image="ic_more_vert_white" id="Uhm-DZ-hp0">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="ic_more_vert_white" id="Uhm-DZ-hp0">
                             <connections>
                                 <action selector="didTapMore:" destination="YDu-9b-7R6" id="Odn-7W-b2p"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moreButton" destination="Uhm-DZ-hp0" id="BaL-nJ-2ap"/>
                         <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="BGQ-EM-eFj"/>
                         <segue destination="hkU-i0-Vem" kind="show" identifier="detail" id="0dF-Vk-Xxj"/>
                     </connections>
@@ -654,6 +655,6 @@ oyqoKrUquCrFKsoq0irVKtoq4irlKvcq+ir/AAAAAAAAAgEAAAAAAAAAWQAAAAAAAAAAAAAAAAAAKwE
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WOg-QJ-eeq"/>
+        <segue reference="BGQ-EM-eFj"/>
     </inferredMetricsTieBreakers>
 </document>

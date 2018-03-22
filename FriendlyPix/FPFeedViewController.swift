@@ -15,16 +15,17 @@
 //
 
 import Firebase
+import FirebaseAuthUI
 import GoogleSignIn
 import ImagePicker
 import Lightbox
 import MaterialComponents
 
 class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
-  lazy var uid = Auth.auth().currentUser!.uid
+  var uid: String!
+  var followingRef: DatabaseReference?
 
   lazy var ref = Database.database().reference()
-  lazy var followingRef = self.ref.child("people/\(self.uid)/following")
   lazy var postsRef = self.ref.child("posts")
   lazy var commentsRef = self.ref.child("comments")
   lazy var likesRef = self.ref.child("likes")
@@ -129,8 +130,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     bottomBarView.trailingBarButtonItems = [ inviteButton ]
   }
 
-  @objc
-
   override func viewDidLoad() {
     super.viewDidLoad()
     let nib = UINib(nibName: "FPCardCollectionViewCell", bundle: nil)
@@ -159,15 +158,6 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
                                for: .valueChanged)
       collectionView.refreshControl = refreshControl
     }
-
-
-
-    if FirebaseApp.app() != nil {
-      if let appDelegateTemp = UIApplication.shared.delegate as? AppDelegate, appDelegateTemp.notificationGranted {
-        ref.child("people/\(uid)/notificationEnabled").setValue(true)
-        appDelegateTemp.notificationGranted = false
-      }
-    }
   }
 
   @objc private func refreshOptions(sender: UIRefreshControl) {
@@ -176,7 +166,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   private func reloadFeed() {
-    followingRef.removeAllObservers()
+    followingRef?.removeAllObservers()
     postsRef.removeAllObservers()
     for observer in observers {
       observer.removeAllObservers()
@@ -201,6 +191,15 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    if let currentUser = Auth.auth().currentUser  {
+      self.uid = currentUser.uid
+      self.followingRef = ref.child("people/\(uid)/following")
+    } else {
+      let authViewController = FUIAuth.defaultAuthUI()?.authViewController()
+      authViewController?.navigationBar.isHidden = true
+      self.present(authViewController!, animated: true, completion: nil)
+      return
+    }
     MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
     if let photoURL = Auth.auth().currentUser?.photoURL, let item = navigationItem.rightBarButtonItems?[0] {
       UIImage.circleButton(with: photoURL, to: item)
@@ -223,7 +222,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    followingRef.removeAllObservers()
+    followingRef?.removeAllObservers()
     postsRef.removeAllObservers()
     for observer in observers {
       observer.removeAllObservers()
@@ -273,7 +272,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       loadFeed()
       listenDeletes()
     } else {
-      query = ref.child("feed").child(uid)
+      query = ref.child("feed").child(uid!)
       // Make sure the home feed is updated with followed users's new posts.
       // Only after the feed creation is complete, start fetching the posts.
       updateHomeFeeds()
@@ -571,7 +570,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
    */
   func startHomeFeedLiveUpdaters() {
     // Make sure we listen on each followed people's posts.
-    followingRef.observe(.childAdded, with: { followingSnapshot in
+    followingRef?.observe(.childAdded, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
       let followedUid = followingSnapshot.key
       var followedUserPostsRef: DatabaseQuery = self.ref.child("people").child(followedUid).child("posts")
@@ -588,7 +587,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       self.observers.append(followedUserPostsRef)
     })
     // Stop listening to users we unfollow.
-    followingRef.observe(.childRemoved, with: { snapshot in
+    followingRef?.observe(.childRemoved, with: { snapshot in
       // Stop listening the followed user's posts to populate the home feed.
       let followedUserId: String = snapshot.key
       self.ref.child("people").child(followedUserId).child("posts").removeAllObservers()
@@ -600,7 +599,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
    */
   func updateHomeFeeds() {
     // Make sure we listen on each followed people's posts.
-    followingRef.observeSingleEvent(of: .value, with: { followingSnapshot in
+    followingRef?.observeSingleEvent(of: .value, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
       guard let following = followingSnapshot.value as? [String: Any] else {
         self.startHomeFeedLiveUpdaters()
