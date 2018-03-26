@@ -193,7 +193,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     super.viewDidAppear(animated)
     if let currentUser = Auth.auth().currentUser  {
       self.uid = currentUser.uid
-      self.followingRef = ref.child("people/\(uid)/following")
+      self.followingRef = ref.child("people/\(uid!)/following")
     } else {
       let authViewController = FUIAuth.defaultAuthUI()?.authViewController()
       authViewController?.navigationBar.isHidden = true
@@ -496,7 +496,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel) {
-    let postLike = ref.child("likes/\(post.postID)/\(uid)")
+    let postLike = ref.child("likes/\(post.postID)/\(uid!)")
     if post.isLiked {
       postLike.removeValue { error, _ in
         if let error = error {
@@ -519,11 +519,11 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
     let deleteAction = MDCAlertAction(title:"Delete") { _ in
       let postID = post.postID
-      let update = [ "people/\(self.uid)/posts/\(postID)": NSNull(),
+      let update = [ "people/\(self.uid!)/posts/\(postID)": NSNull(),
                      "comments/\(postID)": NSNull(),
                      "likes/\(postID)": NSNull(),
                      "posts/\(postID)": NSNull(),
-                     "feed/\(self.uid)/\(postID)": NSNull()]
+                     "feed/\(self.uid!)/\(postID)": NSNull()]
       self.ref.updateChildValues(update) { error, reference in
         if let error = error {
           print(error.localizedDescription)
@@ -579,8 +579,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       }
       followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
         if postSnapshot.key != followingSnapshot.key {
-          let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true,
-                         "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String: Any]
+          let updates = ["/feed/\(self.uid!)/\(postSnapshot.key)": true,
+                         "/people/\(self.uid!)/following/\(followedUid)": postSnapshot.key] as [String: Any]
           self.ref.updateChildValues(updates)
         }
       })
@@ -621,8 +621,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           if let postArray = postSnapshot.value as? [String: Any] {
             var updates = [AnyHashable: Any]()
             for postId in postArray.keys where postId != lastSyncedPost {
-              updates["/feed/\(self.uid)/\(postId)"] = true
-              updates["/people/\(self.uid)/following/\(followedUid)"] = postId
+              updates["/feed/\(self.uid!)/\(postId)"] = true
+              updates["/people/\(self.uid!)/following/\(followedUid)"] = postId
             }
             self.ref.updateChildValues(updates, withCompletionBlock: { error, reference in
               myGroup.leave()
