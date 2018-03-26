@@ -238,18 +238,22 @@ class FPAccountViewController: MDCCollectionViewController {
     }
   }
 
-  @IBAction func didTapMore(_ sender: Any) {
+  @IBAction func didTapMore(_ sender: UIBarButtonItem) {
+
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-    alert.addAction(UIAlertAction(title: "Sign out", style: .default , handler:{ (UIAlertAction)in
-      self.didSelectSignOut()
-    }))
+    alert.popoverPresentationController?.barButtonItem = sender
 
-    alert.addAction(UIAlertAction(title: "Delete account", style: .destructive , handler:{ _ in
+    alert.addAction(UIAlertAction(title: "Sign out", style: .default) { _ in
+      self.didSelectSignOut()
+    })
+
+    alert.addAction(UIAlertAction(title: "Delete account", style: .destructive) { _ in
       self.deleteAccount()
-    }))
+    })
 
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+
     self.present(alert, animated: true, completion: nil)
   }
 
