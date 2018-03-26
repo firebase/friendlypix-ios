@@ -47,9 +47,9 @@ $ open your-project.xcworkspace
     - Select **Sign In** and select Facebook to begin.
 
 
-## Cloud Functions
+## Requirements
 
-The required Cloud Functions can be found at [FriendlyPix Web Repository](https://github.com/firebase/friendlypix-web/tree/master/functions).
+The mobile FriendlyPix app need the Cloud Functions, the Realtime Database rules and the Cloud Storage rules to be deployed to work properly. You can find instructions at [FriendlyPix Web Repository](https://github.com/firebase/friendlypix-web/blob/master/README.md#mobile-apps).
 
 
 ## Contributing
