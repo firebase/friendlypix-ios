@@ -47,6 +47,11 @@ $ open your-project.xcworkspace
     - Select **Sign In** and select Facebook to begin.
 
 
+## Cloud Functions
+
+The required Cloud Functions can be found at [FriendlyPix Web Repository](https://github.com/firebase/friendlypix-web/tree/master/functions).
+
+
 ## Contributing
 
 We'd love that you contribute to the project. Before doing so please read our [Contributor guide](../CONTRIBUTING.md).
