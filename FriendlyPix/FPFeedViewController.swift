@@ -22,6 +22,7 @@ import Lightbox
 import MaterialComponents
 
 class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
+
   lazy var uid = Auth.auth().currentUser!.uid
   var followingRef: DatabaseReference?
 
@@ -502,7 +503,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     performSegue(withIdentifier: "comment", sender: post)
   }
 
-  func toogleLike(_ post: FPPost, button: UIButton, label: UILabel) {
+  func toogleLike(_ post: FPPost, label: UILabel) {
     let postLike = ref.child("likes/\(post.postID)/\(uid)")
     if post.isLiked {
       postLike.removeValue { error, _ in
@@ -521,7 +522,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
   }
 
-  func optionPost(_ post: FPPost, completion: (() -> Swift.Void)? = nil) {
+  func optionPost(_ post: FPPost, _ button: UIButton, completion: (() -> Swift.Void)? = nil) {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     if post.author.uid != uid {
       alert.addAction(UIAlertAction(title: "Report", style: .destructive , handler:{ _ in
@@ -564,6 +565,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       }))
     }
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+    alert.popoverPresentationController?.sourceView = button
+    alert.popoverPresentationController?.sourceRect = button.bounds
     present(alert, animated:true, completion:nil)
   }
 

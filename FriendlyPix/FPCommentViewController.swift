@@ -310,6 +310,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         }))
       }
       alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+      alert.popoverPresentationController?.sourceRect = sender.bounds
+      alert.popoverPresentationController?.sourceView = sender
 
       self.present(alert, animated: true, completion: nil)
     }

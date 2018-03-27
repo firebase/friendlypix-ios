@@ -259,7 +259,8 @@ class FPAccountViewController: MDCCollectionViewController {
     return alert
   }()
 
-  @IBAction func didTapMore(_ sender: Any) {
+  @IBAction func didTapMore(_ sender: UIBarButtonItem) {
+    moreAlert.popoverPresentationController?.barButtonItem = sender
     present(moreAlert, animated: true, completion: nil)
   }
 

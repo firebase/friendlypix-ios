@@ -21,8 +21,8 @@ protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
   func showLightbox(_ index: Int)
   func viewComments(_ post: FPPost)
-  func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
-  func optionPost(_ post: FPPost, completion: (() -> Swift.Void)? )
+  func toogleLike(_ post: FPPost, label: UILabel)
+  func optionPost(_ post: FPPost, _ button: UIButton, completion: (() -> Swift.Void)? )
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
@@ -177,11 +177,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   @IBAction func toggledLike() {
-    delegate?.toogleLike(post, button: likeButton, label: likesLabel)
+    delegate?.toogleLike(post, label: likesLabel)
   }
 
-  @IBAction func tappedOption() {
-    delegate?.optionPost(post, completion: nil)
+  @IBAction func tappedOption(_ sender: UIButton) {
+    delegate?.optionPost(post, sender, completion: nil)
   }
 
   override func prepareForReuse() {

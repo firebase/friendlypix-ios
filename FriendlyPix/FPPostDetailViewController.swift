@@ -35,8 +35,8 @@ class FPPostDetailViewController: FPFeedViewController {
     }
   }
 
-  override func optionPost(_ post: FPPost, completion: (() -> Swift.Void)? = nil) {
-    super.optionPost(post, completion: { self.navigationController?.popViewController(animated: true) })
+  override func optionPost(_ post: FPPost, _ button: UIButton, completion: (() -> Swift.Void)? = nil) {
+    super.optionPost(post, button, completion: { self.navigationController?.popViewController(animated: true) })
   }
 
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,

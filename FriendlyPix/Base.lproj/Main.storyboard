@@ -408,7 +408,7 @@
                     <navigationItem key="navigationItem" id="ChH-bk-KUz">
                         <barButtonItem key="rightBarButtonItem" image="ic_more_vert_white" id="Uhm-DZ-hp0">
                             <connections>
-                                <action selector="didTapMore:" destination="YDu-9b-7R6" id="Odn-7W-b2p"/>
+                                <action selector="didTapMore:" destination="YDu-9b-7R6" id="edj-Zw-Mzk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
