@@ -30,13 +30,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   let mdcMessage = MDCSnackbarMessage()
   let mdcAction = MDCSnackbarMessageAction()
   var window: UIWindow?
+  lazy var database = Database.database()
+  var blockedRef: DatabaseReference!
+  var blockingRef: DatabaseReference!
   let gcmMessageIDKey = "gcm.message_id"
   var notificationGranted = false
+  private var blocked = Set<String>()
+  private var blocking = Set<String>()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions
     launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     FirebaseApp.configure()
     Messaging.messaging().delegate = self
+    if let uid = Auth.auth().currentUser?.uid {
+      blockedRef = database.reference(withPath: "blocked/\(uid)")
+      blockingRef = database.reference(withPath: "blocking/\(uid)")
+      observeBlocks()
+    }
+
     if #available(iOS 10.0, *) {
       // For iOS 10 display notification (sent via APNS)
       UNUserNotificationCenter.current().delegate = self
@@ -47,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         completionHandler: { granted, _ in
           if granted {
             if let uid = Auth.auth().currentUser?.uid {
-              Database.database().reference().child("people/\(uid)/notificationEnabled").setValue(true)
+              self.database.reference(withPath: "people/\(uid)/notificationEnabled").setValue(true)
             } else {
               self.notificationGranted = true
             }
@@ -70,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     return true
   }
+
 
   func showAlert(_ userInfo: [AnyHashable: Any]) {
     let apsKey = "aps"
@@ -128,6 +140,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     showAlert(userInfo)
     completionHandler(.newData)
   }
+
+  func observeBlocks() {
+    blockedRef.observe(.childAdded) { self.blocked.insert($0.key) }
+    blockingRef.observe(.childAdded) { self.blocking.insert($0.key) }
+    blockedRef.observe(.childRemoved) { self.blocked.remove($0.key) }
+    blockingRef.observe(.childRemoved) { self.blocking.remove($0.key) }
+  }
+
+  func isBlocked(_ snapshot: DataSnapshot) -> Bool {
+    let author = snapshot.childSnapshot(forPath: "author/uid").value as! String
+    if blocked.contains(author) || blocking.contains(author) {
+      return true
+    }
+    return false
+  }
+
+  func isBlocked(by person: String) -> Bool {
+    return blocked.contains(person)
+  }
+
+  func isBlocking(_ person: String) -> Bool {
+    return blocking.contains(person)
+  }
 }
 
 extension AppDelegate: FUIAuthDelegate {
@@ -150,17 +185,29 @@ extension AppDelegate: FUIAuthDelegate {
     return FPAuthPickerViewController(nibName: "FPAuthPickerViewController", bundle: Bundle.main, authUI: authUI)
   }
 
+  func signOut() {
+    blockedRef.removeAllObservers()
+    blockingRef.removeAllObservers()
+    blocked.removeAll()
+    blocking.removeAll()
+  }
+
   func signed(in user: User) {
+    blockedRef = database.reference(withPath: "blocked/\(user.uid)")
+    blockingRef = database.reference(withPath: "blocking/\(user.uid)")
+    observeBlocks()
+
     var values: [String: Any] = ["profile_picture": user.photoURL?.absoluteString ?? "",
                                  "full_name": user.displayName ?? "",
                                  "_search_index": ["full_name": user.displayName?.lowercased(),
                                                    "reversed_full_name": user.displayName?.components(separatedBy: " ")
                                                     .reversed().joined(separator: "")]]
+
     if notificationGranted {
       values["notificationEnabled"] = true
       notificationGranted = false
     }
-    Database.database().reference(withPath: "people/\(user.uid)")
+    database.reference(withPath: "people/\(user.uid)")
       .updateChildValues(values)
   }
 }

@@ -1,8 +1,14 @@
 # Friendly Pix iOS
 
-Friendly Pix iOS is a sample app demonstrating how to build an iOS app with the Firebase Platform.
+FriendlyPix is a simple app to capture and share your favorite moments. It demonstrates the best practises of building an iOS app on the Firebase Platform. Follow interesting accounts of your choice. Interact with them through the comments. Stay up-to-date with the latest photos posted in the community.
 
-Friendly Pix is a place where you can share photos, follow friends, comment on photos...
+Use FriendlyPix to:
+
+* Post photos you want to keep on your profile grid.
+* Search profiles for friends and family.
+* Follow accounts to add photos from them in your Home feed.
+* Explore the latest photos from the Trending feed.
+* Interact with community through the comments under each photo.
 
 <img src="https://raw.githubusercontent.com/firebase/friendlypix-ios/master/friendly-pix.png" width="375">
 

@@ -48,7 +48,7 @@ class FPPost {
         isLiked = (likes.index(forKey: uid) != nil)
       }
     }
-    self.mine = self.author.userID == Auth.auth().currentUser?.uid
+    self.mine = self.author == Auth.auth().currentUser!
   }
 }
 

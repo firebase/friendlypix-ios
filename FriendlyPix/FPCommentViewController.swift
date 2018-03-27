@@ -20,8 +20,11 @@ import MaterialComponents
 class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   var post: FPPost!
   var comments: [FPComment]!
+  lazy var appDelegate = UIApplication.shared.delegate as! AppDelegate
+  lazy var uid = Auth.auth().currentUser!.uid
 
-  var commentsRef: DatabaseReference!
+  lazy var database = Database.database()
+  lazy var commentsRef = database.reference(withPath: "comments/\(post.postID)")
   var commentQuery: DatabaseQuery!
   let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
   let attributes2 = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
@@ -120,7 +123,6 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
     }
 
-    commentsRef = Database.database().reference(withPath: "comments/\(post.postID)")
     styler.cellStyle = .card
 
     inputTextView.delegate = self
@@ -190,7 +192,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       inputTextView.becomeFirstResponder()
     }
     commentQuery.observe(.childAdded, with: { dataSnaphot in
-      if dataSnaphot.key != lastCommentId {
+      if dataSnaphot.key != lastCommentId && !self.appDelegate.isBlocked(dataSnaphot){
         self.comments.append(FPComment(snapshot: dataSnaphot))
         let index = IndexPath(item: self.comments.count - 1, section: 1)
         self.collectionView?.insertItems(at: [index])
@@ -286,15 +288,27 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     let buttonPosition = sender.convert(CGPoint(), to: collectionView)
     if let indexPath = collectionView?.indexPathForItem(at: buttonPosition), indexPath.section == 1 {
       let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+      let comment = comments[indexPath.item]
+      if comment.from.uid == uid {
+        alert.addAction(UIAlertAction(title: "Edit", style: .default , handler:{ _ in
+          self.editComment(indexPath)
+        }))
 
-      alert.addAction(UIAlertAction(title: "Edit", style: .default , handler:{ (UIAlertAction)in
-        self.editComment(indexPath)
-      }))
-
-      alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction)in
-        self.deleteComment(indexPath)
-      }))
-
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ _ in
+          self.deleteComment(indexPath)
+        }))
+      } else {
+        alert.addAction(UIAlertAction(title: "Report", style: .destructive , handler:{ _ in
+          let alertController = MDCAlertController.init(title: "Report Comment?", message: nil)
+          let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+          let reportAction = MDCAlertAction(title: "Report") { _ in
+            self.database.reference(withPath: "commentFlags/\(self.post.postID)/\(comment.commentID)/\(self.uid)").setValue(true)
+          }
+          alertController.addAction(reportAction)
+          alertController.addAction(cancelAction)
+          self.present(alertController, animated: true, completion: nil)
+        }))
+      }
       alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
 
       self.present(alert, animated: true, completion: nil)
@@ -369,10 +383,10 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       cell.label.preferredMaxLayoutWidth = collectionView.bounds.width - insets.left - insets.right - 100
       if indexPath.section == 0 {
         cell.populateContent(from: post.author, text: post.text, date: post.postDate, index: -1, isDryRun: false)
+        cell.moreButton.isHidden = true
       } else {
         let comment = comments[indexPath.item]
         cell.populateContent(from: comment.from, text: comment.text, date: comment.postDate, index: indexPath.item, isDryRun: false)
-        cell.moreButton.isHidden = comment.from.userID != Auth.auth().currentUser?.uid
       }
     }
     return cell

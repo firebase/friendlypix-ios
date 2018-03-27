@@ -22,7 +22,7 @@ protocol FPCardCollectionViewCellDelegate: class {
   func showLightbox(_ index: Int)
   func viewComments(_ post: FPPost)
   func toogleLike(_ post: FPPost, button: UIButton, label: UILabel)
-  func deletePost(_ post: FPPost, completion: (() -> Swift.Void)? )
+  func optionPost(_ post: FPPost, completion: (() -> Swift.Void)? )
 }
 
 class FPCardCollectionViewCell: MDCCollectionViewCell {
@@ -33,8 +33,6 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak private var titleLabel: UILabel!
   @IBOutlet weak private var likesLabel: UILabel!
   @IBOutlet weak private var likeButton: UIButton!
-  @IBOutlet weak private var deleteButton: UIButton!
-
   @IBOutlet weak private var comment1Label: UILabel!
   @IBOutlet weak private var comment2Label: UILabel!
   @IBOutlet weak private var viewAllCommentsLabel: UIButton!
@@ -73,8 +71,8 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       UIImage.circleImage(with: profilePictureURL, to: authorImageView)
       authorImageView.accessibilityLabel = postAuthor.fullname
     }
-    authorLabel?.text = postAuthor.fullname
-    dateLabel?.text = post.postDate.timeAgo()
+    authorLabel.text = postAuthor.fullname
+    dateLabel.text = post.postDate.timeAgo()
     postImageView.tag = index
     if !isDryRun {
       postImageView?.sd_setImage(with: post.thumbURL, completed: nil)
@@ -84,12 +82,13 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     let title = NSMutableAttributedString(string: postAuthor.fullname, attributes: attributes)
     title.append(NSAttributedString(string: " " + post.text))
     title.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, title.length))
-    titleLabel?.attributedText = title
-    titleLabel?.accessibilityLabel = "\(post.text), posted by \(postAuthor.fullname)"
+    titleLabel.attributedText = title
+    titleLabel.accessibilityLabel = "\(post.text), posted by \(postAuthor.fullname)"
 
-    titleLabel?.addGestureRecognizer(UITapGestureRecognizer(target: self,
+    titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                             action: #selector(handleTapOnProfileLabel(recognizer:))))
-    likesLabel?.text = post.likeCount == 1 ? "1 like" : "\(post.likeCount) likes"
+    likesLabel.text = post.likeCount == 1 ? "1 like" : "\(post.likeCount) likes"
+    likesLabel.font = UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)
     if post.isLiked {
       likeButton.setImage(#imageLiteral(resourceName: "ic_favorite"), for: .normal)
       likeButton.accessibilityLabel = "you liked this post"
@@ -100,15 +99,13 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       likeButton.accessibilityHint = "double-tap to like"
     }
 
-    deleteButton.isHidden = !post.mine
-
     if labelConstraints != nil {
       NSLayoutConstraint.deactivate(labelConstraints)
       labelConstraints = nil
     }
 
     let betweenConstant: CGFloat = 2
-    let bottomConstant: CGFloat = 8
+    let bottomConstant: CGFloat = 12
     let commentCount = post.comments.count
     switch commentCount {
     case 0:
@@ -183,8 +180,8 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     delegate?.toogleLike(post, button: likeButton, label: likesLabel)
   }
 
-  @IBAction func tappedDelete() {
-    delegate?.deletePost(post, completion: nil)
+  @IBAction func tappedOption() {
+    delegate?.optionPost(post, completion: nil)
   }
 
   override func prepareForReuse() {

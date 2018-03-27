@@ -18,8 +18,11 @@ import Firebase
 import MaterialComponents
 
 class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, UISearchControllerDelegate {
+  
   let searchController = UISearchController(searchResultsController: nil)
   let peopleRef = Database.database().reference(withPath: "people")
+  lazy var appDelegate = UIApplication.shared.delegate as! AppDelegate
+  lazy var uid = Auth.auth().currentUser!.uid
   var people = [FPUser]()
   let emptyLabel: UILabel = {
     let messageLabel = UILabel()
@@ -130,7 +133,7 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
       .queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { snapshot in
         let enumerator = snapshot.children
           while let person = enumerator.nextObject() as? DataSnapshot {
-            if let value = person.value as? [String: Any], let searchIndex = value["_search_index"] as? [String: Any],
+            if !self.appDelegate.isBlocked(by: person.key), let value = person.value as? [String: Any], let searchIndex = value["_search_index"] as? [String: Any],
               let fullName = searchIndex[index] as? String, fullName.hasPrefix(searchString) {
               self.people.append(FPUser(snapshot: person))
               self.collectionView?.insertItems(at: [IndexPath(item: self.people.count - 1, section: 0)])

@@ -21,14 +21,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sz-OM-BtW">
-                        <rect key="frame" x="68" y="10" width="47.5" height="19.5"/>
+                        <rect key="frame" x="60" y="10" width="47.5" height="19.5"/>
                         <gestureRecognizers/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cCo-VS-WYk">
-                        <rect key="frame" x="16" y="8" width="36" height="36"/>
+                        <rect key="frame" x="12" y="8" width="36" height="36"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" image="YES"/>
                             <bool key="isElement" value="YES"/>
@@ -47,59 +47,61 @@
                         <gestureRecognizers/>
                     </imageView>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-bw-Z0o">
-                        <rect key="frame" x="16" y="299" width="27.5" height="19"/>
+                        <rect key="frame" x="12" y="299" width="27.5" height="19"/>
                         <gestureRecognizers/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T48-rQ-YPz">
-                        <rect key="frame" x="16" y="318" width="33" height="21"/>
+                        <rect key="frame" x="12" y="318" width="33" height="21"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment1" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPr-WU-9fW">
-                        <rect key="frame" x="16" y="361" width="65" height="21"/>
+                        <rect key="frame" x="12" y="361" width="65" height="21"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comment2" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Af-xI-Tq0">
-                        <rect key="frame" x="16" y="382" width="67" height="21"/>
+                        <rect key="frame" x="12" y="382" width="67" height="21"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rc6-zj-yAI">
-                        <rect key="frame" x="16" y="259" width="28" height="28"/>
+                        <rect key="frame" x="6" y="259" width="36" height="28"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="28" id="Rw9-Ve-XBY"/>
+                            <constraint firstAttribute="width" constant="36" id="Rw9-Ve-XBY"/>
                             <constraint firstAttribute="width" secondItem="Rc6-zj-yAI" secondAttribute="height" multiplier="1:1" id="tde-8i-3cf"/>
                         </constraints>
                         <color key="tintColor" red="0.64236106866381948" green="0.077524267989466419" blue="0.036316907013500023" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                         <state key="normal" image="ic_favorite_border"/>
                         <connections>
                             <action selector="toggledLike" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="Nh6-83-P1P"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5UZ-Mk-cdf">
-                        <rect key="frame" x="52" y="259" width="28" height="28"/>
+                        <rect key="frame" x="46" y="259" width="36" height="28"/>
                         <accessibility key="accessibilityConfiguration" label="comment">
                             <accessibilityTraits key="traits" button="YES"/>
                         </accessibility>
                         <constraints>
-                            <constraint firstAttribute="width" constant="28" id="2DG-l2-YKy"/>
+                            <constraint firstAttribute="width" constant="36" id="2DG-l2-YKy"/>
                             <constraint firstAttribute="width" secondItem="5UZ-Mk-cdf" secondAttribute="height" multiplier="1:1" id="Yaz-HG-DQR"/>
                         </constraints>
                         <color key="tintColor" red="0.074337826234127741" green="0.12914154789294527" blue="0.78715543394879361" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <inset key="imageEdgeInsets" minX="4" minY="5" maxX="4" maxY="3"/>
                         <state key="normal" image="ic_comment"/>
                         <connections>
                             <action selector="viewAllComments:" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="8Wr-bK-Ppg"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97U-my-Cm3">
-                        <rect key="frame" x="16" y="336" width="114" height="30"/>
+                        <rect key="frame" x="12" y="336" width="114" height="30"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                         <state key="normal" title="View all comments">
                             <color key="titleColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -108,21 +110,24 @@
                             <action selector="viewAllComments:" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="UP2-Rh-TsJ"/>
                         </connections>
                     </button>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BKP-Ag-fGk">
-                        <rect key="frame" x="284" y="265" width="28" height="24"/>
-                        <accessibility key="accessibilityConfiguration" label="Delete post"/>
+                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BKP-Ag-fGk" userLabel="Option Button">
+                        <rect key="frame" x="276" y="255" width="36" height="36"/>
+                        <accessibility key="accessibilityConfiguration" label="Post">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="BKP-Ag-fGk" secondAttribute="height" multiplier="1:1" id="A1E-ut-4Ge"/>
-                            <constraint firstAttribute="width" constant="28" id="qU3-Hu-h1C"/>
+                            <constraint firstAttribute="width" constant="36" id="qU3-Hu-h1C"/>
                         </constraints>
                         <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" image="ic_delete"/>
+                        <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                        <state key="normal" image="ic_more_vert_white"/>
                         <connections>
-                            <action selector="tappedDelete" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="pcl-qA-qxh"/>
+                            <action selector="tappedOption" destination="QDX-Pc-tzZ" eventType="touchUpInside" id="iOl-a4-8hG"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMO-FO-hME">
-                        <rect key="frame" x="68" y="29.5" width="25" height="13.5"/>
+                        <rect key="frame" x="60" y="29.5" width="25" height="13.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                         <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <nil key="highlightedColor"/>
@@ -131,26 +136,26 @@
             </view>
             <gestureRecognizers/>
             <constraints>
-                <constraint firstItem="cCo-VS-WYk" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leadingMargin" id="7yQ-V0-FHE"/>
+                <constraint firstItem="Rc6-zj-yAI" firstAttribute="centerY" secondItem="5UZ-Mk-cdf" secondAttribute="centerY" id="8OZ-bl-AF9"/>
                 <constraint firstItem="cCo-VS-WYk" firstAttribute="top" secondItem="QDX-Pc-tzZ" secondAttribute="topMargin" id="8iU-iC-myk"/>
                 <constraint firstItem="2sz-OM-BtW" firstAttribute="top" secondItem="cCo-VS-WYk" secondAttribute="top" constant="2" id="CkN-u5-qJ3"/>
-                <constraint firstItem="Rc6-zj-yAI" firstAttribute="top" secondItem="uLH-WT-gi5" secondAttribute="bottom" constant="8" id="DAJ-iQ-Nap"/>
+                <constraint firstItem="Rc6-zj-yAI" firstAttribute="top" secondItem="uLH-WT-gi5" secondAttribute="bottom" constant="6" id="DAJ-iQ-Nap"/>
                 <constraint firstItem="hMO-FO-hME" firstAttribute="leading" secondItem="2sz-OM-BtW" secondAttribute="leading" id="Ec8-aP-Cr8"/>
                 <constraint firstItem="uLH-WT-gi5" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="1" id="FKm-4p-lNB"/>
                 <constraint firstAttribute="trailing" secondItem="uLH-WT-gi5" secondAttribute="trailing" constant="1" id="Gnr-po-5WB"/>
+                <constraint firstItem="cCo-VS-WYk" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="12" id="Mpf-2N-8Ts"/>
                 <constraint firstAttribute="trailing" secondItem="BKP-Ag-fGk" secondAttribute="trailing" constant="8" id="Pi8-zG-hk4"/>
                 <constraint firstItem="hV4-bw-Z0o" firstAttribute="leading" secondItem="T48-rQ-YPz" secondAttribute="leading" id="VDc-55-EDN"/>
-                <constraint firstItem="5UZ-Mk-cdf" firstAttribute="centerY" secondItem="Rc6-zj-yAI" secondAttribute="centerY" constant="1" id="WCT-W1-D87"/>
                 <constraint firstItem="T48-rQ-YPz" firstAttribute="leading" secondItem="cCo-VS-WYk" secondAttribute="leading" id="ZxD-9V-6Xg"/>
                 <constraint firstItem="T48-rQ-YPz" firstAttribute="top" secondItem="hV4-bw-Z0o" secondAttribute="bottom" constant="4" id="aOA-4a-7iX"/>
                 <constraint firstItem="VPr-WU-9fW" firstAttribute="leading" secondItem="7Af-xI-Tq0" secondAttribute="leading" id="agn-tw-cHX"/>
-                <constraint firstItem="2sz-OM-BtW" firstAttribute="leading" secondItem="cCo-VS-WYk" secondAttribute="trailing" constant="16" id="dTQ-BB-MCJ"/>
-                <constraint firstItem="Rc6-zj-yAI" firstAttribute="leading" secondItem="hV4-bw-Z0o" secondAttribute="leading" id="ees-3J-5iJ"/>
+                <constraint firstItem="2sz-OM-BtW" firstAttribute="leading" secondItem="cCo-VS-WYk" secondAttribute="trailing" constant="12" id="dTQ-BB-MCJ"/>
                 <constraint firstItem="97U-my-Cm3" firstAttribute="leading" secondItem="T48-rQ-YPz" secondAttribute="leading" id="gtT-tf-zFh"/>
+                <constraint firstItem="Rc6-zj-yAI" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="6" id="gtg-5T-raG"/>
+                <constraint firstItem="5UZ-Mk-cdf" firstAttribute="centerY" secondItem="BKP-Ag-fGk" secondAttribute="centerY" id="hsa-R1-oQf"/>
                 <constraint firstItem="uLH-WT-gi5" firstAttribute="top" secondItem="cCo-VS-WYk" secondAttribute="bottom" constant="8" id="iLk-cY-ezI"/>
-                <constraint firstItem="5UZ-Mk-cdf" firstAttribute="leading" secondItem="Rc6-zj-yAI" secondAttribute="trailing" constant="8" id="mPv-CO-D5s"/>
-                <constraint firstItem="hV4-bw-Z0o" firstAttribute="top" secondItem="Rc6-zj-yAI" secondAttribute="bottom" constant="8" id="mSx-zJ-qSN"/>
-                <constraint firstItem="BKP-Ag-fGk" firstAttribute="centerY" secondItem="5UZ-Mk-cdf" secondAttribute="centerY" id="pFW-zf-qRU"/>
+                <constraint firstItem="5UZ-Mk-cdf" firstAttribute="leading" secondItem="Rc6-zj-yAI" secondAttribute="trailing" constant="4" id="mPv-CO-D5s"/>
+                <constraint firstItem="hV4-bw-Z0o" firstAttribute="top" secondItem="Rc6-zj-yAI" secondAttribute="bottom" constant="4" id="mSx-zJ-qSN"/>
                 <constraint firstItem="97U-my-Cm3" firstAttribute="leading" secondItem="VPr-WU-9fW" secondAttribute="leading" id="y1I-Py-xXX"/>
                 <constraint firstItem="hMO-FO-hME" firstAttribute="top" secondItem="2sz-OM-BtW" secondAttribute="bottom" id="zLV-b2-AZN"/>
             </constraints>
@@ -161,7 +166,6 @@
                 <outlet property="comment1Label" destination="VPr-WU-9fW" id="ddf-vT-5Zx"/>
                 <outlet property="comment2Label" destination="7Af-xI-Tq0" id="7ev-OA-3SN"/>
                 <outlet property="dateLabel" destination="hMO-FO-hME" id="b4m-ce-ZqH"/>
-                <outlet property="deleteButton" destination="BKP-Ag-fGk" id="DsK-3b-Q1F"/>
                 <outlet property="likeButton" destination="Rc6-zj-yAI" id="H49-GT-TvS"/>
                 <outlet property="likesLabel" destination="hV4-bw-Z0o" id="mxR-vl-EPL"/>
                 <outlet property="postImageView" destination="uLH-WT-gi5" id="TY4-CB-CAy"/>
@@ -173,7 +177,7 @@
     </objects>
     <resources>
         <image name="ic_comment" width="36" height="36"/>
-        <image name="ic_delete" width="36" height="36"/>
         <image name="ic_favorite_border" width="36" height="36"/>
+        <image name="ic_more_vert_white" width="24" height="24"/>
     </resources>
 </document>

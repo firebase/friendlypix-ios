@@ -19,7 +19,6 @@ import Lightbox
 import MaterialComponents.MaterialCollections
 
 class FPAccountViewController: MDCCollectionViewController {
-  @IBOutlet private weak var moreButton: UIBarButtonItem!
   var headerView: FPAccountHeader!
   var profile: FPUser!
   let uid = Auth.auth().currentUser!.uid
@@ -29,6 +28,7 @@ class FPAccountViewController: MDCCollectionViewController {
   var loadingPostCount = 0
   var firebaseRefs = [DatabaseReference]()
   var insets: UIEdgeInsets!
+  lazy var appDelegate = UIApplication.shared.delegate as! AppDelegate
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,9 +39,6 @@ class FPAccountViewController: MDCCollectionViewController {
     insets = self.collectionView(collectionView!,
                                  layout: collectionViewLayout,
                                  insetForSectionAt: 0)
-    if profile.userID == uid {
-      moreButton.isEnabled = true
-    }
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +55,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   @IBAction func valueChanged(_ sender: Any) {
-    if profile.userID == uid {
+    if profile.uid == uid {
       let notificationEnabled = ref.child("people/\(uid)/notificationEnabled")
       if headerView.followSwitch.isOn {
         notificationEnabled.setValue(true)
@@ -79,7 +76,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerToFollowStatusUpdate() {
-    let followStatusRef = ref.child("people/\(uid)/following/\(profile.userID)")
+    let followStatusRef = ref.child("people/\(uid)/following/\(profile.uid)")
     followStatusRef.observe(.value) {
       self.headerView.followSwitch.isOn = $0.exists()
     }
@@ -95,7 +92,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerForFollowersCount() {
-    let followersRef = ref.child("followers/\(profile.userID)")
+    let followersRef = ref.child("followers/\(profile.uid)")
     followersRef.observe(.value, with: {
       self.headerView.followersLabel.text = "\($0.childrenCount) follower\($0.childrenCount != 1 ? "s" : "")"
     })
@@ -103,7 +100,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerForFollowingCount() {
-    let followingRef = ref.child("people/\(profile.userID)/following")
+    let followingRef = ref.child("people/\(profile.uid)/following")
     followingRef.observe(.value, with: {
       self.headerView.followingLabel.text = "\($0.childrenCount) following"
     })
@@ -111,14 +108,14 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerForPostsCount() {
-    let userPostsRef = ref.child("people/\(profile.userID)/posts")
+    let userPostsRef = ref.child("people/\(profile.uid)/posts")
     userPostsRef.observe(.value, with: {
       self.headerView.postsLabel.text = "\($0.childrenCount) post\($0.childrenCount != 1 ? "s" : "")"
     })
   }
 
   func registerForPostsDeletion() {
-    let userPostsRef = ref.child("people/\(profile.userID)/posts")
+    let userPostsRef = ref.child("people/\(profile.uid)/posts")
     userPostsRef.observe(.childRemoved, with: { postSnapshot in
       var index = 0
       for post in self.postSnapshots {
@@ -136,7 +133,7 @@ class FPAccountViewController: MDCCollectionViewController {
 
 
   func loadUserPosts() {
-    ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: {
+    ref.child("people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: {
       if var posts = $0.value as? [String: Any] {
         if !self.postSnapshots.isEmpty {
           var index = self.postSnapshots.count - 1
@@ -162,7 +159,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func loadData() {
-    if profile.userID == uid {
+    if profile.uid == uid {
       registerToNotificationEnabledStatusUpdate()
     } else {
       registerToFollowStatusUpdate()
@@ -213,7 +210,7 @@ class FPAccountViewController: MDCCollectionViewController {
       let header = collectionView.dequeueReusableCell(withReuseIdentifier: "header", for: indexPath) as! FPAccountHeader
       header.inkView?.removeFromSuperview()
       headerView = header
-      if profile.userID == uid {
+      if profile.uid == uid {
         header.followLabel.text = "Notifications"
         header.followSwitch.accessibilityLabel = header.followSwitch.isOn ? "Notifications are on" : "Notifications are off"
         header.followSwitch.accessibilityHint = "Double-tap to \(header.followSwitch.isOn ? "disable" : "enable") notifications"
@@ -238,25 +235,38 @@ class FPAccountViewController: MDCCollectionViewController {
     }
   }
 
-  @IBAction func didTapMore(_ sender: Any) {
+  lazy var moreAlert: UIAlertController = {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-    alert.addAction(UIAlertAction(title: "Sign out", style: .default , handler:{ (UIAlertAction)in
-      self.didSelectSignOut()
-    }))
-
-    alert.addAction(UIAlertAction(title: "Delete account", style: .destructive , handler:{ _ in
-      self.deleteAccount()
-    }))
-
+    if profile.uid == uid {
+      alert.addAction(UIAlertAction(title: "Sign out", style: .default , handler:{ (UIAlertAction)in
+        self.present(self.signOutAlert, animated:true, completion:nil)
+      }))
+      alert.addAction(UIAlertAction(title: "Delete account", style: .destructive , handler:{ _ in
+        self.present(self.deleteAlert, animated:true, completion:nil)
+      }))
+    } else {
+      if !appDelegate.isBlocking(profile.uid) {
+        alert.addAction(UIAlertAction(title: "Block", style: .destructive , handler:{ _ in
+          self.present(self.blockAlert, animated:true, completion:nil)
+        }))
+      } else {
+        alert.addAction(UIAlertAction(title: "Unblock", style: .destructive , handler:{ _ in
+          self.present(self.unblockAlert, animated:true, completion:nil)
+        }))
+      }
+    }
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
-    self.present(alert, animated: true, completion: nil)
+    return alert
+  }()
+
+  @IBAction func didTapMore(_ sender: Any) {
+    present(moreAlert, animated: true, completion: nil)
   }
 
   func toggleFollow(_ follow: Bool) {
     feedViewController?.followChanged = true
     let myFeed = "feed/\(uid)/"
-    ref.child("people/\(profile.userID)/posts").observeSingleEvent(of: .value, with: { snapshot in
+    ref.child("people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: { snapshot in
       var lastPostID: Any = true
       var updateData = [String: Any]()
       if let posts = snapshot.value as? [String: Any] {
@@ -267,10 +277,10 @@ class FPAccountViewController: MDCCollectionViewController {
         }
 
         // Add/remove followed user to the 'following' list.
-        updateData["people/\(self.uid)/following/\(self.profile.userID)"] = follow ? lastPostID : NSNull()
+        updateData["people/\(self.uid)/following/\(self.profile.uid)"] = follow ? lastPostID : NSNull()
 
         // Add/remove signed-in user to the list of followers.
-        updateData["followers/\(self.profile.userID)/\(self.uid)"] = follow ? true : NSNull()
+        updateData["followers/\(self.profile.uid)/\(self.uid)"] = follow ? true : NSNull()
         self.ref.updateChildValues(updateData) { error, _ in
           if let error = error {
             print(error.localizedDescription)
@@ -302,39 +312,81 @@ class FPAccountViewController: MDCCollectionViewController {
       try Auth.auth().signOut()
     } catch {
     }
+    appDelegate.signOut()
     self.navigationController?.popToRootViewController(animated: false)
   }
 
-
-  func didSelectSignOut() {
-    let alertController = MDCAlertController.init(title: "Log out of \(Auth.auth().currentUser?.displayName ?? "current user")?", message: nil)
+  lazy var signOutAlert: MDCAlertController = {
+    let alertController = MDCAlertController(title: "Log out of \(Auth.auth().currentUser?.displayName ?? "current user")?", message: nil)
     let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
     let logoutAction = MDCAlertAction(title:"Logout") { _ in self.signOut() }
     alertController.addAction(logoutAction)
     alertController.addAction(cancelAction)
-    present(alertController, animated:true, completion:nil)
-  }
+    return alertController
+  }()
 
-  func deleteAccount() {
+  lazy var errorAlert:  MDCAlertController = {
+    let alertController = MDCAlertController(title: "Deletion requires recent authentication",
+                                             message: "Log in again before retrying.")
+    let okAction = MDCAlertAction(title:"OK") { _ in self.signOut() }
+    alertController.addAction(okAction)
+    return alertController
+  }()
+
+  lazy var deleteAlert: MDCAlertController = {
     let alertController = MDCAlertController.init(title: "Delete Account?", message: nil)
-    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
+    let cancelAction = MDCAlertAction(title:"Cancel", handler: nil)
     let deleteAction = MDCAlertAction(title:"Delete") { _ in
       Auth.auth().currentUser?.delete(completion: { error in
         if error != nil {
-          let errorController = MDCAlertController.init(title: "Deletion requires recent authentication", message: "Log in again before retrying.")
-          let okAction = MDCAlertAction(title:"OK") { _ in self.signOut() }
-          errorController.addAction(okAction)
-          self.present(errorController, animated:true, completion:nil)
+          self.present(self.errorAlert, animated:true, completion:nil)
           return
         }
         self.signOut()
       })
     }
-
     alertController.addAction(deleteAction)
     alertController.addAction(cancelAction)
-    present(alertController, animated:true, completion:nil)
-  }
+    return alertController
+  }()
+
+  lazy var blockAlert: MDCAlertController = {
+    let alertController = MDCAlertController.init(title: "Block Account?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel", handler: nil)
+    let blockAction = MDCAlertAction(title:"Block") { _ in
+      if self.headerView.followSwitch.isOn {
+        self.toggleFollow(false)
+      }
+      let updateData = ["blocked/\(self.profile.uid)/\(self.uid)": true,
+                        "blocking/\(self.uid)/\(self.profile.uid)" : true]
+      self.ref.updateChildValues(updateData) { error, _ in
+        if let error = error {
+          print(error.localizedDescription)
+        }
+      }
+    }
+    alertController.addAction(blockAction)
+    alertController.addAction(cancelAction)
+    return alertController
+  }()
+
+  lazy var unblockAlert: MDCAlertController = {
+    let alertController = MDCAlertController.init(title: "Unblock Account?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel", handler: nil)
+    let unblockAction = MDCAlertAction(title:"Unblock") { _ in
+
+      let updateData = ["blocked/\(self.profile.uid)/\(self.uid)": NSNull(),
+                        "blocking/\(self.uid)/\(self.profile.uid)" : NSNull()]
+      self.ref.updateChildValues(updateData) { error, _ in
+        if let error = error {
+          print(error.localizedDescription)
+        }
+      }
+    }
+    alertController.addAction(unblockAction)
+    alertController.addAction(cancelAction)
+    return alertController
+  }()
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "detail" {

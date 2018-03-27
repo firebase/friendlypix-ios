@@ -189,7 +189,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57P-Fy-dyO">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57P-Fy-dyO">
                                             <rect key="frame" x="318" y="8" width="24" height="24"/>
                                             <accessibility key="accessibilityConfiguration" label="edit comment"/>
                                             <constraints>
@@ -221,7 +221,7 @@
                                     <outlet property="dateLabel" destination="hHv-6A-dZn" id="5LS-tH-iXY"/>
                                     <outlet property="imageView" destination="k2P-lS-h8V" id="zyW-GV-m23"/>
                                     <outlet property="label" destination="VeJ-iT-g3Q" id="lSi-cU-bG2"/>
-                                    <outlet property="moreButton" destination="57P-Fy-dyO" id="yyg-Km-olV"/>
+                                    <outlet property="moreButton" destination="57P-Fy-dyO" id="Zws-oJ-trz"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -406,14 +406,13 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="ChH-bk-KUz">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="ic_more_vert_white" id="Uhm-DZ-hp0">
+                        <barButtonItem key="rightBarButtonItem" image="ic_more_vert_white" id="Uhm-DZ-hp0">
                             <connections>
                                 <action selector="didTapMore:" destination="YDu-9b-7R6" id="Odn-7W-b2p"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="moreButton" destination="Uhm-DZ-hp0" id="BaL-nJ-2ap"/>
                         <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="BGQ-EM-eFj"/>
                         <segue destination="hkU-i0-Vem" kind="show" identifier="detail" id="0dF-Vk-Xxj"/>
                     </connections>
