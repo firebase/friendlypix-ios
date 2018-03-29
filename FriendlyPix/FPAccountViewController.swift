@@ -22,6 +22,7 @@ class FPAccountViewController: MDCCollectionViewController {
   var headerView: FPAccountHeader!
   var profile: FPUser!
   let uid = Auth.auth().currentUser!.uid
+  let database = Database.database()
   let ref = Database.database().reference()
   var postIds: [String: Any]?
   var postSnapshots = [DataSnapshot]()
@@ -56,7 +57,7 @@ class FPAccountViewController: MDCCollectionViewController {
 
   @IBAction func valueChanged(_ sender: Any) {
     if profile.uid == uid {
-      let notificationEnabled = ref.child("people/\(uid)/notificationEnabled")
+      let notificationEnabled = database.reference(withPath: "people/\(uid)/notificationEnabled")
       if headerView.followSwitch.isOn {
         notificationEnabled.setValue(true)
       } else {
@@ -76,7 +77,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerToFollowStatusUpdate() {
-    let followStatusRef = ref.child("people/\(uid)/following/\(profile.uid)")
+    let followStatusRef = database.reference(withPath: "people/\(uid)/following/\(profile.uid)")
     followStatusRef.observe(.value) {
       self.headerView.followSwitch.isOn = $0.exists()
     }
@@ -84,7 +85,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerToNotificationEnabledStatusUpdate() {
-    let notificationEnabledRef  = ref.child("people/\(uid)/notificationEnabled")
+    let notificationEnabledRef  = database.reference(withPath: "people/\(uid)/notificationEnabled")
     notificationEnabledRef.observe(.value) {
       self.headerView.followSwitch.isOn = $0.exists()
     }
@@ -92,7 +93,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerForFollowersCount() {
-    let followersRef = ref.child("followers/\(profile.uid)")
+    let followersRef = database.reference(withPath: "followers/\(profile.uid)")
     followersRef.observe(.value, with: {
       self.headerView.followersLabel.text = "\($0.childrenCount) follower\($0.childrenCount != 1 ? "s" : "")"
     })
@@ -100,7 +101,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerForFollowingCount() {
-    let followingRef = ref.child("people/\(profile.uid)/following")
+    let followingRef = database.reference(withPath: "people/\(profile.uid)/following")
     followingRef.observe(.value, with: {
       self.headerView.followingLabel.text = "\($0.childrenCount) following"
     })
@@ -108,14 +109,14 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func registerForPostsCount() {
-    let userPostsRef = ref.child("people/\(profile.uid)/posts")
+    let userPostsRef = database.reference(withPath: "people/\(profile.uid)/posts")
     userPostsRef.observe(.value, with: {
       self.headerView.postsLabel.text = "\($0.childrenCount) post\($0.childrenCount != 1 ? "s" : "")"
     })
   }
 
   func registerForPostsDeletion() {
-    let userPostsRef = ref.child("people/\(profile.uid)/posts")
+    let userPostsRef = database.reference(withPath: "people/\(profile.uid)/posts")
     userPostsRef.observe(.childRemoved, with: { postSnapshot in
       var index = 0
       for post in self.postSnapshots {
@@ -133,7 +134,7 @@ class FPAccountViewController: MDCCollectionViewController {
 
 
   func loadUserPosts() {
-    ref.child("people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: {
+    database.reference(withPath: "people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: {
       if var posts = $0.value as? [String: Any] {
         if !self.postSnapshots.isEmpty {
           var index = self.postSnapshots.count - 1
@@ -182,7 +183,7 @@ class FPAccountViewController: MDCCollectionViewController {
     self.collectionView?.performBatchUpdates({
       for _ in 1...10 {
         if let postId = self.postIds?.popFirst()?.key {
-          self.ref.child("posts/" + (postId)).observeSingleEvent(of: .value, with: { postSnapshot in
+          database.reference(withPath: "posts/\(postId)").observeSingleEvent(of: .value, with: { postSnapshot in
             self.postSnapshots.append(postSnapshot)
             self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 1)])
           })
@@ -267,7 +268,7 @@ class FPAccountViewController: MDCCollectionViewController {
   func toggleFollow(_ follow: Bool) {
     feedViewController?.followChanged = true
     let myFeed = "feed/\(uid)/"
-    ref.child("people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: { snapshot in
+    database.reference(withPath: "people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: { snapshot in
       var lastPostID: Any = true
       var updateData = [String: Any]()
       if let posts = snapshot.value as? [String: Any] {

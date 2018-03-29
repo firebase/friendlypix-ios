@@ -26,10 +26,11 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   lazy var uid = Auth.auth().currentUser!.uid
   var followingRef: DatabaseReference?
 
-  lazy var ref = Database.database().reference()
-  lazy var postsRef = self.ref.child("posts")
-  lazy var commentsRef = self.ref.child("comments")
-  lazy var likesRef = self.ref.child("likes")
+  lazy var database = Database.database()
+  lazy var ref = self.database.reference()
+  lazy var postsRef = self.database.reference(withPath: "posts")
+  lazy var commentsRef = self.database.reference(withPath: "comments")
+  lazy var likesRef = self.database.reference(withPath: "likes")
   lazy var appDelegate = UIApplication.shared.delegate as! AppDelegate
 
   var floatingButtonOffset: CGFloat = 0.0
@@ -195,7 +196,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     super.viewDidAppear(animated)
     if let currentUser = Auth.auth().currentUser  {
       self.uid = currentUser.uid
-      self.followingRef = ref.child("people/\(uid)/following")
+      self.followingRef = database.reference(withPath: "people/\(uid)/following")
     } else {
       let authViewController = FUIAuth.defaultAuthUI()?.authViewController()
       authViewController?.navigationBar.isHidden = true
@@ -274,7 +275,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       loadFeed()
       listenDeletes()
     } else {
-      query = ref.child("feed").child(uid)
+      query = database.reference(withPath: "feed/\(uid)")
       // Make sure the home feed is updated with followed users's new posts.
       // Only after the feed creation is complete, start fetching the posts.
       updateHomeFeeds()
@@ -357,10 +358,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
             myGroup.notify(queue: .main) {
               if !self.showFeed {
                 for index in 0..<(reversed.count - extraElement) {
-                  if let spinner = self.spinner {
-                    self.removeSpinner(spinner)
+                  if let snapshot = results[index] {
+                    if snapshot.exists() {
+                      self.loadPost(snapshot)
+                    } else {
+                      self.loadingPostCount -= 1
+                      self.database.reference(withPath: "feed/\(self.uid)/\(snapshot.key)").removeValue()
+                    }
                   }
-                  self.loadPost(results[index]!)
                 }
               }
             }
@@ -504,7 +509,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   func toogleLike(_ post: FPPost, label: UILabel) {
-    let postLike = ref.child("likes/\(post.postID)/\(uid)")
+    let postLike = database.reference(withPath: "likes/\(post.postID)/\(uid)")
     if post.isLiked {
       postLike.removeValue { error, _ in
         if let error = error {
@@ -529,7 +534,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         let alertController = MDCAlertController.init(title: "Report Post?", message: nil)
         let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
         let reportAction = MDCAlertAction(title: "Report") { _ in
-          self.ref.child("postFlags/\(post.postID)/\(self.uid)").setValue(true)
+          self.database.reference(withPath: "postFlags/\(post.postID)/\(self.uid)").setValue(true)
         }
         alertController.addAction(reportAction)
         alertController.addAction(cancelAction)
@@ -600,7 +605,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     followingRef?.observe(.childAdded, with: { followingSnapshot in
       // Start listening the followed user's posts to populate the home feed.
       let followedUid = followingSnapshot.key
-      var followedUserPostsRef: DatabaseQuery = self.ref.child("people").child(followedUid).child("posts")
+      var followedUserPostsRef: DatabaseQuery = self.database.reference(withPath: "people/\(followedUid)/posts")
       if followingSnapshot.exists() && (followingSnapshot.value is String) {
         followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: followingSnapshot.value)
       }
@@ -617,7 +622,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     followingRef?.observe(.childRemoved, with: { snapshot in
       // Stop listening the followed user's posts to populate the home feed.
       let followedUserId: String = snapshot.key
-      self.ref.child("people").child(followedUserId).child("posts").removeAllObservers()
+      self.database.reference(withPath: "people/\(followedUserId)/posts").removeAllObservers()
     })
   }
 
@@ -638,7 +643,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       let myGroup = DispatchGroup()
       for (followedUid, lastSyncedPostId) in following {
         myGroup.enter()
-        followedUserPostsRef = self.ref.child("people").child(followedUid).child("posts")
+        followedUserPostsRef = self.database.reference(withPath: "people/\(followedUid)/posts")
         var lastSyncedPost = ""
         if let lastSyncedPostId = lastSyncedPostId as? String {
           followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: lastSyncedPostId)
