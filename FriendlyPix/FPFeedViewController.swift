@@ -204,10 +204,12 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       return
     }
     MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
-    if let photoURL = Auth.auth().currentUser?.photoURL, let item = navigationItem.rightBarButtonItems?[0] {
-      UIImage.circleButton(with: photoURL, to: item)
+    if let item = navigationItem.rightBarButtonItems?[0] {
       item.accessibilityLabel = ""
       item.accessibilityHint = "Double-tap to open your profile."
+      if let photoURL = Auth.auth().currentUser?.photoURL {
+        UIImage.circleButton(with: photoURL, to: item)
+      }
     }
     navigationItem.rightBarButtonItems?[1].accessibilityLabel = "Search people"
     if newPost {

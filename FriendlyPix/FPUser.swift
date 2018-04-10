@@ -24,7 +24,7 @@ class FPUser {
   init(snapshot: DataSnapshot) {
     self.uid = snapshot.key
     let value = snapshot.value as! [String: Any]
-    self.fullname = value["full_name"] as! String
+    self.fullname = value["full_name"] as? String ?? ""
     guard let profile_picture = value["profile_picture"] as? String,
       let profilePictureURL = URL(string: profile_picture) else { return }
     self.profilePictureURL = profilePictureURL
@@ -32,7 +32,7 @@ class FPUser {
 
   init(dictionary: [String: String]) {
     self.uid = dictionary["uid"]!
-    self.fullname = dictionary["full_name"]!
+    self.fullname = dictionary["full_name"] ?? ""
     guard let profile_picture = dictionary["profile_picture"],
       let profilePictureURL = URL(string: profile_picture) else { return }
     self.profilePictureURL = profilePictureURL
