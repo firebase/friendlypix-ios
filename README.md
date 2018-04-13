@@ -33,7 +33,8 @@ $ open your-project.xcworkspace
 - Go to the [Firebase Console](https://console.firebase.google.com) and navigate to your project:
   - Select the **Auth** panel and then click the **Sign In Method** tab.
   - Click **Google** and turn on the **Enable** switch, then click **Save**.
-- Open your regular `Info.plist` and replace the value of the `REVERSED_CLIENT_ID` with the value of the this key from the GoogleService-Info.plist`.
+- Open your regular `Info.plist`, navigate to `URL types > Item 0 > URL schemes`, and replace the value
+  of `YOUR_REVERSED_CLIENT_ID` with the value of `REVERSED_CLIENT_ID` from the GoogleService-Info.plist`.
 - Run the app on your device or simulator.
     - Select **Sign In** and select Google to begin.
 
