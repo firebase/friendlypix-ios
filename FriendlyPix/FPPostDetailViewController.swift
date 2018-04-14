@@ -23,9 +23,8 @@ class FPPostDetailViewController: FPFeedViewController {
     if let post = posts.first {
       postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
         if $0.exists() && !self.appDelegate.isBlocked($0) {
-          let indexPath = [IndexPath(item: 0, section: 0)]
-          self.updatePost(post, postSnapshot: $0, at: indexPath)
-          self.listenPost(post, at: indexPath)
+          self.updatePost(post, postSnapshot: $0)
+          self.listenPost(post)
         } else {
           self.navigationController?.popViewController(animated: true)
         }

@@ -196,6 +196,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     super.viewDidAppear(animated)
     if let currentUser = Auth.auth().currentUser  {
       self.uid = currentUser.uid
+      Crashlytics.sharedInstance().setUserIdentifier(currentUser.uid)
       self.followingRef = database.reference(withPath: "people/\(uid)/following")
     } else {
       let authViewController = FUIAuth.defaultAuthUI()?.authViewController()
@@ -289,6 +290,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if let index = self.posts.index(where: {$0.postID == postSnapshot.key}) {
         self.posts.remove(at: index)
         self.loadingPostCount -= 1
+        Crashlytics.sharedInstance().setObjectValue(self.posts.count, forKey: "listenDeletes")
         self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
       }
     })
@@ -306,27 +308,24 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if let spinner = spinner {
         removeSpinner(spinner)
       }
-      self.collectionView?.performBatchUpdates({
-        var index = posts.count - 1
-        for post in posts.reversed() {
-          let current = index
-          postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
-            let indexPath = [IndexPath(item: current, section: 0)]
-            if $0.exists() && !self.appDelegate.isBlocked($0) {
-              self.updatePost(post, postSnapshot: $0, at: indexPath)
-              self.listenPost(post, at: indexPath)
-            } else {
-              self.posts.remove(at: current)
+      for post in posts {
+        postsRef.child(post.postID).observeSingleEvent(of: .value, with: {
+          if $0.exists() && !self.appDelegate.isBlocked($0) {
+            self.updatePost(post, postSnapshot: $0)
+            self.listenPost(post)
+          } else {
+            if let index = self.posts.index(where: {$0.postID == post.postID}) {
+              self.posts.remove(at: index)
               self.loadingPostCount -= 1
-              self.collectionView?.deleteItems(at: indexPath)
+              Crashlytics.sharedInstance().setObjectValue(self.posts.count, forKey: "updateDeletes")
+              self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
               if self.posts.isEmpty {
                 self.collectionView?.backgroundView = self.emptyHomeLabel
               }
             }
-          })
-          index -= 1
-        }
-      }, completion: nil)
+          }
+        })
+      }
     } else {
       var query = self.query?.queryOrderedByKey()
       if let queryEnding = nextEntry {
@@ -384,7 +383,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     }
   }
 
-  func listenPost(_ post: FPPost, at: [IndexPath]) {
+  func listenPost(_ post: FPPost) {
     let commentQuery: DatabaseQuery = self.commentsRef.child(post.postID)
     var lastCommentQuery = commentQuery
     let lastCommentId = post.comments.last?.commentID
@@ -394,22 +393,28 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     lastCommentQuery.observe(.childAdded, with: { dataSnaphot in
       if dataSnaphot.key != lastCommentId {
         post.comments.append(FPComment(snapshot: dataSnaphot))
-        self.collectionView?.reloadItems(at: at)
-        self.collectionViewLayout.invalidateLayout()
+        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+          self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+          self.collectionViewLayout.invalidateLayout()
+        }
       }
     })
     commentQuery.observe(.childChanged, with: { dataSnaphot in
       if let index = post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
         post.comments[index] = .init(snapshot: dataSnaphot)
-        self.collectionView?.reloadItems(at: at)
-        self.collectionViewLayout.invalidateLayout()
+        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+          self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+          self.collectionViewLayout.invalidateLayout()
+        }
       }
     })
     commentQuery.observe(.childRemoved, with: { dataSnaphot in
       if let index = post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
         post.comments.remove(at: index)
-        self.collectionView?.reloadItems(at: at)
-        self.collectionViewLayout.invalidateLayout()
+        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+          self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+          self.collectionViewLayout.invalidateLayout()
+        }
       }
     })
     self.observers.append(commentQuery)
@@ -420,7 +425,9 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if post.likeCount != count || post.isLiked != $0.hasChild(self.uid){
         post.likeCount = count
         post.isLiked = $0.hasChild(self.uid)
-        self.collectionView?.reloadItems(at: at)
+        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+          self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+        }
       }
     })
     self.observers.append(likesQuery)
@@ -447,13 +454,13 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         self.posts.append(post)
         let last = self.posts.count - 1
         let lastIndex = [IndexPath(item: last, section: 0)]
-        self.listenPost(post, at: lastIndex)
+        self.listenPost(post)
         self.collectionView?.insertItems(at: lastIndex)
       })
     })
   }
 
-  func updatePost(_ post: FPPost, postSnapshot: DataSnapshot, at: [IndexPath]) {
+  func updatePost(_ post: FPPost, postSnapshot: DataSnapshot) {
     let postId = postSnapshot.key
     commentsRef.child(postId).observeSingleEvent(of: .value, with: { commentsSnapshot in
       var commentsArray = [FPComment]()
@@ -464,8 +471,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       }
       if post.comments != commentsArray {
         post.comments = commentsArray
-        self.collectionView?.reloadItems(at: at)
-        self.collectionViewLayout.invalidateLayout()
+        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+          self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+          self.collectionViewLayout.invalidateLayout()
+        }
       }
     })
   }
