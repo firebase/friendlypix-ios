@@ -70,7 +70,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>to take photos to upload.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>to invite your friends.</string>
+	<string>FriendlyPix uses your contacts to make it easy to share photos with your friends. Your contacts are never uploaded.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>to present photos to upload.</string>
 	<key>UIBackgroundModes</key>
