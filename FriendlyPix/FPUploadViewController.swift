@@ -23,10 +23,12 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   var textFieldControllerFloating: MDCTextInputControllerUnderline!
   @IBOutlet weak private var textField: MDCTextField!
   @IBOutlet weak private var button: MDCButton!
-  let ref = Database.database().reference()
+  lazy var database = Database.database()
+  lazy var storage = Storage.storage()
+  
   let uid = Auth.auth().currentUser!.uid
-  var fullmetadata: StorageMetadata?
-  var thumbmetadata:  StorageMetadata?
+  var fullURL: URL?
+  var thumbURL:  URL?
   var spinner: UIView?
 
   override func viewDidLoad() {
@@ -57,19 +59,19 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     spinner = displaySpinner()
     button.isEnabled = false
     textField.endEditing(true)
-    let postRef = ref.child("posts").childByAutoId()
+    let postRef = database.reference(withPath: "posts").childByAutoId()
     let postId = postRef.key
     guard let resizedImageData = UIImageJPEGRepresentation(image, 0.9) else { return }
     guard let thumbnailImageData = image.resizeImage(640, with: 0.7) else { return }
-    let fullFilePath = "\(self.uid)/full/\(postId)/jpeg"
-    let thumbFilePath = "\(self.uid)/thumb/\(postId)/jpeg"
+    let fullRef = storage.reference(withPath: "\(self.uid)/full/\(postId)/jpeg")
+    let thumbRef = storage.reference(withPath: "\(self.uid)/thumb/\(postId)/jpeg")
     let metadata = StorageMetadata()
     metadata.contentType = "image/jpeg"
-    let storageRef = Storage.storage().reference()
+
     let message = MDCSnackbarMessage()
     let myGroup = DispatchGroup()
     myGroup.enter()
-    storageRef.child(fullFilePath).putData(resizedImageData, metadata: metadata) { fullmetadata, error in
+    fullRef.putData(resizedImageData, metadata: metadata) { fullmetadata, error in
       if let error = error {
         message.text = "Error uploading image"
         MDCSnackbarManager.show(message)
@@ -77,11 +79,20 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
         print("Error uploading image: \(error.localizedDescription)")
         return
       }
-      self.fullmetadata = fullmetadata
-      myGroup.leave()
+
+      fullRef.downloadURL(completion: { (url, error) in
+        if let error = error {
+          print(error.localizedDescription)
+          return
+        }
+        if let url = url {
+          self.fullURL = url
+        }
+        myGroup.leave()
+      })
     }
     myGroup.enter()
-    storageRef.child(thumbFilePath).putData(thumbnailImageData, metadata: metadata) { thumbmetadata, error in
+    thumbRef.putData(thumbnailImageData, metadata: metadata) { thumbmetadata, error in
       if let error = error {
         message.text = "Error uploading thumbnail"
         MDCSnackbarManager.show(message)
@@ -89,20 +100,25 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
         print("Error uploading thumbnail: \(error.localizedDescription)")
         return
       }
-      self.thumbmetadata = thumbmetadata
-      myGroup.leave()
+      thumbRef.downloadURL(completion: { (url, error) in
+        if let error = error {
+          print(error.localizedDescription)
+          return
+        }
+        if let url = url {
+          self.thumbURL = url
+        }
+        myGroup.leave()
+      })
     }
     myGroup.notify(queue: .main) {
       if let spinner = self.spinner {
         self.removeSpinner(spinner)        
       }
-      let fullUrl = self.fullmetadata?.downloadURLs?[0].absoluteString
-      let fullstorageUri = storageRef.child((self.fullmetadata?.path!)!).description
-      let thumbUrl = self.thumbmetadata?.downloadURLs?[0].absoluteString
-      let thumbstorageUri = storageRef.child((self.thumbmetadata?.path!)!).description
+
       let trimmedComment = self.textField.text?.trimmingCharacters(in: CharacterSet.whitespaces)
-      let data = ["full_url": fullUrl ?? "", "full_storage_uri": fullstorageUri,
-                  "thumb_url": thumbUrl ?? "", "thumb_storage_uri": thumbstorageUri, "text": trimmedComment ?? "",
+      let data = ["full_url": self.fullURL ?? "", "full_storage_uri": fullRef.fullPath,
+                  "thumb_url": self.thumbURL ?? "", "thumb_storage_uri": thumbRef.fullPath, "text": trimmedComment ?? "",
                   "author": FPUser.currentUser().author(), "timestamp": ServerValue.timestamp()] as [String: Any]
       postRef.setValue(data)
       postRef.root.updateChildValues(["people/\(self.uid)/posts/\(postId)": true, "feed/\(self.uid)/\(postId)": true])
