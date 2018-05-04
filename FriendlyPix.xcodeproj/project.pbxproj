@@ -32,10 +32,18 @@
 		10FD8FE01F7E840800BCB991 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10FD8FDF1F7E840800BCB991 /* Assets.xcassets */; };
 		10FEA3D41FAB927200BAD9FD /* FPPostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FEA3D31FAB927200BAD9FD /* FPPostDetailViewController.swift */; };
 		10FEF57D20474EE400423CF7 /* FriendlyPixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FEF57C20474EE400423CF7 /* FriendlyPixTests.swift */; };
+		B413B186209C176100332850 /* FriendlyPixUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B413B185209C176100332850 /* FriendlyPixUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		10FEF57F20474EE400423CF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10FD8FCB1F7E840800BCB991 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10FD8FD21F7E840800BCB991;
+			remoteInfo = FriendlyPix;
+		};
+		B413B188209C176100332850 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 10FD8FCB1F7E840800BCB991 /* Project object */;
 			proxyType = 1;
@@ -75,6 +83,9 @@
 		10FEF57A20474EE400423CF7 /* FriendlyPixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendlyPixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10FEF57C20474EE400423CF7 /* FriendlyPixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlyPixTests.swift; sourceTree = "<group>"; };
 		10FEF57E20474EE400423CF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B413B183209C176100332850 /* FriendlyPixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendlyPixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B413B185209C176100332850 /* FriendlyPixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlyPixUITests.swift; sourceTree = "<group>"; };
+		B413B187209C176100332850 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +103,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B413B180209C176100332850 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -100,6 +118,7 @@
 			children = (
 				10FD8FD51F7E840800BCB991 /* FriendlyPix */,
 				10FEF57B20474EE400423CF7 /* FriendlyPixTests */,
+				B413B184209C176100332850 /* FriendlyPixUITests */,
 				10FD8FD41F7E840800BCB991 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +128,7 @@
 			children = (
 				10FD8FD31F7E840800BCB991 /* FriendlyPix.app */,
 				10FEF57A20474EE400423CF7 /* FriendlyPixTests.xctest */,
+				B413B183209C176100332850 /* FriendlyPixUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +175,15 @@
 			path = FriendlyPixTests;
 			sourceTree = "<group>";
 		};
+		B413B184209C176100332850 /* FriendlyPixUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B413B185209C176100332850 /* FriendlyPixUITests.swift */,
+				B413B187209C176100332850 /* Info.plist */,
+			);
+			path = FriendlyPixUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -194,6 +223,24 @@
 			productReference = 10FEF57A20474EE400423CF7 /* FriendlyPixTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		B413B182209C176100332850 /* FriendlyPixUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B413B18C209C176100332850 /* Build configuration list for PBXNativeTarget "FriendlyPixUITests" */;
+			buildPhases = (
+				B413B17F209C176100332850 /* Sources */,
+				B413B180209C176100332850 /* Frameworks */,
+				B413B181209C176100332850 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B413B189209C176100332850 /* PBXTargetDependency */,
+			);
+			name = FriendlyPixUITests;
+			productName = FriendlyPixUITests;
+			productReference = B413B183209C176100332850 /* FriendlyPixUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -229,6 +276,11 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 10FD8FD21F7E840800BCB991;
 					};
+					B413B182209C176100332850 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 10FD8FD21F7E840800BCB991;
+					};
 				};
 			};
 			buildConfigurationList = 10FD8FCE1F7E840800BCB991 /* Build configuration list for PBXProject "FriendlyPix" */;
@@ -246,6 +298,7 @@
 			targets = (
 				10FD8FD21F7E840800BCB991 /* FriendlyPix */,
 				10FEF57920474EE400423CF7 /* FriendlyPixTests */,
+				B413B182209C176100332850 /* FriendlyPixUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -265,6 +318,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		10FEF57820474EE400423CF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B413B181209C176100332850 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -323,6 +383,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B413B17F209C176100332850 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B413B186209C176100332850 /* FriendlyPixUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -330,6 +398,11 @@
 			isa = PBXTargetDependency;
 			target = 10FD8FD21F7E840800BCB991 /* FriendlyPix */;
 			targetProxy = 10FEF57F20474EE400423CF7 /* PBXContainerItemProxy */;
+		};
+		B413B189209C176100332850 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 10FD8FD21F7E840800BCB991 /* FriendlyPix */;
+			targetProxy = B413B188209C176100332850 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -536,6 +609,46 @@
 			};
 			name = Release;
 		};
+		B413B18A209C176100332850 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = FriendlyPixUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FriendlyPix;
+			};
+			name = Debug;
+		};
+		B413B18B209C176100332850 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = FriendlyPixUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FriendlyPix;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -562,6 +675,15 @@
 			buildConfigurations = (
 				10FEF58120474EE400423CF7 /* Debug */,
 				10FEF58220474EE400423CF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B413B18C209C176100332850 /* Build configuration list for PBXNativeTarget "FriendlyPixUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B413B18A209C176100332850 /* Debug */,
+				B413B18B209C176100332850 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
