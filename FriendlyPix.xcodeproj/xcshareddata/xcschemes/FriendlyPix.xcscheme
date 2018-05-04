@@ -39,6 +39,16 @@
                ReferencedContainer = "container:FriendlyPix.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B413B174209C115300332850"
+               BuildableName = "FriendlyPixUITests.xctest"
+               BlueprintName = "FriendlyPixUITests"
+               ReferencedContainer = "container:FriendlyPix.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
