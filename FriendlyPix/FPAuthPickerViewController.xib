@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FPAuthPickerViewController">
             <connections>
-                <outlet property="policyTermsLabel" destination="COI-gL-6Ql" id="8EV-Ix-chb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -45,24 +44,11 @@
                         <constraint firstAttribute="width" constant="29" id="h5G-1s-UOe"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to our Terms &amp; Privacy Policy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COI-gL-6Ql">
-                    <rect key="frame" x="16" y="770.66666666666663" width="343" height="13.333333333333371"/>
-                    <gestureRecognizers/>
-                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
-                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                    <nil key="highlightedColor"/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="nwX-ex-rCz" appends="YES" id="ZHN-MZ-B84"/>
-                    </connections>
-                </label>
             </subviews>
             <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="4Tq-aU-yLy"/>
-                <constraint firstAttribute="bottom" secondItem="COI-gL-6Ql" secondAttribute="bottom" constant="28" id="7ux-nK-kLk"/>
-                <constraint firstAttribute="trailing" secondItem="COI-gL-6Ql" secondAttribute="trailing" constant="16" id="Iny-kB-e8f"/>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="UVD-Tw-GVu"/>
-                <constraint firstItem="COI-gL-6Ql" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="ZJV-mR-8mW"/>
                 <constraint firstItem="kpQ-WR-tar" firstAttribute="top" secondItem="114-C8-0hD" secondAttribute="bottom" constant="24" id="eD5-Qy-yMe"/>
                 <constraint firstItem="114-C8-0hD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sjq-Hp-tee"/>
                 <constraint firstItem="114-C8-0hD" firstAttribute="leading" secondItem="Y7s-Jb-aBs" secondAttribute="trailing" id="u6D-tS-ghY"/>

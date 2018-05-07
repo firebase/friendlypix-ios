@@ -27,8 +27,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
   lazy var storage = Storage.storage()
   
   let uid = Auth.auth().currentUser!.uid
-  var fullURL: URL?
-  var thumbURL:  URL?
+  var fullURL = ""
+  var thumbURL = ""
   var spinner: UIView?
 
   override func viewDidLoad() {
@@ -85,7 +85,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
           print(error.localizedDescription)
           return
         }
-        if let url = url {
+        if let url = url?.absoluteString {
           self.fullURL = url
         }
         myGroup.leave()
@@ -105,7 +105,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
           print(error.localizedDescription)
           return
         }
-        if let url = url {
+        if let url = url?.absoluteString {
           self.thumbURL = url
         }
         myGroup.leave()
@@ -117,8 +117,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
       }
 
       let trimmedComment = self.textField.text?.trimmingCharacters(in: CharacterSet.whitespaces)
-      let data = ["full_url": self.fullURL ?? "", "full_storage_uri": fullRef.fullPath,
-                  "thumb_url": self.thumbURL ?? "", "thumb_storage_uri": thumbRef.fullPath, "text": trimmedComment ?? "",
+      let data = ["full_url": self.fullURL, "full_storage_uri": fullRef.fullPath,
+                  "thumb_url": self.thumbURL, "thumb_storage_uri": thumbRef.fullPath, "text": trimmedComment ?? "",
                   "author": FPUser.currentUser().author(), "timestamp": ServerValue.timestamp()] as [String: Any]
       postRef.setValue(data)
       postRef.root.updateChildValues(["people/\(self.uid)/posts/\(postId)": true, "feed/\(self.uid)/\(postId)": true])

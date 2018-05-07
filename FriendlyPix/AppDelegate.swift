@@ -16,8 +16,8 @@
 
 import Firebase
 import FirebaseAuthUI
-import FirebaseFacebookAuthUI
 import FirebaseGoogleAuthUI
+//import FirebaseFacebookAuthUI
 import GoogleSignIn
 import MaterialComponents
 import UserNotifications
@@ -76,7 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     authUI?.delegate = self
     authUI?.tosurl = kFirebaseTermsOfService
     authUI?.isSignInWithEmailHidden = true
-    let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth()]
+    let providers: [FUIAuthProvider] = [FUIGoogleAuth()//, FUIFacebookAuth
+    ]
     authUI?.providers = providers
 
     return true
@@ -196,16 +197,16 @@ extension AppDelegate: FUIAuthDelegate {
     blockedRef = database.reference(withPath: "blocked/\(user.uid)")
     blockingRef = database.reference(withPath: "blocking/\(user.uid)")
     observeBlocks()
-    var imageUrl = user.photoURL?.absoluteString
+    let imageUrl = user.photoURL?.absoluteString
     // If the main profile Pic is an expiring facebook profile pic URL we'll update it automatically to use the permanent graph API URL.
-    if let url = imageUrl, url.contains("lookaside.facebook.com") || url.contains("fbcdn.net") {
-      let facebookUID = user.providerData.first { (userinfo) -> Bool in
-        return userinfo.providerID == "facebook.com"
-      }?.providerID
-      if let facebook = facebookUID {
-        imageUrl = "https://graph.facebook.com/\(facebook)/picture?type=large"
-      }
-    }
+//    if let url = imageUrl, url.contains("lookaside.facebook.com") || url.contains("fbcdn.net") {
+//      let facebookUID = user.providerData.first { (userinfo) -> Bool in
+//        return userinfo.providerID == "facebook.com"
+//      }?.providerID
+//      if let facebook = facebookUID {
+//        imageUrl = "https://graph.facebook.com/\(facebook)/picture?type=large"
+//      }
+//    }
 
     var values: [String: Any] = ["profile_picture": imageUrl ?? "",
                                  "full_name": user.displayName ?? "",

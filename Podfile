@@ -15,7 +15,7 @@ target 'FriendlyPix' do
   pod 'ImagePicker'
   pod 'Lightbox'
   pod 'MaterialComponents/BottomAppBar'
-  pod 'MaterialComponents/Buttons+Extensions/ColorThemer'
+  pod 'MaterialComponents/Buttons+ColorThemer'
   pod 'MaterialComponents/Collections'
   pod 'MaterialComponents/Dialogs'
   pod 'MaterialComponents/Snackbar'

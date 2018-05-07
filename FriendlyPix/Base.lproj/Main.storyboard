@@ -54,19 +54,19 @@
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write a caption..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7cg-fa-NpT" customClass="MDCTextField">
-                                <rect key="frame" x="16" y="280" width="288" height="30"/>
+                                <rect key="frame" x="16" y="272" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-X5-YYw" customClass="MDCButton">
-                                <rect key="frame" x="94.5" y="310" width="132" height="48"/>
+                                <rect key="frame" x="88" y="290" width="144" height="32"/>
                                 <color key="backgroundColor" red="1" green="0.792156862745098" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" hint="Double-tap to upload this picture"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="mbe-qm-CP8"/>
+                                    <constraint firstAttribute="height" constant="32" id="mbe-qm-CP8"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="UPLOAD THIS PIC">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -74,18 +74,27 @@
                                     <action selector="uploadPressed:" destination="VU6-L3-lu7" eventType="touchUpInside" id="6T9-le-Ee2"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All uploaded pictures will be publicly viewable, and must adhere to the Terms of Service." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDU-v1-bEb">
+                                <rect key="frame" x="16" y="330" width="288" height="26.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7cg-fa-NpT" firstAttribute="centerX" secondItem="4cM-eM-cYI" secondAttribute="centerX" id="2Qn-97-91G"/>
                             <constraint firstItem="v0D-X5-YYw" firstAttribute="centerX" secondItem="7cg-fa-NpT" secondAttribute="centerX" id="KQ4-mY-pud"/>
+                            <constraint firstAttribute="trailing" secondItem="wDU-v1-bEb" secondAttribute="trailing" constant="16" id="KiO-6f-0kj"/>
                             <constraint firstItem="fYd-ui-mKL" firstAttribute="leading" secondItem="4cM-eM-cYI" secondAttribute="leading" id="Wl1-X5-Bnt"/>
                             <constraint firstItem="fYd-ui-mKL" firstAttribute="top" secondItem="DQq-pa-hgo" secondAttribute="bottom" constant="16" id="ZEg-NN-4d0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7cg-fa-NpT" secondAttribute="trailing" id="dpW-Lx-FNh"/>
                             <constraint firstItem="7cg-fa-NpT" firstAttribute="leading" secondItem="4cM-eM-cYI" secondAttribute="leadingMargin" id="e4h-5k-3U5"/>
-                            <constraint firstItem="v0D-X5-YYw" firstAttribute="top" secondItem="7cg-fa-NpT" secondAttribute="bottom" id="fce-N1-M3I"/>
-                            <constraint firstItem="7cg-fa-NpT" firstAttribute="top" secondItem="fYd-ui-mKL" secondAttribute="bottom" constant="8" id="mlW-Yr-SyE"/>
+                            <constraint firstItem="v0D-X5-YYw" firstAttribute="top" secondItem="7cg-fa-NpT" secondAttribute="bottom" constant="-12" id="fce-N1-M3I"/>
+                            <constraint firstItem="wDU-v1-bEb" firstAttribute="leading" secondItem="4cM-eM-cYI" secondAttribute="leading" constant="16" id="mMk-BX-TvK"/>
+                            <constraint firstItem="7cg-fa-NpT" firstAttribute="top" secondItem="fYd-ui-mKL" secondAttribute="bottom" id="mlW-Yr-SyE"/>
                             <constraint firstAttribute="trailing" secondItem="fYd-ui-mKL" secondAttribute="trailing" id="p6S-B7-WKe"/>
+                            <constraint firstItem="wDU-v1-bEb" firstAttribute="top" secondItem="v0D-X5-YYw" secondAttribute="bottom" constant="8" symbolic="YES" id="yrg-SV-Tf3"/>
                         </constraints>
                     </view>
                     <connections>
