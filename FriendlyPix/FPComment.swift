@@ -15,6 +15,7 @@
 //
 
 import Firebase
+import FirebaseDatabase
 
 class FPComment {
   var commentID: String

@@ -15,6 +15,8 @@
 //
 
 import Firebase
+import FirebaseDatabase
+import FirebaseStorage
 import FirebaseUI
 import GoogleSignIn
 import ImagePicker
