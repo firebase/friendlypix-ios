@@ -61,7 +61,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     textField.endEditing(true)
     let postRef = database.reference(withPath: "posts").childByAutoId()
     let postId = postRef.key
-    guard let resizedImageData = UIImageJPEGRepresentation(image, 0.9) else { return }
+    guard let resizedImageData = image.resizeImage(1280, with: 0.9) else { return }
     guard let thumbnailImageData = image.resizeImage(640, with: 0.7) else { return }
     let fullRef = storage.reference(withPath: "\(self.uid)/full/\(postId)/jpeg")
     let thumbRef = storage.reference(withPath: "\(self.uid)/thumb/\(postId)/jpeg")
@@ -118,7 +118,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
 
       let trimmedComment = self.textField.text?.trimmingCharacters(in: CharacterSet.whitespaces)
       let data = ["full_url": self.fullURL, "full_storage_uri": fullRef.fullPath,
-                  "thumb_url": self.thumbURL, "thumb_storage_uri": thumbRef.fullPath, "text": trimmedComment ?? "",
+                  "thumb_url": self.thumbURL, "thumb_storage_uri": thumbRef.fullPath,
+                  "text": trimmedComment ?? "", "client": "ios",
                   "author": FPUser.currentUser().author(), "timestamp": ServerValue.timestamp()] as [String: Any]
       postRef.setValue(data)
       postRef.root.updateChildValues(["people/\(self.uid)/posts/\(postId)": true, "feed/\(self.uid)/\(postId)": true])

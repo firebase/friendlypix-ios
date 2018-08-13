@@ -15,9 +15,7 @@
 //
 
 import Firebase
-import FirebaseAuthUI
-import FirebaseGoogleAuthUI
-//import FirebaseFacebookAuthUI
+import FirebaseUI
 import GoogleSignIn
 import MaterialComponents
 import UserNotifications
