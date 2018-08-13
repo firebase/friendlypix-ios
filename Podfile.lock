@@ -92,12 +92,12 @@ PODS:
   - FirebaseStorage (3.0.0):
     - FirebaseCore (~> 5.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseUI/Auth (5.1.3):
+  - FirebaseUI/Auth (5.2.0):
     - Firebase/Auth (~> 5.0)
-  - FirebaseUI/Facebook (5.1.3):
+  - FirebaseUI/Facebook (5.2.0):
     - FBSDKLoginKit (~> 4.0)
     - FirebaseUI/Auth
-  - FirebaseUI/Google (5.1.3):
+  - FirebaseUI/Google (5.2.0):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 4.0)
   - GoogleAPIClientForREST (1.3.5):
@@ -169,16 +169,16 @@ PODS:
   - Lightbox (2.1.2):
     - Hue (~> 3.0)
     - Imaginary (~> 3.0)
-  - MaterialComponents/AnimationTiming (59.1.1)
-  - MaterialComponents/BottomAppBar (59.1.1):
+  - MaterialComponents/AnimationTiming (59.2.2)
+  - MaterialComponents/BottomAppBar (59.2.2):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (59.1.1):
+  - MaterialComponents/ButtonBar (59.2.2):
     - MaterialComponents/Buttons
     - MDFInternationalization
-  - MaterialComponents/Buttons (59.1.1):
+  - MaterialComponents/Buttons (59.2.2):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/private/Shapes
@@ -187,10 +187,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (59.1.1)":
+  - "MaterialComponents/Buttons+ColorThemer (59.2.2)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/CollectionCells (59.1.1):
+  - MaterialComponents/CollectionCells (59.2.2):
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
     - MaterialComponents/Palettes
@@ -203,8 +203,8 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/CollectionLayoutAttributes (59.1.1)
-  - MaterialComponents/Collections (59.1.1):
+  - MaterialComponents/CollectionLayoutAttributes (59.2.2)
+  - MaterialComponents/Collections (59.2.2):
     - MaterialComponents/CollectionCells
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
@@ -212,50 +212,50 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/Dialogs (59.1.1):
+  - MaterialComponents/Dialogs (59.2.2):
     - MaterialComponents/Buttons
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Ink (59.1.1):
+  - MaterialComponents/Ink (59.2.2):
     - MaterialComponents/private/Math
-  - MaterialComponents/NavigationBar (59.1.1):
+  - MaterialComponents/NavigationBar (59.2.2):
     - MaterialComponents/ButtonBar
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (59.1.1):
+  - MaterialComponents/OverlayWindow (59.2.2):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (59.1.1)
-  - MaterialComponents/private/Application (59.1.1)
-  - MaterialComponents/private/Icons/Base (59.1.1)
-  - MaterialComponents/private/Icons/ic_check (59.1.1):
+  - MaterialComponents/Palettes (59.2.2)
+  - MaterialComponents/private/Application (59.2.2)
+  - MaterialComponents/private/Icons/Base (59.2.2)
+  - MaterialComponents/private/Icons/ic_check (59.2.2):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_check_circle (59.1.1):
+  - MaterialComponents/private/Icons/ic_check_circle (59.2.2):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_chevron_right (59.1.1):
+  - MaterialComponents/private/Icons/ic_chevron_right (59.2.2):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_info (59.1.1):
+  - MaterialComponents/private/Icons/ic_info (59.2.2):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_radio_button_unchecked (59.1.1):
+  - MaterialComponents/private/Icons/ic_radio_button_unchecked (59.2.2):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_reorder (59.1.1):
+  - MaterialComponents/private/Icons/ic_reorder (59.2.2):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (59.1.1):
+  - MaterialComponents/private/KeyboardWatcher (59.2.2):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (59.1.1)
-  - MaterialComponents/private/Overlay (59.1.1)
-  - MaterialComponents/private/Shapes (59.1.1):
+  - MaterialComponents/private/Math (59.2.2)
+  - MaterialComponents/private/Overlay (59.2.2)
+  - MaterialComponents/private/Shapes (59.2.2):
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/schemes/Color (59.1.1)
-  - MaterialComponents/ShadowElevations (59.1.1)
-  - MaterialComponents/ShadowLayer (59.1.1):
+  - MaterialComponents/schemes/Color (59.2.2)
+  - MaterialComponents/ShadowElevations (59.2.2)
+  - MaterialComponents/ShadowLayer (59.2.2):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/Snackbar (59.1.1):
+  - MaterialComponents/Snackbar (59.2.2):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/OverlayWindow
@@ -263,13 +263,13 @@ PODS:
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/private/Overlay
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (59.1.1):
+  - MaterialComponents/TextFields (59.2.2):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Typography (59.1.1):
+  - MaterialComponents/Typography (59.2.2):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (1.1.0)
@@ -365,7 +365,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: f67b3719f520ee200da0e20ce577fe2bce0c01d0
   FirebasePerformance: 1d3354c505dd54f3b4b4b42d681683c0cdad4311
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
-  FirebaseUI: 6d3f86249a4de8288424e154c9ff1a976aae3910
+  FirebaseUI: 9dfa423b6f1b73737ae8ab62692c1c0a8886186d
   GoogleAPIClientForREST: b4c23f6ec9b8c29419d0377168007963d0e25551
   GoogleAppMeasurement: e785bdb86d3d280abc778156cec323a975f11d1d
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
@@ -378,7 +378,7 @@ SPEC CHECKSUMS:
   Imaginary: 9b45836a5af881f452a86e0a1215772ae4712d00
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: 2dc267df8be2285bc7724cb11cbbf4aaaf59dced
-  MaterialComponents: 9ba063439c19dd92b3489bc2c4e428f2abaced65
+  MaterialComponents: 70a1e7d84d140e7231452e3cc0fb3adae08dbfe5
   MDFInternationalization: b5b8626628abf026e630e5ebaeee563037712cbb
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
