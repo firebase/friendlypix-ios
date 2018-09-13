@@ -8,7 +8,7 @@ EXIT_STATUS=0
   -workspace FriendlyPix.xcworkspace \
   -scheme FriendlyPix \
   -sdk iphonesimulator \
-  -destination 'platform=iOS Simulator,OS=10.3.1,name=iPhone 7' \
+  -destination 'platform=iOS Simulator,name=iPhone XR' \
   build \
   #test \
   ONLY_ACTIVE_ARCH=YES \
