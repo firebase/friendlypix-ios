@@ -15,12 +15,14 @@
 //
 
 import Firebase
+import FirebaseMLVision
 import MaterialComponents
 
 class FPUploadViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet weak private var imageView: UIImageView!
   var image: UIImage!
   var textFieldControllerFloating: MDCTextInputControllerUnderline!
+  var vision: Vision!
   @IBOutlet weak private var textField: MDCTextField!
   @IBOutlet weak private var button: MDCButton!
   lazy var database = Database.database()
@@ -36,6 +38,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     imageView.image = image
 
     textField.delegate = self
+    detectLabelsInImage()
+
     textFieldControllerFloating = MDCTextInputControllerUnderline(textInput: textField)
 
     button.sizeToFit()
@@ -49,6 +53,55 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
       removeSpinner(spinner)
     }
   }
+
+  func detectLabelsInImage() {
+    self.vision = Vision.vision()
+
+    let options = VisionCloudDetectorOptions()
+    options.maxResults = 3
+    let labelDetector = vision.cloudLabelDetector(options: options)
+    let imageMetadata = VisionImageMetadata()
+    imageMetadata.orientation = FPUploadViewController.visionImageOrientation(from: image.imageOrientation)
+
+    let visionImage = VisionImage(image: image)
+    visionImage.metadata = imageMetadata
+
+    labelDetector.detect(in: visionImage) { labels, error in
+      guard error == nil, let labels = labels, !labels.isEmpty else {
+        return
+      }
+
+      for label in labels {
+        if let confidence = label.confidence?.floatValue, confidence > 0.75, let labelText = label.label {
+          self.textField.text?.append(" #\(labelText)")
+        }
+      }
+    }
+  }
+
+  public static func visionImageOrientation(
+    from imageOrientation: UIImageOrientation
+    ) -> VisionDetectorImageOrientation {
+    switch imageOrientation {
+    case .up:
+      return .topLeft
+    case .down:
+      return .bottomRight
+    case .left:
+      return .leftBottom
+    case .right:
+      return .rightTop
+    case .upMirrored:
+      return .topRight
+    case .downMirrored:
+      return .bottomLeft
+    case .leftMirrored:
+      return .leftTop
+    case .rightMirrored:
+      return .rightBottom
+    }
+  }
+
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     uploadPressed(button)

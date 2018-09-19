@@ -693,7 +693,7 @@ extension FPFeedViewController: LightboxControllerDismissalDelegate{
 
 extension FPFeedViewController: ImagePickerDelegate {
   @objc func didTapFloatingButton() {
-    var config = Configuration()
+    let config = Configuration()
     config.recordLocation = false
     config.allowMultiplePhotoSelection = false
     config.showsImageCountLabel = false
