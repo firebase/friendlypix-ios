@@ -5,7 +5,7 @@ target 'FriendlyPix' do
   pod 'Crashlytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-  pod 'Firebase/Invites'
+  pod 'Firebase/Invites', '5.7.0'
   pod 'Firebase/Messaging'
   pod 'Firebase/MLVision'
   pod 'Firebase/Performance'
