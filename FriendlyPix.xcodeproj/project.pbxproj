@@ -21,6 +21,7 @@
 		10894A831F86C41C00F30A2C /* Amaranth-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 10894A821F86C41C00F30A2C /* Amaranth-Bold.otf */; };
 		109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */; };
 		10AC7EDB2057903200B73B29 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */; };
+		10D4F0062159842D00269B0C /* FPHashTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D4F0052159842D00269B0C /* FPHashTagViewController.swift */; };
 		10E1DB1F1F83FFF5001CDB18 /* FPCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */; };
 		10E1DB2C1F84106F001CDB18 /* FPAuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */; };
 		10E1DB2D1F84106F001CDB18 /* FPAuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */; };
@@ -68,6 +69,7 @@
 		108CF6571FCD9E6100124FB4 /* FriendlyPix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FriendlyPix.entitlements; sourceTree = "<group>"; };
 		109EBC5E1FAA848B005F2162 /* FPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentCell.swift; sourceTree = "<group>"; };
 		10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
+		10D4F0052159842D00269B0C /* FPHashTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPHashTagViewController.swift; sourceTree = "<group>"; };
 		10E1DB1E1F83FFF5001CDB18 /* FPCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPCommentViewController.swift; sourceTree = "<group>"; };
 		10E1DB2A1F84106F001CDB18 /* FPAuthPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPAuthPickerViewController.swift; sourceTree = "<group>"; };
 		10E1DB2B1F84106F001CDB18 /* FPAuthPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPAuthPickerViewController.xib; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				10F919122034D2C100147230 /* DateExtension.swift */,
 				10AC7EDA2057903200B73B29 /* UITextViewPlaceholder.swift */,
 				10757BCB20587C87007623FD /* Launch.storyboard */,
+				10D4F0052159842D00269B0C /* FPHashTagViewController.swift */,
 			);
 			path = FriendlyPix;
 			sourceTree = "<group>";
@@ -248,14 +251,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Ibrahim Ulukaya";
 				TargetAttributes = {
 					10FD8FD21F7E840800BCB991 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = EQHXZ8M8AV;
-						LastSwiftMigration = 0920;
-						ProvisioningStyle = Manual;
+						LastSwiftMigration = 1000;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -273,11 +275,13 @@
 					};
 					10FEF57920474EE400423CF7 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 10FD8FD21F7E840800BCB991;
 					};
 					B413B182209C176100332850 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 10FD8FD21F7E840800BCB991;
 					};
@@ -354,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10D4F0062159842D00269B0C /* FPHashTagViewController.swift in Sources */,
 				105756351F7E93B900DF3352 /* FPUser.swift in Sources */,
 				102EA05D1F82E4030051D6D1 /* FPCardCollectionViewCell.swift in Sources */,
 				109EBC5F1FAA848B005F2162 /* FPCommentCell.swift in Sources */,
@@ -432,6 +437,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -439,6 +445,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -465,7 +472,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -489,6 +496,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -496,6 +504,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -516,7 +525,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -530,17 +539,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FriendlyPix/FriendlyPix.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = EQHXZ8M8AV;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/FriendlyPix/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
-				PROVISIONING_PROFILE_SPECIFIER = "FriendlyPix Dev";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -549,17 +558,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FriendlyPix/FriendlyPix.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = EQHXZ8M8AV;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/FriendlyPix/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
-				PROVISIONING_PROFILE_SPECIFIER = "FriendlyPix Dev";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -580,7 +589,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyPix.app/FriendlyPix";
 			};
@@ -603,7 +612,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyPix.app/FriendlyPix";
 			};
@@ -623,7 +632,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FriendlyPix;
 			};
@@ -643,7 +652,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FriendlyPix;
 			};

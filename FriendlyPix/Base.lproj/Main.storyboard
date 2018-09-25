@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mdr-bm-qIa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mdr-bm-qIa">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -148,6 +145,7 @@
                         <segue destination="kP3-1I-mov" kind="show" identifier="comment" id="WOg-QJ-eeq"/>
                         <segue destination="VU6-L3-lu7" kind="show" identifier="upload" id="KjI-pX-o60"/>
                         <segue destination="O0J-qO-Fl5" kind="show" identifier="search" id="w1l-d5-723"/>
+                        <segue destination="YRJ-hf-DmU" kind="show" identifier="hashtag" id="Uq6-7q-dLs"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pqg-Fm-f1E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -177,7 +175,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k2P-lS-h8V">
-                                            <rect key="frame" x="8" y="8" width="36" height="36"/>
+                                            <rect key="frame" x="8" y="28" width="36" height="36"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <bool key="isElement" value="YES"/>
                                             </accessibility>
@@ -244,7 +242,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0L-t6-maU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="240.80000000000001" y="212.74362818590706"/>
+            <point key="canvasLocation" x="233" y="211"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="SFR-Iu-7XT">
@@ -276,7 +274,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-jD-Zjy">
-                                            <rect key="frame" x="52" y="18" width="42" height="21"/>
+                                            <rect key="frame" x="52" y="17.5" width="42" height="21"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -335,7 +333,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edJ-pb-Dsa" userLabel="Follow Label">
-                                            <rect key="frame" x="131" y="27.5" width="39" height="16"/>
+                                            <rect key="frame" x="131" y="41" width="39" height="16"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <bool key="isElement" value="NO"/>
                                             </accessibility>
@@ -344,22 +342,22 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="STq-EX-Ozx">
-                                            <rect key="frame" x="182" y="20" width="51" height="31"/>
+                                            <rect key="frame" x="182" y="40" width="51" height="18"/>
                                             <connections>
                                                 <action selector="valueChanged:" destination="YDu-9b-7R6" eventType="valueChanged" id="YUv-W7-xIX"/>
                                             </connections>
                                         </switch>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="w37-gb-yZL">
-                                            <rect key="frame" x="119" y="59" width="165" height="45"/>
+                                            <rect key="frame" x="119" y="66" width="165" height="38"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0 posts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="38" translatesAutoresizingMaskIntoConstraints="NO" id="do9-3h-du3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="38" height="45"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0 followers" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="62" translatesAutoresizingMaskIntoConstraints="NO" id="A7t-Sl-AWZ">
-                                                    <rect key="frame" x="40" y="0.0" width="61.5" height="45"/>
+                                                    <rect key="frame" x="40" y="0.0" width="61.5" height="38"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                                     </accessibility>
@@ -368,7 +366,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0 following" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="62" translatesAutoresizingMaskIntoConstraints="NO" id="MdH-JZ-MPL">
-                                                    <rect key="frame" x="103.5" y="0.0" width="61.5" height="45"/>
+                                                    <rect key="frame" x="103.5" y="0.0" width="61.5" height="38"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
@@ -464,6 +462,44 @@
             </objects>
             <point key="canvasLocation" x="1273" y="-637"/>
         </scene>
+        <!--Hash Tag View Controller-->
+        <scene sceneID="esf-PP-exh">
+            <objects>
+                <collectionViewController id="YRJ-hf-DmU" customClass="FPHashTagViewController" customModule="FriendlyPix" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Zph-eQ-VPi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rIm-kC-5DG">
+                            <size key="itemSize" width="149" height="129"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="KvW-68-s9o">
+                                <rect key="frame" x="0.0" y="0.0" width="149" height="129"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="149" height="129"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="YRJ-hf-DmU" id="sHK-CB-AQ3"/>
+                            <outlet property="delegate" destination="YRJ-hf-DmU" id="ejp-DJ-kop"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="doV-mL-jpU"/>
+                    <connections>
+                        <segue destination="hkU-i0-Vem" kind="show" identifier="detail" id="HEz-ur-6ue"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wo9-OX-cd1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1170" y="212"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ic_account_circle_36pt" width="36" height="36"/>
@@ -473,6 +509,7 @@
         <image name="ic_trending_up" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WOg-QJ-eeq"/>
+        <segue reference="HEz-ur-6ue"/>
+        <segue reference="BGQ-EM-eFj"/>
     </inferredMetricsTieBreakers>
 </document>

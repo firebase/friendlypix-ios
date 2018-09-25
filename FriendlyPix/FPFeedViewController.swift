@@ -125,8 +125,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
 
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
-    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraitSelected
-    bottomBarView.subviews[2].subviews[1].accessibilityTraits = UIAccessibilityTraitTabBar
+    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraits.selected
+    bottomBarView.subviews[2].subviews[1].accessibilityTraits = UIAccessibilityTraits.tabBar
     let inviteButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_person_add"), style: .plain, target: self, action: #selector(inviteTapped))
     inviteButton.tintColor = .gray
     inviteButton.accessibilityLabel = "invite friends"
@@ -242,18 +242,18 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   @objc private func homeAction() {
     bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = blue
-    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraitSelected
+    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraits.selected
     bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = .gray
-    bottomBarView.subviews[2].subviews[1].subviews[1].accessibilityTraits = UIAccessibilityTraitNone
+    bottomBarView.subviews[2].subviews[1].subviews[1].accessibilityTraits = UIAccessibilityTraits.none
     showFeed = false
     reloadFeed()
   }
 
   @objc private func feedAction() {
     bottomBarView.subviews[2].subviews[1].subviews[0].tintColor = .gray
-    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraitNone
+    bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraits.none
     bottomBarView.subviews[2].subviews[1].subviews[1].tintColor = blue
-    bottomBarView.subviews[2].subviews[1].subviews[1].accessibilityTraits = UIAccessibilityTraitSelected
+    bottomBarView.subviews[2].subviews[1].subviews[1].accessibilityTraits = UIAccessibilityTraits.selected
     showFeed = true
     reloadFeed()
   }
@@ -504,7 +504,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     sizingCell.contentView.setNeedsLayout()
     sizingCell.contentView.layoutIfNeeded()
 
-    var fittingSize = UILayoutFittingCompressedSize
+    var fittingSize = UIView.layoutFittingCompressedSize
     fittingSize.width = sizingCell.frame.width
 
     let size = sizingCell.contentView.systemLayoutSizeFitting(fittingSize)
@@ -513,6 +513,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func showProfile(_ profile: FPUser) {
     performSegue(withIdentifier: "account", sender: profile)
+  }
+
+  func showTaggedPhotos(_ hashtag: String) {
+    performSegue(withIdentifier: "hashtag", sender: hashtag)
   }
 
   func viewComments(_ post: FPPost) {
@@ -602,6 +606,10 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if let viewController = segue.destination as? FPUploadViewController, let image = sender as? UIImage {
         viewController.image = image
         newPost = true
+      }
+    case "hashtag":
+      if let viewController = segue.destination as? FPHashTagViewController, let hashtag = sender as? String {
+        viewController.hashtag = hashtag
       }
     default:
       break
@@ -791,7 +799,7 @@ extension UIViewController {
   func displaySpinner() -> UIView {
     let spinnerView = UIView.init(frame: view.bounds)
     spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-    let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+    let ai = UIActivityIndicatorView.init(style: .whiteLarge)
     ai.startAnimating()
     ai.center = spinnerView.center
 

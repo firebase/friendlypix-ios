@@ -24,7 +24,7 @@ extension UITextView {
     self.placeholder = placeholder
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textViewDidChange),
-                                           name: NSNotification.Name.UITextViewTextDidChange,
+                                           name: UITextView.textDidChangeNotification,
                                            object: nil)
   }
 

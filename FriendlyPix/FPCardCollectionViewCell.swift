@@ -19,6 +19,7 @@ import SDWebImage
 
 protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
+  func showTaggedPhotos(_ hashtag: String)
   func showLightbox(_ index: Int)
   func viewComments(_ post: FPPost)
   func toogleLike(_ post: FPPost, label: UILabel)
@@ -37,7 +38,7 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   @IBOutlet weak private var comment2Label: UILabel!
   @IBOutlet weak private var viewAllCommentsLabel: UIButton!
   var commentLabels: [UILabel]?
-  let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
+  let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
 
   var post: FPPost!
   weak var delegate: FPCardCollectionViewCellDelegate?
@@ -79,8 +80,16 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
       postImageView.accessibilityLabel = "Photo by \(postAuthor.fullname)"
     }
 
-    let title = NSMutableAttributedString(string: postAuthor.fullname, attributes: attributes)
-    title.append(NSAttributedString(string: " " + post.text))
+    let title = NSMutableAttributedString(string: postAuthor.fullname + " ", attributes: attributes)
+    let attrString = NSMutableAttributedString(string: post.text)
+    let regex = try? NSRegularExpression(pattern: "(#[a-zA-Z0-9_\\p{Arabic}\\p{N}]*)", options: [])
+    if let matches = regex?.matches(in: post.text, options:[], range:NSMakeRange(0, post.text.count)) {
+      for match in matches {
+        attrString.addAttribute(NSAttributedString.Key.link, value: (post.text as NSString).substring(with: match.range), range: match.range)
+        attrString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue , range: match.range)
+      }
+    }
+    title.append(attrString)
     title.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, title.length))
     titleLabel.attributedText = title
     titleLabel.accessibilityLabel = "\(post.text), posted by \(postAuthor.fullname)"
@@ -199,10 +208,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   @objc func handleTapOnProfileLabel(recognizer: UITapGestureRecognizer) {
-    if recognizer.didTapAttributedTextInLabel(label: titleLabel,
-                                              inRange: NSRange(location: 0,
-                                                               length: post.author.fullname.count)) {
+    let touchIndex = recognizer.touchIndexInLabel(label: titleLabel)
+    if touchIndex < post.author.fullname.count {
       profileTapped()
+    } else if let tag = titleLabel.attributedText?.attribute(NSAttributedString.Key.link, at: touchIndex, effectiveRange: nil) as? String {
+      delegate?.showTaggedPhotos(String(tag.dropFirst()))
     }
   }
 
@@ -229,6 +239,10 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
 extension UITapGestureRecognizer {
 
   func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
+    return NSLocationInRange(touchIndexInLabel(label: label), targetRange)
+  }
+
+  func touchIndexInLabel(label: UILabel) -> Int {
     // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
     let layoutManager = NSLayoutManager()
     let textContainer = NSTextContainer(size: CGSize.zero)
@@ -257,6 +271,6 @@ extension UITapGestureRecognizer {
     let indexOfCharacter = layoutManager.characterIndex(for: locationOfTouchInTextContainer,
                                                         in: textContainer,
                                                         fractionOfDistanceBetweenInsertionPoints: nil)
-    return NSLocationInRange(indexOfCharacter, targetRange)
+    return indexOfCharacter
   }
 }

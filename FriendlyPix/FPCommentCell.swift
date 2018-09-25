@@ -23,8 +23,8 @@ class FPCommentCell: MDCCollectionViewCell {
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
 
-  let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
-  let attributes2 = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
+  let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
+  let attributes2 = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
 
   func populateContent(from: FPUser, text: String, date: Date, index: Int, isDryRun: Bool) {
     let attrText = NSMutableAttributedString(string: from.fullname , attributes: attributes)

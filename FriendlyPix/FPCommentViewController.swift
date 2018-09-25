@@ -26,8 +26,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   lazy var database = Database.database()
   lazy var commentsRef = database.reference(withPath: "comments/\(post.postID)")
   var commentQuery: DatabaseQuery!
-  let attributes = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
-  let attributes2 = [NSAttributedStringKey.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
+  let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
+  let attributes2 = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
   var bottomConstraint: NSLayoutConstraint!
   var heightConstraint: NSLayoutConstraint!
   var inputBottomConstraint: NSLayoutConstraint!
@@ -128,9 +128,9 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     inputTextView.delegate = self
 
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification),
-                                           name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                                           name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification),
-                                           name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+                                           name: UIResponder.keyboardWillHideNotification, object: nil)
     insets = self.collectionView(collectionView,
                                  layout: collectionViewLayout,
                                  insetForSectionAt: 0)
@@ -180,8 +180,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                    collectionView)
+    UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
+                                    argument: collectionView)
     MDCSnackbarManager.setBottomOffset(0)
     isEditingComment = false
     let lastCommentId = comments.last?.commentID
@@ -197,8 +197,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         let index = IndexPath(item: self.comments.count - 1, section: 1)
         self.collectionView?.insertItems(at: [index])
         self.updatedLabel = (self.collectionView?.cellForItem(at: index) as! FPCommentCell).label
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                        self.updatedLabel)
+        UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
+                                        argument: self.updatedLabel)
       }
     })
     commentsRef.observe(.childRemoved) { dataSnaphot in
@@ -215,8 +215,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         self.collectionView?.reloadItems(at: [indexPath])
         self.collectionViewLayout.invalidateLayout()
         self.updatedLabel = (self.collectionView?.cellForItem(at: indexPath) as! FPCommentCell).label
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                        self.updatedLabel)
+        UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
+                                        argument: self.updatedLabel)
       }
     }
   }
@@ -256,14 +256,14 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   }
 
   @objc func handleKeyboardNotification(notification: NSNotification) {
-    if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-      let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
+    if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
       bottomConstraint?.constant = isKeyboardShowing ? -keyboardSize.height : 0
       let inset = isKeyboardShowing ? -bottomAreaInset : bottomAreaInset
       heightConstraint?.constant += inset
       inputBottomConstraint?.constant = isKeyboardShowing ? 0 : bottomAreaInset
       sendBottomConstraint?.constant = isKeyboardShowing ? 12 : (12 + bottomAreaInset)
-      if let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as? Double {
+      if let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as? Double {
         UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
           self.view.layoutIfNeeded()
         }, completion: { completed in
@@ -275,8 +275,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
           } else {
             MDCSnackbarManager.setBottomOffset(0)
             if let updatedLabel = self.updatedLabel {
-              UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                            updatedLabel)
+              UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
+                                            argument: updatedLabel)
             }
           }
         })
@@ -404,6 +404,6 @@ extension UIView {
       viewsDictionary[key] = view
     }
 
-    addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+    addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: viewsDictionary))
   }
 }

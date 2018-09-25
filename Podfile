@@ -1,3 +1,4 @@
+platform :ios, '10.0'
 target 'FriendlyPix' do
   use_frameworks!
 
@@ -5,7 +6,7 @@ target 'FriendlyPix' do
   pod 'Crashlytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-  pod 'Firebase/Invites', '5.7.0'
+  pod 'Firebase/Invites'
   pod 'Firebase/Messaging'
   pod 'Firebase/MLVision'
   pod 'Firebase/Performance'
@@ -13,7 +14,6 @@ target 'FriendlyPix' do
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Facebook'
   pod 'FirebaseUI/Google'
-  pod 'GoogleSignIn', '4.1.2'
   pod 'ImagePicker'
   pod 'Lightbox'
   pod 'MaterialComponents/BottomAppBar'

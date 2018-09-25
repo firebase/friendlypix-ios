@@ -18,8 +18,8 @@ import FirebaseUI
 import MaterialComponents.MDCTypography
 
 class FPAuthPickerViewController: FUIAuthPickerViewController {
-  let attributes = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption1)]
-  let attributes2 = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption2)]
+  let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)]
+  let attributes2 = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)]
   var agreed = false
 
   lazy var disclaimer: MDCAlertController = {

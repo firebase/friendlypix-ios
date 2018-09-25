@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   private var blocking = Set<String>()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions
-    launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     FirebaseApp.configure()
     Messaging.messaging().delegate = self
     if let uid = Auth.auth().currentUser?.uid {
@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     mdcAction.title = content.title
     mdcMessage.duration = 10_000
     mdcAction.handler = {
-      guard let feed = self.window?.rootViewController?.childViewControllers[0] as? FPFeedViewController else { return }
+      guard let feed = self.window?.rootViewController?.children[0] as? FPFeedViewController else { return }
       let userId = content.categoryIdentifier.components(separatedBy: "/user/")[1]
       feed.showProfile(FPUser(dictionary: ["uid": userId]))
     }
@@ -107,8 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   @available(iOS 9.0, *)
-  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
-    guard let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String else {
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+    guard let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String else {
       return false
     }
     return self.handleOpenUrl(url, sourceApplication: sourceApplication)

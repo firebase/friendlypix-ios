@@ -73,14 +73,14 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
 
       for label in labels {
         if let confidence = label.confidence?.floatValue, confidence > 0.75, let labelText = label.label {
-          self.textField.text?.append(" #\(labelText)")
+          self.textField.text?.append(" #\(labelText.components(separatedBy: .whitespaces).joined(separator: "_"))")
         }
       }
     }
   }
 
   public static func visionImageOrientation(
-    from imageOrientation: UIImageOrientation
+    from imageOrientation: UIImage.Orientation
     ) -> VisionDetectorImageOrientation {
     switch imageOrientation {
     case .up:
@@ -113,7 +113,7 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
     button.isEnabled = false
     textField.endEditing(true)
     let postRef = database.reference(withPath: "posts").childByAutoId()
-    let postId = postRef.key
+    guard let postId = postRef.key else { return }
     guard let resizedImageData = image.resizeImage(1280, with: 0.9) else { return }
     guard let thumbnailImageData = image.resizeImage(640, with: 0.7) else { return }
     let fullRef = storage.reference(withPath: "\(self.uid)/full/\(postId)/jpeg")
