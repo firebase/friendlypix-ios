@@ -16,6 +16,7 @@
 
 import MaterialComponents
 import SDWebImage
+import Firebase
 
 protocol FPCardCollectionViewCellDelegate: class {
   func showProfile(_ author: FPUser)
@@ -65,6 +66,17 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     comment2Label.preferredMaxLayoutWidth = titleLabel.preferredMaxLayoutWidth
   }
 
+  private func convertCacheTypeToString(_ cacheType: SDImageCacheType) -> String {
+    switch cacheType {
+    case .none:
+      return "none"
+    case .disk:
+      return "disk"
+    case .memory:
+      return "memory"
+    }
+  }
+
   func populateContent(post: FPPost, index: Int, isDryRun: Bool) {
     self.post = post
     let postAuthor = post.author
@@ -76,7 +88,11 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
     dateLabel.text = post.postDate.timeAgo()
     postImageView.tag = index
     if !isDryRun {
-      postImageView?.sd_setImage(with: post.thumbURL, completed: nil)
+      let trace = Performance.startTrace(name: "post_load")
+      postImageView?.sd_setImage(with: post.thumbURL, completed: { image, error, cacheType, url in
+        trace?.incrementMetric(self.convertCacheTypeToString(cacheType), by: 1)
+        trace?.stop()
+      })
       postImageView.accessibilityLabel = "Photo by \(postAuthor.fullname)"
     }
 

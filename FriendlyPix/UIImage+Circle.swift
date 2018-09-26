@@ -15,6 +15,7 @@
 //
 
 import SDWebImage
+import Firebase
 
 extension UIImage {
   var circle: UIImage? {
@@ -70,12 +71,18 @@ extension UIImage {
 
   static func circleImage(with url: URL, to imageView: UIImageView) {
     let urlString = url.absoluteString
+    let trace = Performance.startTrace(name: "load_profile_pic")
     if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
+      trace?.incrementMetric("cache", by: 1)
+      trace?.stop()
       imageView.image = image
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: url,
                                                 options: .highPriority, progress: nil) { image, _, error, _ in
+      trace?.incrementMetric("download", by: 1)
+      trace?.stop()
+
       if let error = error {
         print(error)
         return
@@ -90,11 +97,16 @@ extension UIImage {
 
   static func circleButton(with url: URL, to button: UIBarButtonItem) {
     let urlString = url.absoluteString
+    let trace = Performance.startTrace(name: "load_profile_pic")
     if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
+      trace?.incrementMetric("cache", by: 1)
+      trace?.stop()
       button.image = image.resizeImage(36).withRenderingMode(.alwaysOriginal)
       return
     }
     SDWebImageDownloader.shared().downloadImage(with: url, options: .highPriority, progress: nil) { image, _, _, _ in
+      trace?.incrementMetric("download", by: 1)
+      trace?.stop()
       if let image = image {
         let circleImage = image.circle
         button.tintColor = .red
