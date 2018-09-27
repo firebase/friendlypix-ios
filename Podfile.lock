@@ -195,17 +195,17 @@ PODS:
   - Lightbox (2.1.2):
     - Hue (~> 3.0)
     - Imaginary (~> 3.0)
-  - MaterialComponents/AnimationTiming (63.0.0)
-  - MaterialComponents/BottomAppBar (63.0.0):
+  - MaterialComponents/AnimationTiming (64.0.0)
+  - MaterialComponents/BottomAppBar (64.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (63.0.0):
+  - MaterialComponents/ButtonBar (64.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (63.0.0):
+  - MaterialComponents/Buttons (64.0.0):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/private/Shapes
@@ -214,10 +214,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (63.0.0)":
+  - "MaterialComponents/Buttons+ColorThemer (64.0.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/CollectionCells (63.0.0):
+  - MaterialComponents/CollectionCells (64.0.0):
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
     - MaterialComponents/Palettes
@@ -230,8 +230,8 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/CollectionLayoutAttributes (63.0.0)
-  - MaterialComponents/Collections (63.0.0):
+  - MaterialComponents/CollectionLayoutAttributes (64.0.0)
+  - MaterialComponents/Collections (64.0.0):
     - MaterialComponents/CollectionCells
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
@@ -239,50 +239,50 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/Dialogs (63.0.0):
+  - MaterialComponents/Dialogs (64.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Ink (63.0.0):
+  - MaterialComponents/Ink (64.0.0):
     - MaterialComponents/private/Math
-  - MaterialComponents/NavigationBar (63.0.0):
+  - MaterialComponents/NavigationBar (64.0.0):
     - MaterialComponents/ButtonBar
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (63.0.0):
+  - MaterialComponents/OverlayWindow (64.0.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (63.0.0)
-  - MaterialComponents/private/Application (63.0.0)
-  - MaterialComponents/private/Icons/Base (63.0.0)
-  - MaterialComponents/private/Icons/ic_check (63.0.0):
+  - MaterialComponents/Palettes (64.0.0)
+  - MaterialComponents/private/Application (64.0.0)
+  - MaterialComponents/private/Icons/Base (64.0.0)
+  - MaterialComponents/private/Icons/ic_check (64.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_check_circle (63.0.0):
+  - MaterialComponents/private/Icons/ic_check_circle (64.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_chevron_right (63.0.0):
+  - MaterialComponents/private/Icons/ic_chevron_right (64.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_info (63.0.0):
+  - MaterialComponents/private/Icons/ic_info (64.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_radio_button_unchecked (63.0.0):
+  - MaterialComponents/private/Icons/ic_radio_button_unchecked (64.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_reorder (63.0.0):
+  - MaterialComponents/private/Icons/ic_reorder (64.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (63.0.0):
+  - MaterialComponents/private/KeyboardWatcher (64.0.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (63.0.0)
-  - MaterialComponents/private/Overlay (63.0.0)
-  - MaterialComponents/private/Shapes (63.0.0):
+  - MaterialComponents/private/Math (64.0.0)
+  - MaterialComponents/private/Overlay (64.0.0)
+  - MaterialComponents/private/Shapes (64.0.0):
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/schemes/Color (63.0.0)
-  - MaterialComponents/ShadowElevations (63.0.0)
-  - MaterialComponents/ShadowLayer (63.0.0):
+  - MaterialComponents/schemes/Color (64.0.0)
+  - MaterialComponents/ShadowElevations (64.0.0)
+  - MaterialComponents/ShadowLayer (64.0.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/Snackbar (63.0.0):
+  - MaterialComponents/Snackbar (64.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/OverlayWindow
@@ -290,13 +290,13 @@ PODS:
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/private/Overlay
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (63.0.0):
+  - MaterialComponents/TextFields (64.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Typography (63.0.0):
+  - MaterialComponents/Typography (64.0.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (1.1.0)
@@ -414,13 +414,13 @@ SPEC CHECKSUMS:
   Imaginary: 9b45836a5af881f452a86e0a1215772ae4712d00
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: 2dc267df8be2285bc7724cb11cbbf4aaaf59dced
-  MaterialComponents: 4e0c0ee000e0dcbf5214b0054767ef9f8f812264
+  MaterialComponents: 8a8301debcb5fe3583a386914a5a64b7c83f0ae8
   MDFInternationalization: b5b8626628abf026e630e5ebaeee563037712cbb
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: 21bdafd03eedf357f649266927e478e200b7ade9
+PODFILE CHECKSUM: 878910242fb1a321d5210eb910ccf95b9363f1e5
 
 COCOAPODS: 1.5.3
