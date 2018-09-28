@@ -24,23 +24,23 @@ class FriendlyPixUITest: XCTestCase {
   open override func setUp() {
     super.setUp()
     continueAfterFailure = false
-    let app = XCUIApplication(bundleIdentifier: "com.google.firebase.friendlypix")
+    let app = XCUIApplication(bundleIdentifier: "com.google.friendlypix.dev")
     app.launch();
     win = app.windows.element(boundBy: 0)
   }
 
   func testFriendlyPix() {
     acceptAllPermissions()
+    acceptPrivacyandTerms()
     signInWithGoogle()
     takeNewPhoto()
-    uploadPhoto()
     addComment()
   }
 
   func acceptAllPermissions() {
     addUIInterruptionMonitor(withDescription: "acceptAllPermissions", handler: {
       alert -> Bool in
-      for id in ["OK", "Allow", "Continue"] {
+      for id in ["OK", "Allow", "Continue", "Not now"] {
         if self.tryToTap(alert.buttons[id]) {
           return true
         }
@@ -49,12 +49,17 @@ class FriendlyPixUITest: XCTestCase {
     })
   }
 
+  func acceptPrivacyandTerms() {
+    tryToTap(win.buttons["I agree"], forTimeInterval: 3)
+  }
+
   func signInWithGoogle() {
     let signInButton = win.buttons["Sign in with Google"]
     if !signInButton.exists {
       return  // Must already be signed in
     }
     signInButton.tap()
+    win.tap()
 
     // Enter email or choose account from account chooser.
     let email = ProcessInfo.processInfo.environment["GOOGLE_EMAIL"]!
@@ -68,7 +73,8 @@ class FriendlyPixUITest: XCTestCase {
     }
     if emailElement.label == "Email or phone" {
       emailElement.typeText(email)
-      win.buttons["NEXT"].tap()
+      win.tap()
+      tryToTap(win.buttons["Next"], forTimeInterval: 3)
     }
 
     // Enter the password field if the user is signed out.
@@ -76,31 +82,36 @@ class FriendlyPixUITest: XCTestCase {
     let passwordField = win.secureTextFields["Enter your password"]
     if tryToTap(passwordField, forTimeInterval: 3) {
       passwordField.typeText(password)
-      win.buttons["NEXT"].tap()
+      win.tap()
+      tryToTap(win.buttons["Next"], forTimeInterval: 3)
     }
   }
 
   func takeNewPhoto() {
-    XCTAssert(tryToTap(win.buttons["Open camera"], forTimeInterval: 3))
+    win.buttons["Open camera"].forceTapElement()
     let takePhotoButton = win.buttons["Take photo"]
-    takePhotoButton.tap()
+    if !tryToTap(takePhotoButton, forTimeInterval: 3) {
+      win.tap()
+      takePhotoButton.tap()
+    }
     let doneButton = win.buttons["Done"]
     if !tryToTap(doneButton, forTimeInterval: 3) {
       // The multiple permissions dialogs can prevent the take photo from happening.
       takePhotoButton.tap()
-      XCTAssert(tryToTap(doneButton, forTimeInterval: 3))
+      if !tryToTap(doneButton, forTimeInterval: 3) {
+        // No camera
+        win.buttons["Cancel"].tap()
+        return
+      }
     }
-  }
-
-  func uploadPhoto() {
     let captionField = win.textFields.element
-    captionField.tap()
+    XCTAssert(tryToTap(captionField, forTimeInterval: 3))
     captionField.typeText("my friendly pic")
     win.buttons["UPLOAD THIS PIC"].tap()
   }
 
   func addComment() {
-    win.buttons.matching(NSPredicate(format: "label == 'comment'")).element(boundBy: 0).tap()
+    XCTAssert(tryToTap(win.buttons.matching(NSPredicate(format: "label == 'comment'")).element(boundBy: 0), forTimeInterval: 3))
     let commentField = win.textViews.element
     commentField.tap()
     commentField.typeText("Nice, pic!")
@@ -108,14 +119,36 @@ class FriendlyPixUITest: XCTestCase {
     win.buttons["Back"].tap()
   }
 
-  func tryToTap(_ elem: XCUIElement, forTimeInterval ti: Double = 0) -> Bool {
+  func tryToTap(_ element: XCUIElement, forTimeInterval ti: Double = 0) -> Bool {
     let startTime = NSDate.timeIntervalSinceReferenceDate
     repeat {
-      if elem.exists && elem.isHittable {
-        elem.tap()
+      if element.exists && element.isHittable {
+        element.tap()
         return true
       }
     } while NSDate.timeIntervalSinceReferenceDate - startTime < ti
     return false
   }
+
+  func wait(forElement element: XCUIElement, timeout: TimeInterval) {
+    let predicate = NSPredicate(format: "exists == 1")
+
+    // This will make the test runner continously evalulate the
+    // predicate, and wait until it matches.
+    expectation(for: predicate, evaluatedWith: element)
+    waitForExpectations(timeout: timeout)
+  }
 }
+
+  extension XCUIElement {
+    func forceTapElement() {
+      if self.isHittable {
+        self.tap()
+      }
+      else {
+        let coordinate: XCUICoordinate = self.coordinate(withNormalizedOffset: CGVector(dx:0.0, dy:0.0))
+        coordinate.tap()
+      }
+    }
+  }
+
