@@ -52,7 +52,8 @@ class FPHashTagViewController: MDCCollectionViewController {
 
   func registerForPostsDeletion() {
     let userPostsRef = database.reference(withPath: "hashtags/\(hashtag)")
-    userPostsRef.observe(.childRemoved, with: { postSnapshot in
+    userPostsRef.observe(.childRemoved, with: { [weak self] postSnapshot in
+        guard let self = self else { return }
       var index = 0
       for post in self.postSnapshots {
         if post.key == postSnapshot.key {
@@ -110,7 +111,8 @@ class FPHashTagViewController: MDCCollectionViewController {
     self.collectionView?.performBatchUpdates({
       for _ in 1...12 {
         if let postId = self.postIds?.popFirst()?.key {
-          database.reference(withPath: "posts/\(postId)").observeSingleEvent(of: .value, with: { postSnapshot in
+          database.reference(withPath: "posts/\(postId)").observeSingleEvent(of: .value, with: { [weak self] postSnapshot in
+            guard let self = self else { return }
             self.postSnapshots.append(postSnapshot)
             self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 0)])
           })

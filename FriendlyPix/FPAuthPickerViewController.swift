@@ -36,8 +36,10 @@ class FPAuthPickerViewController: FUIAuthPickerViewController {
       })
     }
     alertController.addAction(termsAction)
-    let policyAction = MDCAlertAction(title: "Privacy") { action in
-      UIApplication.shared.open(URL(string: "https://www.google.com/policies/privacy")!,
+    let policyAction = MDCAlertAction(title: "Privacy") { [weak self] action in
+        guard let self = self else { return }
+        guard let url = URL(string: "https://www.google.com/policies/privacy") else { return }
+      UIApplication.shared.open(url,
                                 options: [:], completionHandler: { completion in
         self.present(alertController, animated: true, completion: nil)
       })

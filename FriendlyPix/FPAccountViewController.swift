@@ -183,7 +183,8 @@ class FPAccountViewController: MDCCollectionViewController {
     self.collectionView?.performBatchUpdates({
       for _ in 1...10 {
         if let postId = self.postIds?.popFirst()?.key {
-          database.reference(withPath: "posts/\(postId)").observeSingleEvent(of: .value, with: { postSnapshot in
+          database.reference(withPath: "posts/\(postId)").observeSingleEvent(of: .value, with: { [weak self] postSnapshot in
+            guard let self = self else { return }
             self.postSnapshots.append(postSnapshot)
             self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 1)])
           })
@@ -268,7 +269,8 @@ class FPAccountViewController: MDCCollectionViewController {
   func toggleFollow(_ follow: Bool) {
     feedViewController?.followChanged = true
     let myFeed = "feed/\(uid)/"
-    database.reference(withPath: "people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: { snapshot in
+    database.reference(withPath: "people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: { [weak self] snapshot in
+        guard let self = self else { return }
       var lastPostID: Any = true
       var updateData = [String: Any]()
       if let posts = snapshot.value as? [String: Any] {

@@ -145,7 +145,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
       })
     }
     myGroup.enter()
-    thumbRef.putData(thumbnailImageData, metadata: metadata) { thumbmetadata, error in
+    thumbRef.putData(thumbnailImageData, metadata: metadata) { [weak self] (thumbmetadata, error) in
+        guard let self = self else { return }
       if let error = error {
         message.text = "Error uploading thumbnail"
         MDCSnackbarManager.show(message)
@@ -153,7 +154,8 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
         print("Error uploading thumbnail: \(error.localizedDescription)")
         return
       }
-      thumbRef.downloadURL(completion: { (url, error) in
+      thumbRef.downloadURL(completion: { [weak self] (url, error) in
+        guard let self = self else { return }
         if let error = error {
           print(error.localizedDescription)
           return

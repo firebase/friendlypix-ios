@@ -191,7 +191,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     } else {
       inputTextView.becomeFirstResponder()
     }
-    commentQuery.observe(.childAdded, with: { dataSnaphot in
+    commentQuery.observe(.childAdded, with: { [weak self] dataSnaphot in
+        gurd let self = self else { return }
       if dataSnaphot.key != lastCommentId && !self.appDelegate.isBlocked(dataSnaphot){
         self.comments.append(FPComment(snapshot: dataSnaphot))
         let index = IndexPath(item: self.comments.count - 1, section: 1)
@@ -201,13 +202,15 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
                                         argument: self.updatedLabel)
       }
     })
-    commentsRef.observe(.childRemoved) { dataSnaphot in
+    commentsRef.observe(.childRemoved) { [weak self] dataSnaphot in
+        guard let self = self else { return }
       if let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
         self.comments.remove(at: index)
         self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 1)])
       }
     }
-    commentsRef.observe(.childChanged) { dataSnaphot in
+    commentsRef.observe(.childChanged) { [weak self] dataSnaphot in
+        guard let self = self else { return }
       if let value = dataSnaphot.value as? [String: Any],
         let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
         self.comments[index].text = value["text"] as! String

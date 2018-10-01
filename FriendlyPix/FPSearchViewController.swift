@@ -134,7 +134,8 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
 
   private func search(_ searchString: String, at index: String) {
     peopleRef.queryOrdered(byChild: "_search_index/\(index)").queryStarting(atValue: searchString)
-      .queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { snapshot in
+      .queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { [weak self] snapshot in
+        guard let self = self else { return }
         let enumerator = snapshot.children
           while let person = enumerator.nextObject() as? DataSnapshot {
             if !self.appDelegate.isBlocked(by: person.key), let value = person.value as? [String: Any], let searchIndex = value["_search_index"] as? [String: Any],
@@ -148,7 +149,8 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
 
   private func searchHashtags(_ searchString: String) {
     hashtagsRef.queryOrderedByKey().queryStarting(atValue: searchString)
-      .queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { snapshot in
+      .queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { [weak self] snapshot in
+        guard let self = self else { return }
       let enumerator = snapshot.children
       while let hashtag = enumerator.nextObject() as? DataSnapshot {
         let tag = hashtag.key

@@ -332,7 +332,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
         query = query?.queryEnding(atValue: queryEnding)
       }
       loadingPostCount = posts.count + FPFeedViewController.postsPerLoad
-      query?.queryLimited(toLast: FPFeedViewController.postsLimit).observeSingleEvent(of: .value, with: { snapshot in
+        query?.queryLimited(toLast: FPFeedViewController.postsLimit).observeSingleEvent(of: .value, with: { [weak self] snapshot in
+            guard let self = self else { return }
         if let spinner = self.spinner {
           self.removeSpinner(spinner)
         }
@@ -439,7 +440,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       return
     }
     let postId = postSnapshot.key
-    commentsRef.child(postId).observeSingleEvent(of: .value, with: { commentsSnapshot in
+    commentsRef.child(postId).observeSingleEvent(of: .value, with: { [weak self] commentsSnapshot in
+        guard let self = self else { return }
       var commentsArray = [FPComment]()
       let enumerator = commentsSnapshot.children
       while let commentSnapshot = enumerator.nextObject() as? DataSnapshot {
@@ -448,7 +450,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           commentsArray.append(comment)
         }
       }
-      self.likesRef.child(postId).observeSingleEvent(of: .value, with: { snapshot in
+      self.likesRef.child(postId).observeSingleEvent(of: .value, with: { [weak self] snapshot in
+        guard let self = self else { return }
         let likes = snapshot.value as? [String: Any]
         let post = FPPost(snapshot: postSnapshot, andComments: commentsArray, andLikes: likes)
         self.posts.append(post)
@@ -462,7 +465,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
 
   func updatePost(_ post: FPPost, postSnapshot: DataSnapshot) {
     let postId = postSnapshot.key
-    commentsRef.child(postId).observeSingleEvent(of: .value, with: { commentsSnapshot in
+    commentsRef.child(postId).observeSingleEvent(of: .value, with: { [weak self] commentsSnapshot in
+        guard let self = self else { return }
       var commentsArray = [FPComment]()
       let enumerator = commentsSnapshot.children
       while let commentSnapshot = enumerator.nextObject() as? DataSnapshot {
@@ -628,7 +632,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       if followingSnapshot.exists() && (followingSnapshot.value is String) {
         followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: followingSnapshot.value)
       }
-      followedUserPostsRef.observe(.childAdded, with: { postSnapshot in
+      followedUserPostsRef.observe(.childAdded, with: { [weak self] postSnapshot in
+        guard let self = self else { return }
         if postSnapshot.key != followingSnapshot.key {
           let updates = ["/feed/\(self.uid)/\(postSnapshot.key)": true,
                          "/people/\(self.uid)/following/\(followedUid)": postSnapshot.key] as [String: Any]
@@ -638,7 +643,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       self.observers.append(followedUserPostsRef)
     })
     // Stop listening to users we unfollow.
-    followingRef?.observe(.childRemoved, with: { snapshot in
+    followingRef?.observe(.childRemoved, with: { [weak self] snapshot in
+        guard let self = self else { return }
       // Stop listening the followed user's posts to populate the home feed.
       let followedUserId: String = snapshot.key
       self.database.reference(withPath: "people/\(followedUserId)/posts").removeAllObservers()
@@ -650,7 +656,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
    */
   func updateHomeFeeds() {
     // Make sure we listen on each followed people's posts.
-    followingRef?.observeSingleEvent(of: .value, with: { followingSnapshot in
+    followingRef?.observeSingleEvent(of: .value, with: { [weak self] followingSnapshot in
+        guard let self = self else { return }
       // Start listening the followed user's posts to populate the home feed.
       guard let following = followingSnapshot.value as? [String: Any] else {
         self.startHomeFeedLiveUpdaters()
@@ -668,7 +675,8 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
           followedUserPostsRef = followedUserPostsRef.queryOrderedByKey().queryStarting(atValue: lastSyncedPostId)
           lastSyncedPost = lastSyncedPostId
         }
-        followedUserPostsRef.observeSingleEvent(of: .value, with: { postSnapshot in
+        followedUserPostsRef.observeSingleEvent(of: .value, with: { [weak self] postSnapshot in
+            guard let self = self else { return }
           if let postArray = postSnapshot.value as? [String: Any] {
             var updates = [AnyHashable: Any]()
             for postId in postArray.keys where postId != lastSyncedPost {
