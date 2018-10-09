@@ -13,30 +13,30 @@ PODS:
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.37.0):
     - FBSDKCoreKit
-  - Firebase/Auth (5.9.0):
+  - Firebase/Auth (5.10.0):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.0.4)
-  - Firebase/Core (5.9.0):
+  - Firebase/Core (5.10.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.2.0)
-  - Firebase/CoreOnly (5.9.0):
-    - FirebaseCore (= 5.1.4)
-  - Firebase/Database (5.9.0):
+  - Firebase/CoreOnly (5.10.0):
+    - FirebaseCore (= 5.1.5)
+  - Firebase/Database (5.10.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.0.3)
-  - Firebase/Invites (5.9.0):
+  - Firebase/Invites (5.10.0):
     - Firebase/Core
     - FirebaseInvites (= 3.0.1)
-  - Firebase/Messaging (5.9.0):
+  - Firebase/Messaging (5.10.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.1.2)
-  - Firebase/MLVision (5.9.0):
+    - FirebaseMessaging (= 3.2.0)
+  - Firebase/MLVision (5.10.0):
     - Firebase/CoreOnly
-    - FirebaseMLVision (= 0.11.0)
-  - Firebase/Performance (5.9.0):
+    - FirebaseMLVision (= 0.12.0)
+  - Firebase/Performance (5.10.0):
     - Firebase/Core
     - FirebasePerformance (= 2.1.2)
-  - Firebase/Storage (5.9.0):
+  - Firebase/Storage (5.10.0):
     - Firebase/CoreOnly
     - FirebaseStorage (= 3.0.2)
   - FirebaseAnalytics (5.2.0):
@@ -55,7 +55,7 @@ PODS:
     - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.1.4):
+  - FirebaseCore (5.1.5):
     - GoogleUtilities/Logger (~> 5.2)
   - FirebaseDatabase (5.0.3):
     - FirebaseCore (~> 5.0)
@@ -82,19 +82,20 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.1)
     - GTMSessionFetcher/Full (~> 1.1)
     - Protobuf (~> 3.5)
-  - FirebaseMessaging (3.1.2):
+  - FirebaseMessaging (3.2.0):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
+    - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Reachability (~> 5.2)
     - Protobuf (~> 3.1)
-  - FirebaseMLCommon (0.11.0):
-    - FirebaseCore (~> 5.1)
-  - FirebaseMLVision (0.11.0):
-    - FirebaseCore (~> 5.1)
-    - FirebaseMLCommon (~> 0.11)
+  - FirebaseMLCommon (0.12.0):
+    - FirebaseCore (= 5.1.5)
+  - FirebaseMLVision (0.12.0):
+    - FirebaseCore (= 5.1.5)
+    - FirebaseMLCommon (~> 0.12)
     - GoogleAPIClientForREST/Core (~> 1.3)
     - GoogleAPIClientForREST/Vision (~> 1.3)
-    - GoogleMobileVision/Detector (~> 1.3)
+    - GoogleMobileVision/Detector (~> 1.4)
   - FirebasePerformance (2.1.2):
     - FirebaseAnalytics (~> 5.1)
     - FirebaseInstanceID (~> 3.2)
@@ -135,7 +136,7 @@ PODS:
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.1)
     - Protobuf (~> 3.1)
-  - GoogleSignIn (4.2.0):
+  - GoogleSignIn (4.3.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMOAuth2 (~> 1.0)
@@ -382,26 +383,26 @@ SPEC CHECKSUMS:
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
   FBSDKCoreKit: fe5f3474499a81963e11e3f3a5c753d0a95ca2b4
   FBSDKLoginKit: 2f7249686d1e30ce8a5ef5400eedf50b3e3df332
-  Firebase: 383fa29aca93e371cab776b48a5c66544d3c2003
+  Firebase: 6691d47562a780c26281ce8464518faafc90c610
   FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
   FirebaseAnalyticsInterop: 31b00d2a916918327308b2dff47251eb96f9e4ad
   FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: 2a84b6b325792a4319ef71ee18819dcba08d2fd7
+  FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
   FirebaseDatabase: e2bcbc106adc4b11a2da3ec2eb63c0c4a44f2f54
   FirebaseDynamicLinks: 33f349103fa71d463688b7671e6a60e00ac6a5af
   FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
   FirebaseInvites: da663c2436b88c2f56d13f38ea71e9055dc4c53d
-  FirebaseMessaging: d6feeb06218d2675b4149b0ada925a6b707a74cf
-  FirebaseMLCommon: 285b93416df5f37164ad08795cb799f253fda549
-  FirebaseMLVision: b2a14ec0d0d885b6b0d0c04825794715cb755c3e
+  FirebaseMessaging: 000b32447b461b34b6b912b23ec11be20b503b5b
+  FirebaseMLCommon: ca1a9b1e157d38c915b1862da6dd69cf87b30d92
+  FirebaseMLVision: 0387fde95d33720be50572dc86f0f21b55be2010
   FirebasePerformance: 65f7eb943ef3cc118899f945065ff9fa2d924e52
   FirebaseStorage: fd82e5e5c474897e19972b34b22ac0f589dce04e
   FirebaseUI: 09519bf436a055cd696bf68687d624423150e4c0
   GoogleAPIClientForREST: 5b95b38a0fa912e8ac7bdcf9e124578ef1a61bf2
   GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
   GoogleMobileVision: bedef12c0924e948fc09b8f1b38c5fe1a3594b6f
-  GoogleSignIn: 591e46382014e591269f862ba6e7bc0fbd793532
+  GoogleSignIn: 11183592dc63e105475c7305a325045ff95e02b7
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
