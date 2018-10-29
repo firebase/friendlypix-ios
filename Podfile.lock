@@ -207,17 +207,17 @@ PODS:
   - leveldb-library (1.20)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
-  - MaterialComponents/AnimationTiming (67.2.0)
-  - MaterialComponents/BottomAppBar (67.2.0):
+  - MaterialComponents/AnimationTiming (68.0.0)
+  - MaterialComponents/BottomAppBar (68.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (67.2.0):
+  - MaterialComponents/ButtonBar (68.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (67.2.0):
+  - MaterialComponents/Buttons (68.0.0):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/private/Shapes
@@ -226,10 +226,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (67.2.0)":
+  - "MaterialComponents/Buttons+ColorThemer (68.0.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/CollectionCells (67.2.0):
+  - MaterialComponents/CollectionCells (68.0.0):
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
     - MaterialComponents/Palettes
@@ -242,8 +242,8 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/CollectionLayoutAttributes (67.2.0)
-  - MaterialComponents/Collections (67.2.0):
+  - MaterialComponents/CollectionLayoutAttributes (68.0.0)
+  - MaterialComponents/Collections (68.0.0):
     - MaterialComponents/CollectionCells
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
@@ -251,50 +251,50 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/Dialogs (67.2.0):
+  - MaterialComponents/Dialogs (68.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Ink (67.2.0):
+  - MaterialComponents/Ink (68.0.0):
     - MaterialComponents/private/Math
-  - MaterialComponents/NavigationBar (67.2.0):
+  - MaterialComponents/NavigationBar (68.0.0):
     - MaterialComponents/ButtonBar
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (67.2.0):
+  - MaterialComponents/OverlayWindow (68.0.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (67.2.0)
-  - MaterialComponents/private/Application (67.2.0)
-  - MaterialComponents/private/Icons/Base (67.2.0)
-  - MaterialComponents/private/Icons/ic_check (67.2.0):
+  - MaterialComponents/Palettes (68.0.0)
+  - MaterialComponents/private/Application (68.0.0)
+  - MaterialComponents/private/Icons/Base (68.0.0)
+  - MaterialComponents/private/Icons/ic_check (68.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_check_circle (67.2.0):
+  - MaterialComponents/private/Icons/ic_check_circle (68.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_chevron_right (67.2.0):
+  - MaterialComponents/private/Icons/ic_chevron_right (68.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_info (67.2.0):
+  - MaterialComponents/private/Icons/ic_info (68.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_radio_button_unchecked (67.2.0):
+  - MaterialComponents/private/Icons/ic_radio_button_unchecked (68.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_reorder (67.2.0):
+  - MaterialComponents/private/Icons/ic_reorder (68.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (67.2.0):
+  - MaterialComponents/private/KeyboardWatcher (68.0.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (67.2.0)
-  - MaterialComponents/private/Overlay (67.2.0)
-  - MaterialComponents/private/Shapes (67.2.0):
+  - MaterialComponents/private/Math (68.0.0)
+  - MaterialComponents/private/Overlay (68.0.0)
+  - MaterialComponents/private/Shapes (68.0.0):
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/schemes/Color (67.2.0)
-  - MaterialComponents/ShadowElevations (67.2.0)
-  - MaterialComponents/ShadowLayer (67.2.0):
+  - MaterialComponents/schemes/Color (68.0.0)
+  - MaterialComponents/ShadowElevations (68.0.0)
+  - MaterialComponents/ShadowLayer (68.0.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/Snackbar (67.2.0):
+  - MaterialComponents/Snackbar (68.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/OverlayWindow
@@ -302,22 +302,22 @@ PODS:
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/private/Overlay
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (67.2.0):
+  - MaterialComponents/TextFields (68.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Typography (67.2.0):
+  - MaterialComponents/Typography (68.0.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (1.1.0)
   - MDFTextAccessibility (1.2.0)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
@@ -428,10 +428,10 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
-  MaterialComponents: f3c20139beb3aa06ad0fb6651bb9697de4d0caab
+  MaterialComponents: 2f9ee23abfc633502026aa34e0bdc9a489e1d00d
   MDFInternationalization: b5b8626628abf026e630e5ebaeee563037712cbb
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
