@@ -6,9 +6,9 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
   - Cache (5.2.0)
-  - Crashlytics (3.11.0):
-    - Fabric (~> 1.8.0)
-  - Fabric (1.8.0)
+  - Crashlytics (3.11.1):
+    - Fabric (~> 1.8.1)
+  - Fabric (1.8.1)
   - FBSDKCoreKit (4.38.0):
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.38.0):
@@ -207,17 +207,17 @@ PODS:
   - leveldb-library (1.20)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
-  - MaterialComponents/AnimationTiming (68.0.0)
-  - MaterialComponents/BottomAppBar (68.0.0):
+  - MaterialComponents/AnimationTiming (68.1.0)
+  - MaterialComponents/BottomAppBar (68.1.0):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (68.0.0):
+  - MaterialComponents/ButtonBar (68.1.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (68.0.0):
+  - MaterialComponents/Buttons (68.1.0):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/private/Shapes
@@ -226,10 +226,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (68.0.0)":
+  - "MaterialComponents/Buttons+ColorThemer (68.1.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/CollectionCells (68.0.0):
+  - MaterialComponents/CollectionCells (68.1.0):
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
     - MaterialComponents/Palettes
@@ -242,8 +242,8 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/CollectionLayoutAttributes (68.0.0)
-  - MaterialComponents/Collections (68.0.0):
+  - MaterialComponents/CollectionLayoutAttributes (68.1.0)
+  - MaterialComponents/Collections (68.1.0):
     - MaterialComponents/CollectionCells
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
@@ -251,50 +251,50 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/Dialogs (68.0.0):
+  - MaterialComponents/Dialogs (68.1.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Ink (68.0.0):
+  - MaterialComponents/Ink (68.1.0):
     - MaterialComponents/private/Math
-  - MaterialComponents/NavigationBar (68.0.0):
+  - MaterialComponents/NavigationBar (68.1.0):
     - MaterialComponents/ButtonBar
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (68.0.0):
+  - MaterialComponents/OverlayWindow (68.1.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (68.0.0)
-  - MaterialComponents/private/Application (68.0.0)
-  - MaterialComponents/private/Icons/Base (68.0.0)
-  - MaterialComponents/private/Icons/ic_check (68.0.0):
+  - MaterialComponents/Palettes (68.1.0)
+  - MaterialComponents/private/Application (68.1.0)
+  - MaterialComponents/private/Icons/Base (68.1.0)
+  - MaterialComponents/private/Icons/ic_check (68.1.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_check_circle (68.0.0):
+  - MaterialComponents/private/Icons/ic_check_circle (68.1.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_chevron_right (68.0.0):
+  - MaterialComponents/private/Icons/ic_chevron_right (68.1.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_info (68.0.0):
+  - MaterialComponents/private/Icons/ic_info (68.1.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_radio_button_unchecked (68.0.0):
+  - MaterialComponents/private/Icons/ic_radio_button_unchecked (68.1.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_reorder (68.0.0):
+  - MaterialComponents/private/Icons/ic_reorder (68.1.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (68.0.0):
+  - MaterialComponents/private/KeyboardWatcher (68.1.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (68.0.0)
-  - MaterialComponents/private/Overlay (68.0.0)
-  - MaterialComponents/private/Shapes (68.0.0):
+  - MaterialComponents/private/Math (68.1.0)
+  - MaterialComponents/private/Overlay (68.1.0)
+  - MaterialComponents/private/Shapes (68.1.0):
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/schemes/Color (68.0.0)
-  - MaterialComponents/ShadowElevations (68.0.0)
-  - MaterialComponents/ShadowLayer (68.0.0):
+  - MaterialComponents/schemes/Color (68.1.0)
+  - MaterialComponents/ShadowElevations (68.1.0)
+  - MaterialComponents/ShadowLayer (68.1.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/Snackbar (68.0.0):
+  - MaterialComponents/Snackbar (68.1.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/OverlayWindow
@@ -302,13 +302,13 @@ PODS:
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/private/Overlay
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (68.0.0):
+  - MaterialComponents/TextFields (68.1.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Typography (68.0.0):
+  - MaterialComponents/Typography (68.1.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (1.1.0)
@@ -394,8 +394,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
-  Crashlytics: 1448070c1d2731ab71ea7c3faf84ac0f69657287
-  Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
+  Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
+  Fabric: 43ed7bac010f588f63ee23ab1a0276b296db5e17
   FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
   FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
@@ -428,7 +428,7 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
-  MaterialComponents: 2f9ee23abfc633502026aa34e0bdc9a489e1d00d
+  MaterialComponents: 9090ac82784a9c031ff62a44d3d9880143029d63
   MDFInternationalization: b5b8626628abf026e630e5ebaeee563037712cbb
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
