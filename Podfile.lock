@@ -8,10 +8,10 @@ PODS:
   - Cache (5.2.0)
   - Crashlytics (3.11.1):
     - Fabric (~> 1.8.1)
-  - Fabric (1.8.1)
-  - FBSDKCoreKit (4.38.0):
+  - Fabric (1.8.2)
+  - FBSDKCoreKit (4.38.1):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.38.0):
+  - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
   - Firebase/Auth (5.11.0):
     - Firebase/CoreOnly
@@ -395,9 +395,9 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
-  Fabric: 43ed7bac010f588f63ee23ab1a0276b296db5e17
-  FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
-  FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
+  Fabric: d2b22f443ba195d8a7cc204da230977c72733b40
+  FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
+  FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
