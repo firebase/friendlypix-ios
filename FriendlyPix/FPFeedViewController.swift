@@ -22,9 +22,14 @@ import Lightbox
 import MaterialComponents
 
 class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
-
-  lazy var uid = Auth.auth().currentUser!.uid
+  var currentUser: User!
+  lazy var uid = currentUser.uid
   var followingRef: DatabaseReference?
+  lazy var authViewController: UINavigationController = {
+    let controller = FUIAuth.defaultAuthUI()!.authViewController()
+    controller.navigationBar.isHidden = true
+    return controller
+  }()
 
   lazy var database = Database.database()
   lazy var ref = self.database.reference()
@@ -195,21 +200,22 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if let currentUser = Auth.auth().currentUser  {
-      self.uid = currentUser.uid
-      Crashlytics.sharedInstance().setUserIdentifier(currentUser.uid)
+      self.currentUser = currentUser
+      bottomBarView.floatingButton.isEnabled = !currentUser.isAnonymous
+      Crashlytics.sharedInstance().setUserIdentifier(uid)
       self.followingRef = database.reference(withPath: "people/\(uid)/following")
     } else {
-      let authViewController = FUIAuth.defaultAuthUI()?.authViewController()
-      authViewController?.navigationBar.isHidden = true
-      self.present(authViewController!, animated: true, completion: nil)
+      self.present(authViewController, animated: true, completion: nil)
       return
     }
     MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
     if let item = navigationItem.rightBarButtonItems?[0] {
-      item.accessibilityLabel = ""
+      item.accessibilityLabel = "Profile"
       item.accessibilityHint = "Double-tap to open your profile."
-      if let photoURL = Auth.auth().currentUser?.photoURL {
+      if let photoURL = currentUser.photoURL {
         UIImage.circleButton(with: photoURL, to: item)
+      } else {
+        item.image = #imageLiteral(resourceName: "ic_account_circle_36pt")
       }
     }
     navigationItem.rightBarButtonItems?[1].accessibilityLabel = "Search people"
@@ -263,7 +269,62 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
   }
 
   @IBAction func didTapProfile(_ sender: Any) {
-    showProfile(FPUser.currentUser())
+    if !currentUser.isAnonymous {
+      showProfile(FPUser.currentUser())
+    } else {
+      anonAlert.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?[0]
+      present(anonAlert, animated: true, completion: nil)
+    }
+  }
+
+  lazy var anonAlert: UIAlertController = {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    if !AppDelegate.euroZone {
+      alert.addAction(UIAlertAction(title: "Sign in", style: .default , handler:{ _ in
+        self.present(self.linkAlert, animated:true, completion:nil)
+      }))
+    }
+    alert.addAction(UIAlertAction(title: "Log out", style: .destructive , handler:{ (UIAlertAction)in
+      self.present(self.signOutAlert, animated:true, completion:nil)
+    }))
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+    return alert
+  }()
+
+  lazy var signOutAlert: MDCAlertController = {
+    let displayName = currentUser.isAnonymous ? "guest session" : (currentUser.displayName ?? "current user")
+    let alertController = MDCAlertController(title: "Log out of \(displayName)?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
+    let logoutAction = MDCAlertAction(title:"Logout") { _ in self.signOut() }
+    alertController.addAction(logoutAction)
+    alertController.addAction(cancelAction)
+    return alertController
+  }()
+
+  lazy var linkAlert: MDCAlertController = {
+    let alertController = MDCAlertController(title: "Sign in to link your account?", message: nil)
+    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
+    let linkAction = MDCAlertAction(title:"Sign in") { _ in
+      self.present(self.authViewController, animated: true, completion: nil)
+    }
+    alertController.addAction(linkAction)
+    alertController.addAction(cancelAction)
+    return alertController
+  }()
+
+  func signOut() {
+    let anon = currentUser.isAnonymous
+    do {
+      try Auth.auth().signOut()
+    } catch {
+    }
+    appDelegate.signOut()
+    navigationController?.popToRootViewController(animated: false)
+    newPost = true
+    isFirstOpen = true
+    if anon {
+      present(authViewController, animated: true, completion: nil)
+    }
   }
 
   func getHomeFeedPosts() {
@@ -784,8 +845,8 @@ extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDe
 }
 
 extension MDCCollectionViewController {
-  var feedViewController: FPFeedViewController? {
-    return navigationController?.viewControllers[0] as? FPFeedViewController
+  var feedViewController: FPFeedViewController {
+    return navigationController?.viewControllers[0] as! FPFeedViewController
   }
 
   internal func cleanCollectionView() {

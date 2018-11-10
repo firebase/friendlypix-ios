@@ -21,7 +21,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   var post: FPPost!
   var comments: [FPComment]!
   lazy var appDelegate = UIApplication.shared.delegate as! AppDelegate
-  lazy var uid = Auth.auth().currentUser!.uid
+  lazy var currentUser = Auth.auth().currentUser!
+  lazy var uid = currentUser.uid
 
   lazy var database = Database.database()
   lazy var commentsRef = database.reference(withPath: "comments/\(post.postID)")
@@ -126,6 +127,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     styler.cellStyle = .card
 
     inputTextView.delegate = self
+    inputTextView.isEditable = !currentUser.isAnonymous
 
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification),
                                            name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -276,7 +278,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
             MDCSnackbarManager.setBottomOffset(0)
             if let updatedLabel = self.updatedLabel {
               UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
-                                            argument: updatedLabel)
+                                              argument: updatedLabel)
             }
           }
         })
@@ -312,7 +314,6 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
       alert.popoverPresentationController?.sourceRect = sender.bounds
       alert.popoverPresentationController?.sourceView = sender
-
       self.present(alert, animated: true, completion: nil)
     }
   }
@@ -340,7 +341,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   @objc func showProfile(sender: UITapGestureRecognizer) {
     if let index = sender.view?.tag {
       let sender = index == -1 ? post.author : comments[index].from
-      feedViewController?.performSegue(withIdentifier: "account", sender: sender)
+      feedViewController.performSegue(withIdentifier: "account", sender: sender)
     }
   }
 
@@ -354,7 +355,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     if recognizer.didTapAttributedTextInLabel(label: label,
                                              inRange: NSRange(location: 0,
                                                               length: from.fullname.count)) {
-      feedViewController?.performSegue(withIdentifier: "account", sender: from)
+      feedViewController.performSegue(withIdentifier: "account", sender: from)
     }
   }
 

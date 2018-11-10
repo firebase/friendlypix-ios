@@ -18,6 +18,7 @@ import FirebaseUI
 import MaterialComponents.MDCTypography
 
 class FPAuthPickerViewController: FUIAuthPickerViewController {
+  @IBOutlet var readonlyWarningLabel: UILabel!
   let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)]
   let attributes2 = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)]
   var agreed = false
@@ -48,6 +49,9 @@ class FPAuthPickerViewController: FUIAuthPickerViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    if (AppDelegate.euroZone) {
+      readonlyWarningLabel.isHidden = false
+    }
     if !agreed {
       self.present(disclaimer, animated: true, completion: nil)
     }

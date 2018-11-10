@@ -201,9 +201,9 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if indexPath.section == 0 {
-      feedViewController?.showProfile(people[indexPath.item])
+      feedViewController.showProfile(people[indexPath.item])
     } else {
-      feedViewController?.showTaggedPhotos(hashtags[indexPath.item])
+      feedViewController.showTaggedPhotos(hashtags[indexPath.item])
     }
   }
 }

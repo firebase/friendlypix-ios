@@ -29,11 +29,18 @@ class FriendlyPixUITest: XCTestCase {
     win = app.windows.element(boundBy: 0)
   }
 
+  func testGuestSignIn() {
+    acceptAllPermissions()
+    acceptPrivacyandTerms()
+    signInAsGuest()
+    readComment()
+  }
+
   func testFriendlyPix() {
     acceptAllPermissions()
     acceptPrivacyandTerms()
     signInWithGoogle()
-    takeNewPhoto()
+    //takeNewPhoto()
     addComment()
   }
 
@@ -53,25 +60,49 @@ class FriendlyPixUITest: XCTestCase {
     tryToTap(win.buttons["I agree"], forTimeInterval: 3)
   }
 
+  func signInAsGuest() {
+    let signInButton = win.buttons["Sign in as guest"]
+    if !signInButton.exists {
+      signOut()
+    }
+    signInButton.tap()
+  }
+
+  func signOut() {
+    let profileButton = win.buttons["Profile"]
+    profileButton.tap()
+    let logoutButton = win.buttons["Log out"]
+    if !tryToTap(logoutButton) {
+      win.buttons["more"].tap()
+      win.buttons["Sign out"].tap()
+    }
+    win.buttons["Logout"].tap()
+    win.tap()
+    acceptAllPermissions()
+    acceptPrivacyandTerms()
+  }
+
   func signInWithGoogle() {
     let signInButton = win.buttons["Sign in with Google"]
     if !signInButton.exists {
-      return  // Must already be signed in
+      signOut()
     }
     signInButton.tap()
-    win.tap()
 
     // Enter email or choose account from account chooser.
     let email = ProcessInfo.processInfo.environment["GOOGLE_EMAIL"]!
     let emailElement = win
       .descendants(matching: .any)
       .matching(NSPredicate(format: "(label == 'Email or phone') || (label CONTAINS[c] %@)", email))
-      .element
+      .element(boundBy: 0)
     if !tryToTap(emailElement, forTimeInterval: 3) {
       win.tap()  // Sometimes need to trigger the permissions dialog first.
-      XCTAssert(tryToTap(emailElement, forTimeInterval: 3))
     }
-    if emailElement.label == "Email or phone" {
+    if emailElement.exists {
+      emailElement.tap()
+    }
+    if emailElement.exists, emailElement.label == "Email or phone" {
+      emailElement.tap()
       emailElement.typeText(email)
       win.tap()
       tryToTap(win.buttons["Next"], forTimeInterval: 3)
@@ -84,6 +115,10 @@ class FriendlyPixUITest: XCTestCase {
       passwordField.typeText(password)
       win.tap()
       tryToTap(win.buttons["Next"], forTimeInterval: 3)
+    }
+
+    if tryToTap(win.buttons["Confirm your recovery email"]) {
+      win.tap()
     }
   }
 
@@ -108,6 +143,13 @@ class FriendlyPixUITest: XCTestCase {
     XCTAssert(tryToTap(captionField, forTimeInterval: 3))
     captionField.typeText("my friendly pic")
     win.buttons["UPLOAD THIS PIC"].tap()
+  }
+
+  func readComment() {
+    XCTAssert(tryToTap(win.buttons.matching(NSPredicate(format: "label == 'comment'")).element(boundBy: 0), forTimeInterval: 3))
+    let commentField = win.textViews.element
+    commentField.tap()
+    XCTAssert(!XCUIApplication().keyboards.element.exists)
   }
 
   func addComment() {

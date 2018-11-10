@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mdr-bm-qIa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mdr-bm-qIa">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -413,7 +413,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="ChH-bk-KUz">
-                        <barButtonItem key="rightBarButtonItem" image="ic_more_vert_white" id="Uhm-DZ-hp0">
+                        <barButtonItem key="rightBarButtonItem" title="more" image="ic_more_vert_white" id="Uhm-DZ-hp0" userLabel="more">
                             <connections>
                                 <action selector="didTapMore:" destination="YDu-9b-7R6" id="edj-Zw-Mzk"/>
                             </connections>
@@ -457,6 +457,9 @@
                             <outlet property="delegate" destination="hkU-i0-Vem" id="mYF-QZ-mI4"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <segue destination="YRJ-hf-DmU" kind="show" identifier="hashtag" id="8JG-AG-Shp"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lr1-Bz-pDl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -502,14 +505,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_account_circle_36pt" width="36" height="36"/>
-        <image name="ic_more_vert" width="24" height="24"/>
-        <image name="ic_more_vert_white" width="24" height="24"/>
-        <image name="ic_search" width="24" height="24"/>
-        <image name="ic_trending_up" width="24" height="24"/>
+        <image name="ic_account_circle_36pt" width="72" height="72"/>
+        <image name="ic_more_vert" width="48" height="48"/>
+        <image name="ic_more_vert_white" width="48" height="48"/>
+        <image name="ic_search" width="48" height="48"/>
+        <image name="ic_trending_up" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HEz-ur-6ue"/>
+        <segue reference="8JG-AG-Shp"/>
+        <segue reference="0dF-Vk-Xxj"/>
         <segue reference="BGQ-EM-eFj"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -78,6 +78,9 @@ class FPCardCollectionViewCell: MDCCollectionViewCell {
   }
 
   func populateContent(post: FPPost, index: Int, isDryRun: Bool) {
+    if Auth.auth().currentUser!.isAnonymous {
+      likeButton.isEnabled = false
+    }
     self.post = post
     let postAuthor = post.author
     if !isDryRun, let profilePictureURL = postAuthor.profilePictureURL {

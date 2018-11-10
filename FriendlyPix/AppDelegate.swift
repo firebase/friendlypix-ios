@@ -35,6 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var notificationGranted = false
   private var blocked = Set<String>()
   private var blocking = Set<String>()
+  static var euroZone: Bool = {
+    switch Locale.current.regionCode {
+    case "CH", "AT", "IT", "BE", "LV", "BG", "LT", "HR", "LX", "CY", "MT", "CZ", "NL", "DK",
+         "PL", "EE", "PT", "FI", "RO", "FR", "SK", "DE", "SI", "GR", "ES", "HU", "SE", "IE", "GB":
+      return true
+    default:
+      return false
+    }
+  }()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions
     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -73,14 +82,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let authUI = FUIAuth.defaultAuthUI()
     authUI?.delegate = self
     authUI?.tosurl = kFirebaseTermsOfService
+    authUI?.shouldAutoUpgradeAnonymousUsers = true
     authUI?.isSignInWithEmailHidden = true
-    let providers: [FUIAuthProvider] = [FUIGoogleAuth()//, FUIFacebookAuth
-    ]
-    authUI?.providers = providers
 
+    let providers: [FUIAuthProvider] = AppDelegate.euroZone ? [FUIAnonymousAuth()] : [FUIGoogleAuth(), FUIAnonymousAuth()]
+    //  ((Auth.auth().currentUser != nil) ? [FUIGoogleAuth()] as [FUIAuthProvider] : [FUIGoogleAuth(), FUIAnonymousAuth()//, FUIFacebookAuth
+    //] as [FUIAuthProvider])
+    authUI?.providers = providers
     return true
   }
-
 
   func showAlert(_ userInfo: [AnyHashable: Any]) {
     let apsKey = "aps"
@@ -169,10 +179,14 @@ extension AppDelegate: FUIAuthDelegate {
     switch error {
     case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.userCancelledSignIn.rawValue:
       print("User cancelled sign-in")
+    case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.mergeConflict.rawValue:
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: "This identity is already associated with a different user account."))
+    case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.providerError.rawValue:
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: "There is an error with Google Sign in."))
     case .some(let error as NSError) where error.userInfo[NSUnderlyingErrorKey] != nil:
-      print("Login error: \(error.userInfo[NSUnderlyingErrorKey]!)")
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: "\(error.userInfo[NSUnderlyingErrorKey]!)"))
     case .some(let error):
-      print("Login error: \(error.localizedDescription)")
+      MDCSnackbarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
     case .none:
       if let user = authDataResult?.user {
         signed(in: user)
@@ -195,7 +209,8 @@ extension AppDelegate: FUIAuthDelegate {
     blockedRef = database.reference(withPath: "blocked/\(user.uid)")
     blockingRef = database.reference(withPath: "blocking/\(user.uid)")
     observeBlocks()
-    let imageUrl = user.photoURL?.absoluteString
+    let imageUrl = user.isAnonymous ? "" : user.providerData[0].photoURL?.absoluteString
+
     // If the main profile Pic is an expiring facebook profile pic URL we'll update it automatically to use the permanent graph API URL.
 //    if let url = imageUrl, url.contains("lookaside.facebook.com") || url.contains("fbcdn.net") {
 //      let facebookUID = user.providerData.first { (userinfo) -> Bool in
@@ -205,12 +220,17 @@ extension AppDelegate: FUIAuthDelegate {
 //        imageUrl = "https://graph.facebook.com/\(facebook)/picture?type=large"
 //      }
 //    }
+    let displayName = user.isAnonymous ? "Anonymous" : user.providerData[0].displayName ?? ""
+
 
     var values: [String: Any] = ["profile_picture": imageUrl ?? "",
-                                 "full_name": user.displayName ?? "",
-                                 "_search_index": ["full_name": user.displayName?.lowercased(),
-                                                   "reversed_full_name": user.displayName?.components(separatedBy: " ")
-                                                    .reversed().joined(separator: "")]]
+                                 "full_name": displayName]
+
+    if !user.isAnonymous, let name = user.providerData[0].displayName, !name.isEmpty {
+      values["_search_index"] = ["full_name": name.lowercased(),
+                                 "reversed_full_name": name.components(separatedBy: " ")
+                                  .reversed().joined(separator: "")]
+    }
 
     if notificationGranted {
       values["notificationEnabled"] = true

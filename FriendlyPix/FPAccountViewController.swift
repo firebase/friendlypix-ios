@@ -240,7 +240,7 @@ class FPAccountViewController: MDCCollectionViewController {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     if profile.uid == uid {
       alert.addAction(UIAlertAction(title: "Sign out", style: .default , handler:{ (UIAlertAction)in
-        self.present(self.signOutAlert, animated:true, completion:nil)
+        self.present(self.feedViewController.signOutAlert, animated:true, completion:nil)
       }))
       alert.addAction(UIAlertAction(title: "Delete account", style: .destructive , handler:{ _ in
         self.present(self.deleteAlert, animated:true, completion:nil)
@@ -266,7 +266,7 @@ class FPAccountViewController: MDCCollectionViewController {
   }
 
   func toggleFollow(_ follow: Bool) {
-    feedViewController?.followChanged = true
+    feedViewController.followChanged = true
     let myFeed = "feed/\(uid)/"
     database.reference(withPath: "people/\(profile.uid)/posts").observeSingleEvent(of: .value, with: { snapshot in
       var lastPostID: Any = true
@@ -309,28 +309,10 @@ class FPAccountViewController: MDCCollectionViewController {
     navigationController?.popViewController(animated: true)
   }
 
-  func signOut() {
-    do {
-      try Auth.auth().signOut()
-    } catch {
-    }
-    appDelegate.signOut()
-    self.navigationController?.popToRootViewController(animated: false)
-  }
-
-  lazy var signOutAlert: MDCAlertController = {
-    let alertController = MDCAlertController(title: "Log out of \(Auth.auth().currentUser?.displayName ?? "current user")?", message: nil)
-    let cancelAction = MDCAlertAction(title:"Cancel") { _ in print("Cancel") }
-    let logoutAction = MDCAlertAction(title:"Logout") { _ in self.signOut() }
-    alertController.addAction(logoutAction)
-    alertController.addAction(cancelAction)
-    return alertController
-  }()
-
   lazy var errorAlert:  MDCAlertController = {
     let alertController = MDCAlertController(title: "Deletion requires recent authentication",
                                              message: "Log in again before retrying.")
-    let okAction = MDCAlertAction(title:"OK") { _ in self.signOut() }
+    let okAction = MDCAlertAction(title:"OK") { _ in self.feedViewController.signOut() }
     alertController.addAction(okAction)
     return alertController
   }()
@@ -344,7 +326,7 @@ class FPAccountViewController: MDCCollectionViewController {
           self.present(self.errorAlert, animated:true, completion:nil)
           return
         }
-        self.signOut()
+        self.feedViewController.signOut()
       })
     }
     alertController.addAction(deleteAction)

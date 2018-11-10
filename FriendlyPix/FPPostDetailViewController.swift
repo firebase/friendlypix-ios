@@ -46,10 +46,10 @@ class FPPostDetailViewController: FPFeedViewController {
   }
 
   override func showProfile(_ profile: FPUser) {
-    feedViewController?.showProfile(profile)
+    feedViewController.showProfile(profile)
   }
 
   override func viewComments(_ post: FPPost) {
-    feedViewController?.viewComments(post)
+    feedViewController.viewComments(post)
   }
 }
