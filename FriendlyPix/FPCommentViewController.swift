@@ -41,10 +41,11 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   }()
   var requestWorkItem: DispatchWorkItem?
   var isEditingComment = false
+  var isKeyboardShown = false
 
   let commentDeleteText = MDCSnackbarMessage.init(text: "Comment deleted")
 
-  var sizingCell: FPCardCollectionViewCell!
+  //var sizingCell: FPCardCollectionViewCell!
 
   var insets: UIEdgeInsets!
 
@@ -120,6 +121,8 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       return
     }
 
+    collectionView.register(FPCommentCell.self, forCellWithReuseIdentifier: "cell")
+
     if #available(iOS 11.0, *) {
       bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
     }
@@ -138,9 +141,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
                                  insetForSectionAt: 0)
 
     let col = collectionViewLayout as! UICollectionViewFlowLayout
-    col.estimatedItemSize = CGSize.init(width: collectionView.bounds.width - insets.left - insets.right, height: 52)
-
-
+    col.estimatedItemSize = CGSize.init(width: collectionView.bounds.width, height: 52)
 
     view.addSubview(messageInputContainerView)
 
@@ -198,7 +199,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         self.comments.append(FPComment(snapshot: dataSnaphot))
         let index = IndexPath(item: self.comments.count - 1, section: 1)
         self.collectionView?.insertItems(at: [index])
-        self.updatedLabel = (self.collectionView?.cellForItem(at: index) as! FPCommentCell).label
+        self.updatedLabel = (self.collectionView?.cellForItem(at: index) as! MDCSelfSizingStereoCell).titleLabel
         UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
                                         argument: self.updatedLabel)
       }
@@ -216,7 +217,7 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
         let indexPath = IndexPath(item: index, section: 1)
         self.collectionView?.reloadItems(at: [indexPath])
         self.collectionViewLayout.invalidateLayout()
-        self.updatedLabel = (self.collectionView?.cellForItem(at: indexPath) as! FPCommentCell).label
+        self.updatedLabel = (self.collectionView?.cellForItem(at: indexPath) as! MDCSelfSizingStereoCell).titleLabel
         UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
                                         argument: self.updatedLabel)
       }
@@ -258,8 +259,12 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   }
 
   @objc func handleKeyboardNotification(notification: NSNotification) {
+    let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
+    if self.isKeyboardShown == isKeyboardShowing {
+      return
+    }
+    self.isKeyboardShown = isKeyboardShowing
     if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-      let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
       bottomConstraint?.constant = isKeyboardShowing ? -keyboardSize.height : 0
       let inset = isKeyboardShowing ? -bottomAreaInset : bottomAreaInset
       heightConstraint?.constant += inset
@@ -359,42 +364,29 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
     }
   }
 
-  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
-    let from = indexPath.section == 0 ? post.author : comments[indexPath.item].from
-    let label = UILabel()
-    let text = NSMutableAttributedString(string: from.fullname , attributes: attributes)
-    text.append(NSAttributedString(string: " " + (indexPath.section == 0 ? post.text : comments[indexPath.item].text), attributes: attributes2))
-    text.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, text.length))
-
-    label.attributedText = text
-    label.numberOfLines = 0
-    label.contentMode = .left
-    label.lineBreakMode = .byWordWrapping
-    label.baselineAdjustment = .alignBaselines
-    let size = label.sizeThatFits(CGSize(width: collectionView.bounds.width - insets.left - insets.right - 100, height: .greatestFiniteMagnitude))
-    return size.height + 32.333333
-  }
-
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     if let cell = cell as? FPCommentCell {
-      cell.label.addGestureRecognizer(UITapGestureRecognizer(target: self,
+      cell.titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                              action: #selector(handleTapOnComment(recognizer:))))
-      cell.imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showProfile(sender:))))
+      cell.titleLabel.isUserInteractionEnabled = true
+      cell.leadingImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showProfile(sender:))))
+      cell.leadingImageView.isUserInteractionEnabled = true
 
-      cell.label.preferredMaxLayoutWidth = collectionView.bounds.width - insets.left - insets.right - 100
       if indexPath.section == 0 {
-        cell.populateContent(from: post.author, text: post.text, date: post.postDate, index: -1, isDryRun: false)
-        cell.moreButton.isHidden = true
+        cell.populateContent(from: post.author, text: post.text, date: post.postDate, index: -1)
+        cell.trailingImageView.isHidden = true
       } else {
         let comment = comments[indexPath.item]
-        cell.populateContent(from: comment.from, text: comment.text, date: comment.postDate, index: indexPath.item, isDryRun: false)
+        cell.populateContent(from: comment.from, text: comment.text, date: comment.postDate, index: indexPath.item)
+        cell.trailingImageView.image = #imageLiteral(resourceName: "ic_more_vert_white")
       }
     }
     return cell
   }
 }
+
 
 extension UIView {
   func addConstraintsWithFormat(format: String, views: UIView...) {

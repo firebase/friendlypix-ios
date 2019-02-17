@@ -132,10 +132,27 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     bottomBarView.leadingBarButtonItems = [ homeButton, feedButton ]
     bottomBarView.subviews[2].subviews[1].subviews[0].accessibilityTraits = UIAccessibilityTraits.selected
     bottomBarView.subviews[2].subviews[1].accessibilityTraits = UIAccessibilityTraits.tabBar
-    let inviteButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_person_add"), style: .plain, target: self, action: #selector(inviteTapped))
-    inviteButton.tintColor = .gray
-    inviteButton.accessibilityLabel = "invite friends"
-    bottomBarView.trailingBarButtonItems = [ inviteButton ]
+    let moreButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_vert_white"), style: .plain, target: self, action: #selector(moreTapped))
+    moreButton.tintColor = .gray
+    moreButton.accessibilityLabel = "more"
+    bottomBarView.trailingBarButtonItems = [ moreButton ]
+  }
+
+  lazy var moreAlert: UIAlertController = {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: "Terms of Service", style: .default , handler:{ _ in
+      UIApplication.shared.open(URL(string: "https://friendly-pix.com/terms")!, options: [:])
+    }))
+    alert.addAction(UIAlertAction(title: "Privacy", style: .default , handler:{ _ in
+      UIApplication.shared.open(URL(string: "https://www.google.com/policies/privacy")!, options: [:])
+    }))
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+    return alert
+  }()
+
+  @objc func moreTapped() {
+    moreAlert.popoverPresentationController?.barButtonItem = bottomBarView.trailingBarButtonItems?[1]
+    present(moreAlert, animated: true, completion: nil)
   }
 
   override func viewDidLoad() {
@@ -793,54 +810,6 @@ extension FPFeedViewController: ImagePickerDelegate {
     imagePicker.dismiss(animated: true, completion: nil)
     guard images.count > 0 else { return }
     self.performSegue(withIdentifier: "upload", sender: images[0])
-  }
-}
-
-extension FPFeedViewController: InviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
-  @objc func inviteTapped() {
-    GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-    GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/userinfo.email",
-                                         "https://www.googleapis.com/auth/userinfo.profile"]
-    GIDSignIn.sharedInstance().uiDelegate = self
-    GIDSignIn.sharedInstance().delegate = self
-    GIDSignIn.sharedInstance().signInSilently()
-  }
-
-  func inviteFinished(withInvitations invitationIds: [String], error: Error?) {
-    switch error {
-    case .some(let error as NSError) where error.code == -1009:
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
-    case .some(let error):
-      print("Failed: \(error.localizedDescription)")
-    case .none:
-      print("\(invitationIds.count) invites sent")
-    }
-  }
-
-  func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-    switch error {
-    case .some(let error as NSError) where error.code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue:
-      GIDSignIn.sharedInstance().signIn()
-    case .some(let error as NSError) where error.code == -1009:
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
-    case .some(let error):
-      print("Login error: \(error.localizedDescription)")
-    case .none:
-      if let invite = Invites.inviteDialog() {
-        invite.setInviteDelegate(self)
-        // NOTE: You must have the App Store ID set in your developer console project
-        // in order for invitations to successfully be sent.
-        // A message hint for the dialog. Note this manifests differently depending on the
-        // received invitation type. For example, in an email invite this appears as the subject.
-        invite.setMessage("Try this out!\n -\(Auth.auth().currentUser!.displayName ?? "")")
-        // Title for the dialog, this is what the user sees before sending the invites.
-        //invite.setCustomImage(#imageLiteral(resourceName: "ic_insert_photo_white").imageAsset.)
-        invite.setTitle("Friendly Pix")
-        invite.setDeepLink("app_url")
-        invite.setCallToActionText("Install!")
-        invite.open()
-      }
-    }
   }
 }
 

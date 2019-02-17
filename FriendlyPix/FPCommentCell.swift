@@ -17,29 +17,25 @@
 import Firebase
 import MaterialComponents
 
-class FPCommentCell: MDCCollectionViewCell {
-  @IBOutlet weak var imageView: UIImageView!
-  @IBOutlet weak var moreButton: UIButton!
-  @IBOutlet weak var label: UILabel!
-  @IBOutlet weak var dateLabel: UILabel!
+class FPCommentCell: MDCSelfSizingStereoCell {
 
   let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
   let attributes2 = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
 
-  func populateContent(from: FPUser, text: String, date: Date, index: Int, isDryRun: Bool) {
+  func populateContent(from: FPUser, text: String, date: Date, index: Int) {
     let attrText = NSMutableAttributedString(string: from.fullname , attributes: attributes)
     attrText.append(NSAttributedString(string: " " + text, attributes: attributes2))
     attrText.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, attrText.length))
-    label.attributedText = attrText
-    label.accessibilityLabel = "\(from.fullname) said, \(text)"
-    if let profilePictureURL = from.profilePictureURL, !isDryRun {
-      UIImage.circleImage(with: profilePictureURL, to: imageView)
-      imageView.accessibilityLabel = from.fullname
-      imageView.accessibilityHint = "Double-tap to open profile."
+    titleLabel.attributedText = attrText
+    titleLabel.accessibilityLabel = "\(from.fullname) said, \(text)"
+    if let profilePictureURL = from.profilePictureURL {
+      UIImage.circleImage(with: profilePictureURL, to: leadingImageView)
+      leadingImageView.accessibilityLabel = from.fullname
+      leadingImageView.accessibilityHint = "Double-tap to open profile."
     }
-    imageView.tag = index
-    label.tag = index
-    dateLabel.text = date.timeAgo()
+    leadingImageView.tag = index
+    titleLabel.tag = index
+    detailLabel.text = date.timeAgo()
   }
 }
 

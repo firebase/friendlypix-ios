@@ -83,7 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     authUI?.delegate = self
     authUI?.tosurl = kFirebaseTermsOfService
     authUI?.shouldAutoUpgradeAnonymousUsers = true
-    authUI?.isSignInWithEmailHidden = true
 
     let providers: [FUIAuthProvider] = AppDelegate.euroZone ? [FUIAnonymousAuth()] : [FUIGoogleAuth(), FUIAnonymousAuth()]
     //  ((Auth.auth().currentUser != nil) ? [FUIGoogleAuth()] as [FUIAuthProvider] : [FUIGoogleAuth(), FUIAnonymousAuth()//, FUIFacebookAuth

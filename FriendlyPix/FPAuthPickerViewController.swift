@@ -26,7 +26,7 @@ class FPAuthPickerViewController: FUIAuthPickerViewController {
   lazy var disclaimer: MDCAlertController = {
     let alertController = MDCAlertController(title: nil, message: "I understand FriendlyPix is an application aimed at showcasing the Firebase platform capabilities, and should not be used with private or sensitive information. All FriendlyPix data and inactive accounts are regularly removed. I agree to the Terms of Service and Privacy Policy.")
 
-    let acceptAction = MDCAlertAction(title: "I agree") { action in
+    let acceptAction = MDCAlertAction(title: "I agree", emphasis: .high) { action in
       self.agreed = true
     }
     alertController.addAction(acceptAction)
@@ -44,6 +44,8 @@ class FPAuthPickerViewController: FUIAuthPickerViewController {
       })
     }
     alertController.addAction(policyAction)
+    let colorScheme = MDCSemanticColorScheme()
+    MDCAlertColorThemer.applySemanticColorScheme(colorScheme, to: alertController)
     return alertController
   }()
 

@@ -56,25 +56,21 @@ class FPUploadViewController: UIViewController, UITextFieldDelegate {
 
   func detectLabelsInImage() {
     self.vision = Vision.vision()
-
-    let options = VisionCloudDetectorOptions()
-    options.maxResults = 3
-    let labelDetector = vision.cloudLabelDetector(options: options)
+    let options = VisionCloudImageLabelerOptions()
+    options.confidenceThreshold = 0.7
+    let imageLabeler = vision.cloudImageLabeler(options: options)
     let imageMetadata = VisionImageMetadata()
     imageMetadata.orientation = FPUploadViewController.visionImageOrientation(from: image.imageOrientation)
-
     let visionImage = VisionImage(image: image)
     visionImage.metadata = imageMetadata
 
-    labelDetector.detect(in: visionImage) { labels, error in
+    imageLabeler.process(visionImage) { labels, error in
       guard error == nil, let labels = labels, !labels.isEmpty else {
         return
       }
 
       for label in labels {
-        if let confidence = label.confidence?.floatValue, confidence > 0.75, let labelText = label.label {
-          self.textField.text?.append(" #\(labelText.components(separatedBy: .whitespaces).joined(separator: "_"))")
-        }
+        self.textField.text?.append(" #\(label.text.components(separatedBy: .whitespaces).joined(separator: "_"))")
       }
     }
   }
