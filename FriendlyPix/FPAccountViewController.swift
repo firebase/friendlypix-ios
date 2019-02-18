@@ -16,9 +16,9 @@
 
 import Firebase
 import Lightbox
-import MaterialComponents.MaterialCollections
+import MaterialComponents
 
-class FPAccountViewController: MDCCollectionViewController {
+class FPAccountViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   var headerView: FPAccountHeader!
   var profile: FPUser!
   let uid = Auth.auth().currentUser!.uid
@@ -33,13 +33,9 @@ class FPAccountViewController: MDCCollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.styler.cellStyle = .card
-    self.styler.cellLayoutType = .grid
+    
 
     navigationItem.title = profile.fullname.localizedCapitalized
-    insets = self.collectionView(collectionView!,
-                                 layout: collectionViewLayout,
-                                 insetForSectionAt: 0)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -69,11 +65,13 @@ class FPAccountViewController: MDCCollectionViewController {
     toggleFollow(headerView.followSwitch.isOn)
   }
 
-  override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     if indexPath.section == 0 {
-      return CGSize(width: collectionView.bounds.size.width - insets.left - insets.right, height: 112)
+      return CGSize(width: collectionView.bounds.size.width, height: 112)
     }
-    return super.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
+    let height = MDCCeil(((collectionView.bounds.width) - 14) * 0.325)
+    return CGSize(width: height, height: height)
   }
 
   func registerToFollowStatusUpdate() {
@@ -209,7 +207,7 @@ class FPAccountViewController: MDCCollectionViewController {
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if indexPath.section == 0 {
       let header = collectionView.dequeueReusableCell(withReuseIdentifier: "header", for: indexPath) as! FPAccountHeader
-      header.inkView?.removeFromSuperview()
+      header.inkColor = .clear
       headerView = header
       if profile.uid == uid {
         header.followLabel.text = "Notifications"
@@ -292,7 +290,7 @@ class FPAccountViewController: MDCCollectionViewController {
     })
   }
 
-  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
     if indexPath.section == 0 {
       return 112
     }

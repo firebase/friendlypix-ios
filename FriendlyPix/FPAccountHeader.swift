@@ -16,7 +16,7 @@
 
 import MaterialComponents
 
-class FPAccountHeader: MDCCollectionViewCell {
+class FPAccountHeader: MDCBaseCell {
   @IBOutlet weak var postsLabel: UILabel!
   @IBOutlet weak var followingLabel: UILabel!
   @IBOutlet weak var followersLabel: UILabel!

@@ -38,7 +38,7 @@
                         </constraints>
                     </imageView>
                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uLH-WT-gi5">
-                        <rect key="frame" x="1" y="52" width="318" height="207"/>
+                        <rect key="frame" x="0.0" y="52" width="320" height="207"/>
                         <accessibility key="accessibilityConfiguration">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
@@ -140,8 +140,8 @@
                 <constraint firstItem="2sz-OM-BtW" firstAttribute="top" secondItem="cCo-VS-WYk" secondAttribute="top" constant="2" id="CkN-u5-qJ3"/>
                 <constraint firstItem="Rc6-zj-yAI" firstAttribute="top" secondItem="uLH-WT-gi5" secondAttribute="bottom" constant="6" id="DAJ-iQ-Nap"/>
                 <constraint firstItem="hMO-FO-hME" firstAttribute="leading" secondItem="2sz-OM-BtW" secondAttribute="leading" id="Ec8-aP-Cr8"/>
-                <constraint firstItem="uLH-WT-gi5" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="1" id="FKm-4p-lNB"/>
-                <constraint firstAttribute="trailing" secondItem="uLH-WT-gi5" secondAttribute="trailing" constant="1" id="Gnr-po-5WB"/>
+                <constraint firstItem="uLH-WT-gi5" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" id="FKm-4p-lNB"/>
+                <constraint firstAttribute="trailing" secondItem="uLH-WT-gi5" secondAttribute="trailing" id="Gnr-po-5WB"/>
                 <constraint firstItem="cCo-VS-WYk" firstAttribute="leading" secondItem="QDX-Pc-tzZ" secondAttribute="leading" constant="12" id="Mpf-2N-8Ts"/>
                 <constraint firstAttribute="trailing" secondItem="BKP-Ag-fGk" secondAttribute="trailing" constant="8" id="Pi8-zG-hk4"/>
                 <constraint firstItem="hV4-bw-Z0o" firstAttribute="leading" secondItem="T48-rQ-YPz" secondAttribute="leading" id="VDc-55-EDN"/>

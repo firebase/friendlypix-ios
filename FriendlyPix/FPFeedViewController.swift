@@ -16,12 +16,11 @@
 
 import Firebase
 import FirebaseUI
-import GoogleSignIn
 import ImagePicker
 import Lightbox
 import MaterialComponents
 
-class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCellDelegate {
+class FPFeedViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, FPCardCollectionViewCellDelegate {
   var currentUser: User!
   lazy var uid = currentUser.uid
   var followingRef: DatabaseReference?
@@ -166,13 +165,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     sizingCell = Bundle.main.loadNibNamed("FPCardCollectionViewCell", owner: self, options: nil)?[0]
       as? FPCardCollectionViewCell
 
-    self.styler.cellStyle = .card
-    self.styler.cellLayoutType = .grid
-    self.styler.gridColumnCount = 1
-    let insets = self.collectionView(collectionView,
-                                     layout: collectionViewLayout,
-                                     insetForSectionAt: 0)
-    let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width - insets.left - insets.right,
+    let cellFrame = CGRect(x: 0, y: 0, width: collectionView.bounds.width,
                            height: collectionView.bounds.height)
     sizingCell.frame = cellFrame
 
@@ -569,11 +562,14 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
       let post = posts[indexPath.item]
       cell.populateContent(post: post, index: indexPath.item, isDryRun: false)
       cell.delegate = self
+      cell.cornerRadius = 8
+      cell.setShadowElevation(ShadowElevation(rawValue: 6), for: .selected)
+      cell.setShadowColor(UIColor.black, for: .highlighted)
     }
     return cell
   }
 
-  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let post = posts[indexPath.item]
     sizingCell.populateContent(post: post, index: indexPath.item, isDryRun: true)
 
@@ -585,8 +581,7 @@ class FPFeedViewController: MDCCollectionViewController, FPCardCollectionViewCel
     var fittingSize = UIView.layoutFittingCompressedSize
     fittingSize.width = sizingCell.frame.width
 
-    let size = sizingCell.contentView.systemLayoutSizeFitting(fittingSize)
-    return size.height
+    return sizingCell.contentView.systemLayoutSizeFitting(fittingSize)
   }
 
   func showProfile(_ profile: FPUser) {
@@ -813,7 +808,7 @@ extension FPFeedViewController: ImagePickerDelegate {
   }
 }
 
-extension MDCCollectionViewController {
+extension UICollectionViewController {
   var feedViewController: FPFeedViewController {
     return navigationController?.viewControllers[0] as! FPFeedViewController
   }

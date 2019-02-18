@@ -27,7 +27,7 @@ protocol FPCardCollectionViewCellDelegate: class {
   func optionPost(_ post: FPPost, _ button: UIButton, completion: (() -> Swift.Void)? )
 }
 
-class FPCardCollectionViewCell: MDCCollectionViewCell {
+class FPCardCollectionViewCell: MDCCardCollectionCell {
   @IBOutlet weak private var authorImageView: UIImageView!
   @IBOutlet weak private var authorLabel: UILabel!
   @IBOutlet weak private var dateLabel: UILabel!

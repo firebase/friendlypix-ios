@@ -16,7 +16,6 @@
 
 import Firebase
 import FirebaseUI
-import GoogleSignIn
 import MaterialComponents
 import UserNotifications
 
@@ -129,10 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func handleOpenUrl(_ url: URL, sourceApplication: String?) -> Bool {
-    if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
-      return true
-    }
-    return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: nil)
+    return FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false
   }
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {

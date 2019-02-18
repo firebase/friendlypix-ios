@@ -16,9 +16,9 @@
 
 import Firebase
 import Lightbox
-import MaterialComponents.MaterialCollections
+import MaterialComponents
 
-class FPHashTagViewController: MDCCollectionViewController {
+class FPHashTagViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   var hashtag = ""
   let uid = Auth.auth().currentUser!.uid
   let database = Database.database()
@@ -31,12 +31,95 @@ class FPHashTagViewController: MDCCollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.styler.cellStyle = .card
-    self.styler.cellLayoutType = .grid
+    navigationItem.title = "#\(hashtag)"
   }
 
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return postSnapshots.count
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    loadData()
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    for firebaseRef in firebaseRefs {
+      firebaseRef.removeAllObservers()
+    }
+    firebaseRefs = [DatabaseReference]()
+  }
+
+  func registerForPostsDeletion() {
+    let userPostsRef = database.reference(withPath: "hashtags/\(hashtag)")
+    userPostsRef.observe(.childRemoved, with: { postSnapshot in
+      var index = 0
+      for post in self.postSnapshots {
+        if post.key == postSnapshot.key {
+          self.postSnapshots.remove(at: index)
+          self.loadingPostCount -= 1
+          self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+          return
+        }
+        index += 1
+      }
+      self.postIds?.removeValue(forKey: postSnapshot.key)
+    })
+  }
+
+
+  func loadUserPosts() {
+    database.reference(withPath: "hashtags/\(hashtag.lowercased())").observeSingleEvent(of: .value, with: {
+      if var posts = $0.value as? [String: Any] {
+        if !self.postSnapshots.isEmpty {
+          var index = self.postSnapshots.count - 1
+          self.collectionView?.performBatchUpdates({
+            for post in self.postSnapshots.reversed() {
+              if posts.removeValue(forKey: post.key) == nil {
+                self.postSnapshots.remove(at: index)
+                self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+                return
+              }
+              index -= 1
+            }
+          }, completion: nil)
+          self.postIds = posts
+          self.loadingPostCount = posts.count
+        } else {
+          self.postIds = posts
+          self.loadFeed()
+        }
+        self.registerForPostsDeletion()
+      }
+    })
+  }
+
+  func loadData() {
+    loadUserPosts()
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+                               forItemAt indexPath: IndexPath) {
+    if indexPath.item == (loadingPostCount - 3) {
+      loadFeed()
+    }
+  }
+
+  func loadFeed() {
+    loadingPostCount = postSnapshots.count + 12
+    self.collectionView?.performBatchUpdates({
+      for _ in 1...12 {
+        if let postId = self.postIds?.popFirst()?.key {
+          database.reference(withPath: "posts/\(postId)").observeSingleEvent(of: .value, with: { postSnapshot in
+            self.postSnapshots.append(postSnapshot)
+            self.collectionView?.insertItems(at: [IndexPath(item: self.postSnapshots.count - 1, section: 0)])
+          })
+        } else {
+          break
+        }
+      }
+    }, completion: nil)
   }
 
   override func collectionView(_ collectionView: UICollectionView,
@@ -54,8 +137,9 @@ class FPHashTagViewController: MDCCollectionViewController {
     return cell
   }
 
-  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
-    return MDCCeil(((self.collectionView?.bounds.width)! - 14) * 0.325)
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let height = MDCCeil(((self.collectionView.bounds.width) - 14) * 0.325)
+    return CGSize(width: height, height: height)
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

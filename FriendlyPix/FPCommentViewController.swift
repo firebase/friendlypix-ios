@@ -17,7 +17,7 @@
 import Firebase
 import MaterialComponents
 
-class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
+class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
   var post: FPPost!
   var comments: [FPComment]!
   lazy var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -44,8 +44,6 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
   var isKeyboardShown = false
 
   let commentDeleteText = MDCSnackbarMessage.init(text: "Comment deleted")
-
-  //var sizingCell: FPCardCollectionViewCell!
 
   var insets: UIEdgeInsets!
 
@@ -127,8 +125,6 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
       bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
     }
 
-    styler.cellStyle = .card
-
     inputTextView.delegate = self
     inputTextView.isEditable = !currentUser.isAnonymous
 
@@ -136,9 +132,6 @@ class FPCommentViewController: MDCCollectionViewController, UITextViewDelegate {
                                            name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification),
                                            name: UIResponder.keyboardWillHideNotification, object: nil)
-    insets = self.collectionView(collectionView,
-                                 layout: collectionViewLayout,
-                                 insetForSectionAt: 0)
 
     let col = collectionViewLayout as! UICollectionViewFlowLayout
     col.estimatedItemSize = CGSize.init(width: collectionView.bounds.width, height: 52)

@@ -14,9 +14,6 @@ PODS:
   - Firebase/Database (5.16.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.1.0)
-  - Firebase/Invites (5.16.0):
-    - Firebase/CoreOnly
-    - FirebaseInvites (= 3.0.1)
   - Firebase/Messaging (5.16.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (= 3.3.0)
@@ -54,28 +51,10 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
     - leveldb-library (~> 1.18)
-  - FirebaseDynamicLinks (3.4.0):
-    - FirebaseAnalytics (~> 5.1)
-    - FirebaseAnalyticsInterop (~> 1.0)
-    - FirebaseCore (~> 5.2)
   - FirebaseInstanceID (3.4.0):
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
-  - FirebaseInvites (3.0.1):
-    - FirebaseAnalytics (~> 5.1)
-    - FirebaseDynamicLinks (~> 3.0)
-    - GoogleAPIClientForREST (~> 1.0)
-    - GoogleSignIn (~> 4.2)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
-    - GoogleToolboxForMac/StringEncoding (~> 2.1)
-    - GoogleToolboxForMac/URLBuilder (~> 2.1)
-    - GTMOAuth2 (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-    - GTMSessionFetcher/Full (~> 1.1)
-    - Protobuf (~> 3.5)
   - FirebaseMessaging (3.3.0):
     - FirebaseAnalyticsInterop (~> 1.1)
     - FirebaseCore (~> 5.2)
@@ -88,25 +67,12 @@ PODS:
     - FirebaseInstanceID (~> 3.4)
     - GoogleUtilities/UserDefaults (~> 5.3)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseMLModelInterpreter (0.14.0):
-    - FirebaseCore (~> 5.2)
-    - FirebaseMLCommon (~> 0.14)
-    - GoogleUtilities/UserDefaults (~> 5.3)
-    - TensorFlowLite (= 1.12.0)
   - FirebaseMLVision (0.14.0):
     - FirebaseCore (~> 5.2)
     - FirebaseMLCommon (~> 0.14)
     - GoogleAPIClientForREST/Core (~> 1.3)
     - GoogleAPIClientForREST/Vision (~> 1.3)
     - GoogleMobileVision/Detector (~> 1.4)
-  - FirebaseMLVisionBarcodeModel (0.14.0):
-    - GoogleMobileVision/BarcodeDetector (~> 1.4)
-  - FirebaseMLVisionFaceModel (0.14.0):
-    - GoogleMobileVision/FaceDetector (~> 1.4)
-  - FirebaseMLVisionLabelModel (0.14.0):
-    - GoogleMobileVision/LabelDetector (~> 1.4)
-  - FirebaseMLVisionTextModel (0.14.0):
-    - GoogleMobileVision/TextDetector (~> 1.4)
   - FirebasePerformance (2.2.2):
     - FirebaseAnalytics (~> 5.4)
     - FirebaseInstanceID (~> 3.3)
@@ -137,9 +103,6 @@ PODS:
   - FirebaseUI/Google (6.1.0):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 4.0)
-  - GoogleAPIClientForREST (1.3.8):
-    - GoogleAPIClientForREST/Core (= 1.3.8)
-    - GTMSessionFetcher (>= 1.1.7)
   - GoogleAPIClientForREST/Core (1.3.8):
     - GTMSessionFetcher (>= 1.1.7)
   - GoogleAPIClientForREST/Vision (1.3.8):
@@ -151,25 +114,15 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleMobileVision/BarcodeDetector (1.5.0):
-    - GoogleMobileVision/Detector (~> 1.5)
   - GoogleMobileVision/Detector (1.5.0):
     - GoogleToolboxForMac/Logger (~> 2.1)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.1)
     - Protobuf (~> 3.1)
-  - GoogleMobileVision/FaceDetector (1.5.0):
-    - GoogleMobileVision/Detector (~> 1.5)
-  - GoogleMobileVision/LabelDetector (1.5.0):
-    - GoogleMobileVision/Detector (~> 1.5)
-  - GoogleMobileVision/TextDetector (1.5.0):
-    - GoogleMobileVision/Detector (~> 1.5)
   - GoogleSignIn (4.4.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/Core (2.2.0):
-    - GoogleToolboxForMac/Defines (= 2.2.0)
   - GoogleToolboxForMac/DebugUtils (2.2.0):
     - GoogleToolboxForMac/Defines (= 2.2.0)
   - GoogleToolboxForMac/Defines (2.2.0)
@@ -182,13 +135,6 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.2.0)
     - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.0)"
   - "GoogleToolboxForMac/NSString+URLArguments (2.2.0)"
-  - GoogleToolboxForMac/StringEncoding (2.2.0):
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-  - GoogleToolboxForMac/URLBuilder (2.2.0):
-    - GoogleToolboxForMac/Core (= 2.2.0)
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (= 2.2.0)"
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.0)"
   - GoogleUtilities/AppDelegateSwizzler (5.3.7):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -208,8 +154,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
-  - GTMOAuth2 (1.1.6):
-    - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.2.1):
     - GTMSessionFetcher/Full (= 1.2.1)
   - GTMSessionFetcher/Core (1.2.1)
@@ -243,28 +187,22 @@ PODS:
   - "MaterialComponents/Buttons+ColorThemer (77.0.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/CollectionCells (77.0.0):
-    - MaterialComponents/CollectionLayoutAttributes
+  - MaterialComponents/Cards (77.0.0):
     - MaterialComponents/Ink
-    - MaterialComponents/Palettes
-    - MaterialComponents/private/Icons/ic_check
     - MaterialComponents/private/Icons/ic_check_circle
-    - MaterialComponents/private/Icons/ic_chevron_right
-    - MaterialComponents/private/Icons/ic_info
-    - MaterialComponents/private/Icons/ic_radio_button_unchecked
-    - MaterialComponents/private/Icons/ic_reorder
     - MaterialComponents/private/Math
-    - MaterialComponents/Typography
-    - MDFInternationalization
-  - MaterialComponents/CollectionLayoutAttributes (77.0.0)
-  - MaterialComponents/Collections (77.0.0):
-    - MaterialComponents/CollectionCells
-    - MaterialComponents/CollectionLayoutAttributes
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Shapes
+  - MaterialComponents/Chips (77.0.0):
     - MaterialComponents/Ink
-    - MaterialComponents/Palettes
+    - MaterialComponents/private/Math
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
+    - MaterialComponents/ShapeLibrary
+    - MaterialComponents/Shapes
+    - MaterialComponents/TextFields
     - MaterialComponents/Typography
+    - MDFInternationalization
   - MaterialComponents/Dialogs (77.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/KeyboardWatcher
@@ -296,17 +234,7 @@ PODS:
   - MaterialComponents/Palettes (77.0.0)
   - MaterialComponents/private/Application (77.0.0)
   - MaterialComponents/private/Icons/Base (77.0.0)
-  - MaterialComponents/private/Icons/ic_check (77.0.0):
-    - MaterialComponents/private/Icons/Base
   - MaterialComponents/private/Icons/ic_check_circle (77.0.0):
-    - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_chevron_right (77.0.0):
-    - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_info (77.0.0):
-    - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_radio_button_unchecked (77.0.0):
-    - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_reorder (77.0.0):
     - MaterialComponents/private/Icons/Base
   - MaterialComponents/private/KeyboardWatcher (77.0.0):
     - MaterialComponents/private/Application
@@ -317,6 +245,9 @@ PODS:
   - MaterialComponents/ShadowElevations (77.0.0)
   - MaterialComponents/ShadowLayer (77.0.0):
     - MaterialComponents/ShadowElevations
+  - MaterialComponents/ShapeLibrary (77.0.0):
+    - MaterialComponents/private/Math
+    - MaterialComponents/Shapes
   - MaterialComponents/Shapes (77.0.0):
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
@@ -351,25 +282,16 @@ PODS:
   - SDWebImage (4.4.5):
     - SDWebImage/Core (= 4.4.5)
   - SDWebImage/Core (4.4.5)
-  - TensorFlowLite (1.12.0)
 
 DEPENDENCIES:
   - Crashlytics
   - Fabric
   - Firebase/Auth
   - Firebase/Database
-  - Firebase/Invites
   - Firebase/Messaging
   - Firebase/MLVision
   - Firebase/Performance
   - Firebase/Storage
-  - FirebaseMLCommon
-  - FirebaseMLModelInterpreter
-  - FirebaseMLVision
-  - FirebaseMLVisionBarcodeModel
-  - FirebaseMLVisionFaceModel
-  - FirebaseMLVisionLabelModel
-  - FirebaseMLVisionTextModel
   - FirebaseUI/Anonymous
   - FirebaseUI/Auth
   - FirebaseUI/Google
@@ -377,7 +299,8 @@ DEPENDENCIES:
   - Lightbox
   - MaterialComponents/BottomAppBar
   - "MaterialComponents/Buttons+ColorThemer"
-  - MaterialComponents/Collections
+  - MaterialComponents/Cards
+  - MaterialComponents/Chips
   - MaterialComponents/Dialogs
   - "MaterialComponents/Dialogs+ColorThemer"
   - MaterialComponents/List
@@ -398,17 +321,10 @@ SPEC REPOS:
     - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseDatabase
-    - FirebaseDynamicLinks
     - FirebaseInstanceID
-    - FirebaseInvites
     - FirebaseMessaging
     - FirebaseMLCommon
-    - FirebaseMLModelInterpreter
     - FirebaseMLVision
-    - FirebaseMLVisionBarcodeModel
-    - FirebaseMLVisionFaceModel
-    - FirebaseMLVisionLabelModel
-    - FirebaseMLVisionTextModel
     - FirebasePerformance
     - FirebaseRemoteConfig
     - FirebaseStorage
@@ -419,7 +335,6 @@ SPEC REPOS:
     - GoogleSignIn
     - GoogleToolboxForMac
     - GoogleUtilities
-    - GTMOAuth2
     - GTMSessionFetcher
     - ImagePicker
     - Imaginary
@@ -431,7 +346,6 @@ SPEC REPOS:
     - nanopb
     - Protobuf
     - SDWebImage
-    - TensorFlowLite
 
 SPEC CHECKSUMS:
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
@@ -445,17 +359,10 @@ SPEC CHECKSUMS:
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: ea2d1816723ef21492b8e9113303e1350db5e08c
   FirebaseDatabase: 23acb0c53cd4d4070a427b60100b2e4aaa97c45d
-  FirebaseDynamicLinks: 83a0071c95ad715bc324fcb8f51028d5b6a58af0
   FirebaseInstanceID: 97ea7a5dca9afd72c79bfcdddb7a44aa1cbb42a1
-  FirebaseInvites: f13ed69fae140e705baec1a59ff127334b841a8a
   FirebaseMessaging: acbd51fe1a172bf29abaaa6e93a60f98bbf8e4f9
   FirebaseMLCommon: d8a789e36a7faa175b1a5d1139e7fc7323c8db7b
-  FirebaseMLModelInterpreter: ef0ea1d46758546246b0b85c22107df70d804b6e
   FirebaseMLVision: 07c0da3ceaa5ecde621528a985748d6098a84388
-  FirebaseMLVisionBarcodeModel: 7ae6e777c4c268505f08761afdfb64613c41204d
-  FirebaseMLVisionFaceModel: 8c80355e22cfcf100ad2ac9c618536d19daf266b
-  FirebaseMLVisionLabelModel: b2a3b117ff4cf80a9f6743b2685f301c80f255fd
-  FirebaseMLVisionTextModel: c6b3bf6129cb97cba51f8f90e80b40a66228dfa1
   FirebasePerformance: 6f77b930f982a54ad487d3de5523ce641db9dcc9
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
   FirebaseStorage: 29075f874c2b3cf61e5221a62c4ceefc809e5412
@@ -466,7 +373,6 @@ SPEC CHECKSUMS:
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
-  GTMOAuth2: e8b6512c896235149df975c41d9a36c868ab7fba
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   ImagePicker: db1fd7626337b2577c523bef5f499bbbe5a37079
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
@@ -478,8 +384,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
-  TensorFlowLite: e81aef029750aa46b42ad16553fa4cddd81498cc
 
-PODFILE CHECKSUM: fbd5b0670a55c333a5c139efa61832709dcc1283
+PODFILE CHECKSUM: 1dab87252bcd250a136f80e1575fe43509dfb52c
 
 COCOAPODS: 1.6.0

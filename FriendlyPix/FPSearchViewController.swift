@@ -17,7 +17,7 @@
 import Firebase
 import MaterialComponents
 
-class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, UISearchControllerDelegate {
+class FPSearchViewController: UICollectionViewController, UISearchBarDelegate, UISearchControllerDelegate {
   
   let searchController = UISearchController(searchResultsController: nil)
   let peopleRef = Database.database().reference(withPath: "people")
@@ -41,6 +41,7 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    collectionView.register(MDCSelfSizingStereoCell.self, forCellWithReuseIdentifier: "cell")
     // Setup the Search Controller
     searchController.searchResultsUpdater = self
     searchController.searchBar.delegate = self
@@ -53,6 +54,11 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
     searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_close"), for: .clear, state: .normal)
     //searchController.searchBar.setImage(#imageLiteral(resourceName: "ic_arrow_back"), for: .search, state: .normal)
     UIImageView.appearance(whenContainedInInstancesOf: [UISearchBar.self]).bounds = CGRect(x: 0, y: 0, width: 24, height: 24)
+
+    guard let collectionViewLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+
+    collectionViewLayout.estimatedItemSize = CGSize(width: collectionView.bounds.size.width,
+                                                    height: 75)
 
     let x = UIButton.init()
     x.setImage(#imageLiteral(resourceName: "ic_arrow_back"), for: .normal)
@@ -176,27 +182,24 @@ class FPSearchViewController: MDCCollectionViewController, UISearchBarDelegate, 
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-    if let cell = cell as? FPSearchCell {
+    if let cell = cell as? MDCSelfSizingStereoCell {
+      cell.trailingImageView.isHidden = true
       if indexPath.section == 0 {
         let user = people[indexPath.item]
         if let profilePictureURL = user.profilePictureURL {
-          UIImage.circleImage(with: profilePictureURL, to: cell.imageView!)
+          UIImage.circleImage(with: profilePictureURL, to: cell.leadingImageView)
         } else {
-          cell.imageView.image = #imageLiteral(resourceName: "ic_account_circle_36pt")
+          cell.leadingImageView.image = #imageLiteral(resourceName: "ic_account_circle_36pt")
         }
-        cell.textLabel!.text = user.fullname
+        cell.titleLabel.text = user.fullname
       } else {
-        cell.imageView.image = #imageLiteral(resourceName: "ic_trending_up")
-        cell.textLabel!.text = hashtags[indexPath.item]
+        cell.leadingImageView.image = #imageLiteral(resourceName: "ic_trending_up")
+        cell.titleLabel.text = hashtags[indexPath.item]
       }
-      cell.textLabel?.numberOfLines = 1
-      //cell.detailTextLabel?.numberOfLines = 0
+      cell.titleLabel.numberOfLines = 1
+      cell.detailLabel.numberOfLines = 0
     }
     return cell
-  }
-
-  override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
-    return MDCCellDefaultOneLineWithAvatarHeight
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
