@@ -148,6 +148,14 @@ class FPUploadViewController: UIViewController, UITextViewDelegate {
     heightConstraint.constant = estimatedSize.height + 54 + (self.isKeyboardShown ? 0 : bottomAreaInset)
   }
 
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    if(text == "\n") {
+      textView.resignFirstResponder()
+      return true
+    }
+    return true
+  }
+
   @objc func tagSelected(_ tag: MDCChipView) {
     guard let title = tag.titleLabel.text else { return }
     inputTextView.insertText(title)
