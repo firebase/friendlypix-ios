@@ -98,12 +98,12 @@ class FPSearchViewController: UICollectionViewController, UISearchBarDelegate, U
         self.searchController.searchBar.becomeFirstResponder()
       })
     })
-    navigationController?.navigationBar.tintColor = .gray
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.navigationBar.barTintColor = .white
+    navigationController?.navigationBar.tintColor = .gray
   }
 
   override func viewWillDisappear(_ animated: Bool) {
