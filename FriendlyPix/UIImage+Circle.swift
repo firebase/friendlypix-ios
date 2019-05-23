@@ -72,13 +72,13 @@ extension UIImage {
   static func circleImage(with url: URL, to imageView: UIImageView) {
     let urlString = url.absoluteString
     let trace = Performance.startTrace(name: "load_profile_pic")
-    if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
+    if let image = SDImageCache.shared.imageFromCache(forKey: urlString) {
       trace?.incrementMetric("cache", by: 1)
       trace?.stop()
       imageView.image = image
       return
     }
-    SDWebImageDownloader.shared().downloadImage(with: url,
+    SDWebImageDownloader.shared.downloadImage(with: url,
                                                 options: .highPriority, progress: nil) { image, _, error, _ in
       trace?.incrementMetric("download", by: 1)
       trace?.stop()
@@ -89,7 +89,7 @@ extension UIImage {
       }
       if let image = image {
         let circleImage = image.circle
-        SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
+        SDImageCache.shared.store(circleImage, forKey: urlString, completion: nil)
         imageView.image = circleImage
       }
     }
@@ -98,19 +98,19 @@ extension UIImage {
   static func circleButton(with url: URL, to button: UIBarButtonItem) {
     let urlString = url.absoluteString
     let trace = Performance.startTrace(name: "load_profile_pic")
-    if let image = SDImageCache.shared().imageFromCache(forKey: urlString) {
+    if let image = SDImageCache.shared.imageFromCache(forKey: urlString) {
       trace?.incrementMetric("cache", by: 1)
       trace?.stop()
       button.image = image.resizeImage(36).withRenderingMode(.alwaysOriginal)
       return
     }
-    SDWebImageDownloader.shared().downloadImage(with: url, options: .highPriority, progress: nil) { image, _, _, _ in
+    SDWebImageDownloader.shared.downloadImage(with: url, options: .highPriority, progress: nil) { image, _, _, _ in
       trace?.incrementMetric("download", by: 1)
       trace?.stop()
       if let image = image {
         let circleImage = image.circle
         button.tintColor = .red
-        SDImageCache.shared().store(circleImage, forKey: urlString, completion: nil)
+        SDImageCache.shared.store(circleImage, forKey: urlString, completion: nil)
         button.image = circleImage?.resizeImage(36).withRenderingMode(.alwaysOriginal)
       }
     }

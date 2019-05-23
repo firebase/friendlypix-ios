@@ -198,14 +198,14 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
       }
     })
     commentsRef.observe(.childRemoved) { dataSnaphot in
-      if let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+      if let index = self.comments.firstIndex(where: {$0.commentID == dataSnaphot.key}) {
         self.comments.remove(at: index)
         self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 1)])
       }
     }
     commentsRef.observe(.childChanged) { dataSnaphot in
       if let value = dataSnaphot.value as? [String: Any],
-        let index = self.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+        let index = self.comments.firstIndex(where: {$0.commentID == dataSnaphot.key}) {
         self.comments[index].text = value["text"] as! String
         let indexPath = IndexPath(item: index, section: 1)
         self.collectionView?.reloadItems(at: [indexPath])

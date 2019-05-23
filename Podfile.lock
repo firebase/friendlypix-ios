@@ -151,17 +151,17 @@ PODS:
   - leveldb-library (1.20)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
-  - MaterialComponents/AnimationTiming (84.2.0)
-  - MaterialComponents/BottomAppBar (84.2.0):
+  - MaterialComponents/AnimationTiming (84.2.1)
+  - MaterialComponents/BottomAppBar (84.2.1):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (84.2.0):
+  - MaterialComponents/ButtonBar (84.2.1):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (84.2.0):
+  - MaterialComponents/Buttons (84.2.1):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/Ripple
@@ -171,17 +171,17 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (84.2.0)":
+  - "MaterialComponents/Buttons+ColorThemer (84.2.1)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/Cards (84.2.0):
+  - MaterialComponents/Cards (84.2.1):
     - MaterialComponents/Ink
     - MaterialComponents/private/Icons/ic_check_circle
     - MaterialComponents/private/Math
     - MaterialComponents/Ripple
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Shapes
-  - MaterialComponents/Chips (84.2.0):
+  - MaterialComponents/Chips (84.2.1):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/Ripple
@@ -192,59 +192,59 @@ PODS:
     - MaterialComponents/TextFields
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Dialogs (84.2.0):
+  - MaterialComponents/Dialogs (84.2.1):
     - MaterialComponents/Buttons
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - "MaterialComponents/Dialogs+ColorThemer (84.2.0)":
+  - "MaterialComponents/Dialogs+ColorThemer (84.2.1)":
     - "MaterialComponents/Buttons+ColorThemer"
     - MaterialComponents/Dialogs
     - MaterialComponents/Themes
-  - MaterialComponents/Ink (84.2.0):
+  - MaterialComponents/Ink (84.2.1):
     - MaterialComponents/private/Math
-  - MaterialComponents/List (84.2.0):
+  - MaterialComponents/List (84.2.1):
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/NavigationBar (84.2.0):
+  - MaterialComponents/NavigationBar (84.2.1):
     - MaterialComponents/ButtonBar
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (84.2.0):
+  - MaterialComponents/OverlayWindow (84.2.1):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (84.2.0)
-  - MaterialComponents/private/Application (84.2.0)
-  - MaterialComponents/private/Icons/Base (84.2.0)
-  - MaterialComponents/private/Icons/ic_check_circle (84.2.0):
+  - MaterialComponents/Palettes (84.2.1)
+  - MaterialComponents/private/Application (84.2.1)
+  - MaterialComponents/private/Icons/Base (84.2.1)
+  - MaterialComponents/private/Icons/ic_check_circle (84.2.1):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (84.2.0):
+  - MaterialComponents/private/KeyboardWatcher (84.2.1):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (84.2.0)
-  - MaterialComponents/private/Overlay (84.2.0)
-  - MaterialComponents/Ripple (84.2.0):
+  - MaterialComponents/private/Math (84.2.1)
+  - MaterialComponents/private/Overlay (84.2.1)
+  - MaterialComponents/Ripple (84.2.1):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/private/Math
-  - MaterialComponents/schemes/Color (84.2.0)
-  - MaterialComponents/schemes/Typography (84.2.0):
+  - MaterialComponents/schemes/Color (84.2.1)
+  - MaterialComponents/schemes/Typography (84.2.1):
     - MaterialComponents/Typography
-  - MaterialComponents/ShadowElevations (84.2.0)
-  - MaterialComponents/ShadowLayer (84.2.0):
+  - MaterialComponents/ShadowElevations (84.2.1)
+  - MaterialComponents/ShadowLayer (84.2.1):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/ShapeLibrary (84.2.0):
+  - MaterialComponents/ShapeLibrary (84.2.1):
     - MaterialComponents/private/Math
     - MaterialComponents/Shapes
-  - MaterialComponents/Shapes (84.2.0):
+  - MaterialComponents/Shapes (84.2.1):
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/Snackbar (84.2.0):
+  - MaterialComponents/Snackbar (84.2.1):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/OverlayWindow
@@ -252,16 +252,16 @@ PODS:
     - MaterialComponents/private/KeyboardWatcher
     - MaterialComponents/private/Overlay
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (84.2.0):
+  - MaterialComponents/TextFields (84.2.1):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Themes (84.2.0):
+  - MaterialComponents/Themes (84.2.1):
     - MaterialComponents/schemes/Color
     - MaterialComponents/schemes/Typography
-  - MaterialComponents/Typography (84.2.0):
+  - MaterialComponents/Typography (84.2.1):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (2.0.0)
@@ -361,7 +361,7 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
-  MaterialComponents: 97aaf99bed91a6918775cb4cdb4d4551ded48c3f
+  MaterialComponents: 45ff19860ad676a29c0dba198f1c76b26c5061b7
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a

@@ -74,6 +74,8 @@ class FPCardCollectionViewCell: MDCCardCollectionCell {
       return "disk"
     case .memory:
       return "memory"
+    case .all:
+      return "all"
     }
   }
 

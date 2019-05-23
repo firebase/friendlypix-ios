@@ -262,7 +262,7 @@
 					10FD8FD21F7E840800BCB991 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = EQHXZ8M8AV;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -281,13 +281,13 @@
 					};
 					10FEF57920474EE400423CF7 = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 10FD8FD21F7E840800BCB991;
 					};
 					B413B182209C176100332850 = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 10FD8FD21F7E840800BCB991;
 					};
@@ -298,6 +298,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -554,7 +555,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
 				PROVISIONING_PROFILE_SPECIFIER = "FriendlyPix Dev";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -573,7 +574,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
 				PROVISIONING_PROFILE_SPECIFIER = "FriendlyPix Dev";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -594,7 +595,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyPix.app/FriendlyPix";
 			};
@@ -617,7 +618,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.friendlypix.FriendlyPixTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyPix.app/FriendlyPix";
 			};
@@ -639,7 +640,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FriendlyPix;
 			};
@@ -661,7 +662,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1282be89-f196-4ad8-800f-6adc1cc8d1d8";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FriendlyPix;
 			};

@@ -358,7 +358,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
 
   func listenDeletes() {
     postsRef.observe(.childRemoved, with: { postSnapshot in
-      if let index = self.posts.index(where: {$0.postID == postSnapshot.key}) {
+      if let index = self.posts.firstIndex(where: {$0.postID == postSnapshot.key}) {
         self.posts.remove(at: index)
         self.loadingPostCount -= 1
         Crashlytics.sharedInstance().setObjectValue(self.posts.count, forKey: "listenDeletes")
@@ -385,7 +385,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
             self.updatePost(post, postSnapshot: $0)
             self.listenPost(post)
           } else {
-            if let index = self.posts.index(where: {$0.postID == post.postID}) {
+            if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
               self.posts.remove(at: index)
               self.loadingPostCount -= 1
               Crashlytics.sharedInstance().setObjectValue(self.posts.count, forKey: "updateDeletes")
@@ -464,25 +464,25 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
     lastCommentQuery.observe(.childAdded, with: { dataSnaphot in
       if dataSnaphot.key != lastCommentId {
         post.comments.append(FPComment(snapshot: dataSnaphot))
-        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+        if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
           self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
           self.collectionViewLayout.invalidateLayout()
         }
       }
     })
     commentQuery.observe(.childChanged, with: { dataSnaphot in
-      if let index = post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+      if let index = post.comments.firstIndex(where: {$0.commentID == dataSnaphot.key}) {
         post.comments[index] = .init(snapshot: dataSnaphot)
-        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+        if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
           self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
           self.collectionViewLayout.invalidateLayout()
         }
       }
     })
     commentQuery.observe(.childRemoved, with: { dataSnaphot in
-      if let index = post.comments.index(where: {$0.commentID == dataSnaphot.key}) {
+      if let index = post.comments.firstIndex(where: {$0.commentID == dataSnaphot.key}) {
         post.comments.remove(at: index)
-        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+        if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
           self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
           self.collectionViewLayout.invalidateLayout()
         }
@@ -496,7 +496,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
       if post.likeCount != count || post.isLiked != $0.hasChild(self.uid){
         post.likeCount = count
         post.isLiked = $0.hasChild(self.uid)
-        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+        if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
           self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
       }
@@ -542,7 +542,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
       }
       if post.comments != commentsArray {
         post.comments = commentsArray
-        if let index = self.posts.index(where: {$0.postID == post.postID}) {
+        if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
           self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
           self.collectionViewLayout.invalidateLayout()
         }

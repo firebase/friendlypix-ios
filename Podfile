@@ -4,6 +4,7 @@ target 'FriendlyPix' do
 
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
