@@ -339,9 +339,9 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.9.2)
-  - SDWebImage (5.2.1):
-    - SDWebImage/Core (= 5.2.1)
-  - SDWebImage/Core (5.2.1)
+  - SDWebImage (5.2.2):
+    - SDWebImage/Core (= 5.2.2)
+  - SDWebImage/Core (5.2.2)
 
 DEPENDENCIES:
   - Crashlytics
@@ -454,7 +454,7 @@ SPEC CHECKSUMS:
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 67fb42ba613def994e61854de2b3164f13790cc4
-  SDWebImage: 336f6958a13d5e8347a317cd68a9f6ee9aaaaf03
+  SDWebImage: 5fcdb02cc35e05fc35791ec514b191d27189f872
 
 PODFILE CHECKSUM: 323a932f36e1a1d357072fc5650697321309b19c
 
