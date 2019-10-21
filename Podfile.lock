@@ -196,17 +196,17 @@ PODS:
   - leveldb-library (1.22)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
-  - MaterialComponents/AnimationTiming (92.4.0)
-  - MaterialComponents/BottomAppBar (92.4.0):
+  - MaterialComponents/AnimationTiming (92.5.0)
+  - MaterialComponents/BottomAppBar (92.5.0):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (92.4.0):
+  - MaterialComponents/ButtonBar (92.5.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (92.4.0):
+  - MaterialComponents/Buttons (92.5.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -217,10 +217,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (92.4.0)":
+  - "MaterialComponents/Buttons+ColorThemer (92.5.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/Cards (92.4.0):
+  - MaterialComponents/Cards (92.5.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Icons/ic_check_circle
@@ -228,7 +228,7 @@ PODS:
     - MaterialComponents/Ripple
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Shapes
-  - MaterialComponents/Chips (92.4.0):
+  - MaterialComponents/Chips (92.5.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -240,7 +240,7 @@ PODS:
     - MaterialComponents/TextFields
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Dialogs (92.4.0):
+  - MaterialComponents/Dialogs (92.5.0):
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
     - MaterialComponents/private/KeyboardWatcher
@@ -249,17 +249,17 @@ PODS:
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - "MaterialComponents/Dialogs+ColorThemer (92.4.0)":
+  - "MaterialComponents/Dialogs+ColorThemer (92.5.0)":
     - "MaterialComponents/Buttons+ColorThemer"
     - MaterialComponents/Dialogs
     - MaterialComponents/Themes
-  - MaterialComponents/Elevation (92.4.0):
+  - MaterialComponents/Elevation (92.5.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/Ink (92.4.0):
+  - MaterialComponents/Ink (92.5.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/List (92.4.0):
+  - MaterialComponents/List (92.5.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -268,46 +268,46 @@ PODS:
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/NavigationBar (92.4.0):
+  - MaterialComponents/NavigationBar (92.5.0):
     - MaterialComponents/ButtonBar
     - MaterialComponents/Elevation
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (92.4.0):
+  - MaterialComponents/OverlayWindow (92.5.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (92.4.0)
-  - MaterialComponents/private/Application (92.4.0)
-  - MaterialComponents/private/Color (92.4.0)
-  - MaterialComponents/private/Icons/Base (92.4.0)
-  - MaterialComponents/private/Icons/ic_check_circle (92.4.0):
+  - MaterialComponents/Palettes (92.5.0)
+  - MaterialComponents/private/Application (92.5.0)
+  - MaterialComponents/private/Color (92.5.0)
+  - MaterialComponents/private/Icons/Base (92.5.0)
+  - MaterialComponents/private/Icons/ic_check_circle (92.5.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (92.4.0):
+  - MaterialComponents/private/KeyboardWatcher (92.5.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (92.4.0)
-  - MaterialComponents/private/Overlay (92.4.0)
-  - MaterialComponents/Ripple (92.4.0):
+  - MaterialComponents/private/Math (92.5.0)
+  - MaterialComponents/private/Overlay (92.5.0)
+  - MaterialComponents/Ripple (92.5.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/schemes/Color (92.4.0):
+  - MaterialComponents/schemes/Color (92.5.0):
     - MaterialComponents/private/Color
-  - MaterialComponents/schemes/Typography (92.4.0):
+  - MaterialComponents/schemes/Typography (92.5.0):
     - "MaterialComponents/schemes/Typography+BasicFontScheme"
     - MaterialComponents/Typography
-  - "MaterialComponents/schemes/Typography+BasicFontScheme (92.4.0)"
-  - MaterialComponents/ShadowElevations (92.4.0)
-  - MaterialComponents/ShadowLayer (92.4.0):
+  - "MaterialComponents/schemes/Typography+BasicFontScheme (92.5.0)"
+  - MaterialComponents/ShadowElevations (92.5.0)
+  - MaterialComponents/ShadowLayer (92.5.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/ShapeLibrary (92.4.0):
+  - MaterialComponents/ShapeLibrary (92.5.0):
     - MaterialComponents/private/Math
     - MaterialComponents/Shapes
-  - MaterialComponents/Shapes (92.4.0):
+  - MaterialComponents/Shapes (92.5.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/Snackbar (92.4.0):
+  - MaterialComponents/Snackbar (92.5.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
@@ -319,17 +319,17 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (92.4.0):
+  - MaterialComponents/TextFields (92.5.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Elevation
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Themes (92.4.0):
+  - MaterialComponents/Themes (92.5.0):
     - MaterialComponents/schemes/Color
     - MaterialComponents/schemes/Typography
-  - MaterialComponents/Typography (92.4.0):
+  - MaterialComponents/Typography (92.5.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (2.0.0)
@@ -450,7 +450,7 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
-  MaterialComponents: b584175e16dc0bff91ca4c867c64f381f89511ae
+  MaterialComponents: 268edb7e34f1277b79d20f701b6ae30c7cd0179a
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
