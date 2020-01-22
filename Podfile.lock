@@ -129,12 +129,12 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseUI/Anonymous (8.4.0):
+  - FirebaseUI/Anonymous (8.4.1):
     - FirebaseUI/Auth
-  - FirebaseUI/Auth (8.4.0):
+  - FirebaseUI/Auth (8.4.1):
     - Firebase/Auth (~> 6.0)
     - GoogleUtilities/UserDefaults
-  - FirebaseUI/Google (8.4.0):
+  - FirebaseUI/Google (8.4.1):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 5.0)
   - GoogleAPIClientForREST/Core (1.3.10):
@@ -448,7 +448,7 @@ SPEC CHECKSUMS:
   FirebasePerformance: 18ac5d515f0da0a96cde94b7fc5b1514b235e2d9
   FirebaseRemoteConfig: c11d74d8b1ff8463b587fc8899d92ee089f9a691
   FirebaseStorage: 6c5263796af3b1be82ed173598aade47535fe125
-  FirebaseUI: 433550cb9e3d03ec7ee2c25f87493f76358d9b68
+  FirebaseUI: 69f7e480265758a9a9ea39915694b0949bcab23f
   GoogleAPIClientForREST: 4acfffd77f1c3c8741b6be9eaed0e603278efbde
   GoogleAppMeasurement: a08a43b8677b95ed51fcef880e36737334d804fd
   GoogleDataTransport: 574a983e829327d7c18f2627f65d9e80164ea8a4
