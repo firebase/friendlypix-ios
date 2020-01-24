@@ -137,9 +137,9 @@ PODS:
   - FirebaseUI/Google (8.4.1):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 5.0)
-  - GoogleAPIClientForREST/Core (1.3.10):
+  - GoogleAPIClientForREST/Core (1.3.11):
     - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Vision (1.3.10):
+  - GoogleAPIClientForREST/Vision (1.3.11):
     - GoogleAPIClientForREST/Core
     - GTMSessionFetcher (>= 1.1.7)
   - GoogleAppMeasurement (6.2.1):
@@ -201,17 +201,17 @@ PODS:
   - leveldb-library (1.22)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
-  - MaterialComponents/AnimationTiming (102.0.0)
-  - MaterialComponents/BottomAppBar (102.0.0):
+  - MaterialComponents/AnimationTiming (103.0.0)
+  - MaterialComponents/BottomAppBar (103.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (102.0.0):
+  - MaterialComponents/ButtonBar (103.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (102.0.0):
+  - MaterialComponents/Buttons (103.0.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -222,10 +222,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (102.0.0)":
+  - "MaterialComponents/Buttons+ColorThemer (103.0.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/Cards (102.0.0):
+  - MaterialComponents/Cards (103.0.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Icons/ic_check_circle
@@ -233,7 +233,7 @@ PODS:
     - MaterialComponents/Ripple
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Shapes
-  - MaterialComponents/Chips (102.0.0):
+  - MaterialComponents/Chips (103.0.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -245,7 +245,7 @@ PODS:
     - MaterialComponents/TextFields
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Dialogs (102.0.0):
+  - MaterialComponents/Dialogs (103.0.0):
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
     - MaterialComponents/private/KeyboardWatcher
@@ -254,17 +254,17 @@ PODS:
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - "MaterialComponents/Dialogs+ColorThemer (102.0.0)":
+  - "MaterialComponents/Dialogs+ColorThemer (103.0.0)":
     - "MaterialComponents/Buttons+ColorThemer"
     - MaterialComponents/Dialogs
     - MaterialComponents/Themes
-  - MaterialComponents/Elevation (102.0.0):
+  - MaterialComponents/Elevation (103.0.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/Ink (102.0.0):
+  - MaterialComponents/Ink (103.0.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/List (102.0.0):
+  - MaterialComponents/List (103.0.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -273,48 +273,48 @@ PODS:
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/NavigationBar (102.0.0):
+  - MaterialComponents/NavigationBar (103.0.0):
     - MaterialComponents/ButtonBar
     - MaterialComponents/Elevation
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (102.0.0):
+  - MaterialComponents/OverlayWindow (103.0.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (102.0.0)
-  - MaterialComponents/private/Application (102.0.0)
-  - MaterialComponents/private/Color (102.0.0)
-  - MaterialComponents/private/Icons/Base (102.0.0)
-  - MaterialComponents/private/Icons/ic_check_circle (102.0.0):
+  - MaterialComponents/Palettes (103.0.0)
+  - MaterialComponents/private/Application (103.0.0)
+  - MaterialComponents/private/Color (103.0.0)
+  - MaterialComponents/private/Icons/Base (103.0.0)
+  - MaterialComponents/private/Icons/ic_check_circle (103.0.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (102.0.0):
+  - MaterialComponents/private/KeyboardWatcher (103.0.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (102.0.0)
-  - MaterialComponents/private/Overlay (102.0.0)
-  - MaterialComponents/Ripple (102.0.0):
+  - MaterialComponents/private/Math (103.0.0)
+  - MaterialComponents/private/Overlay (103.0.0)
+  - MaterialComponents/Ripple (103.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/schemes/Color (102.0.0):
+  - MaterialComponents/schemes/Color (103.0.0):
     - MaterialComponents/private/Color
-  - MaterialComponents/schemes/Typography (102.0.0):
+  - MaterialComponents/schemes/Typography (103.0.0):
     - "MaterialComponents/schemes/Typography+BasicFontScheme"
     - "MaterialComponents/schemes/Typography+Scheming"
     - MaterialComponents/Typography
-  - "MaterialComponents/schemes/Typography+BasicFontScheme (102.0.0)"
-  - "MaterialComponents/schemes/Typography+Scheming (102.0.0)"
-  - MaterialComponents/ShadowElevations (102.0.0)
-  - MaterialComponents/ShadowLayer (102.0.0):
+  - "MaterialComponents/schemes/Typography+BasicFontScheme (103.0.0)"
+  - "MaterialComponents/schemes/Typography+Scheming (103.0.0)"
+  - MaterialComponents/ShadowElevations (103.0.0)
+  - MaterialComponents/ShadowLayer (103.0.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/ShapeLibrary (102.0.0):
+  - MaterialComponents/ShapeLibrary (103.0.0):
     - MaterialComponents/private/Math
     - MaterialComponents/Shapes
-  - MaterialComponents/Shapes (102.0.0):
+  - MaterialComponents/Shapes (103.0.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/Snackbar (102.0.0):
+  - MaterialComponents/Snackbar (103.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
@@ -326,7 +326,7 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (102.0.0):
+  - MaterialComponents/TextFields (103.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
@@ -334,10 +334,10 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Themes (102.0.0):
+  - MaterialComponents/Themes (103.0.0):
     - MaterialComponents/schemes/Color
     - MaterialComponents/schemes/Typography
-  - MaterialComponents/Typography (102.0.0):
+  - MaterialComponents/Typography (103.0.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (2.0.0)
@@ -449,7 +449,7 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: c11d74d8b1ff8463b587fc8899d92ee089f9a691
   FirebaseStorage: 6c5263796af3b1be82ed173598aade47535fe125
   FirebaseUI: 69f7e480265758a9a9ea39915694b0949bcab23f
-  GoogleAPIClientForREST: 4acfffd77f1c3c8741b6be9eaed0e603278efbde
+  GoogleAPIClientForREST: 0f19a8280dfe6471f76016645d26eb5dae305101
   GoogleAppMeasurement: a08a43b8677b95ed51fcef880e36737334d804fd
   GoogleDataTransport: 574a983e829327d7c18f2627f65d9e80164ea8a4
   GoogleDataTransportCCTSupport: cad3cd6cdbdbad6b5c2c9206ec413402755faaaa
@@ -462,7 +462,7 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
-  MaterialComponents: 4b31f682e9c6e8ccbf4f85b479556aa8bd23ffe9
+  MaterialComponents: 300839ef5e1dc4028ac422fa072f75ff3d2ad49c
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
