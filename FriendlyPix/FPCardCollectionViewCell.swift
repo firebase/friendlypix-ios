@@ -111,7 +111,7 @@ class FPCardCollectionViewCell: MDCCardCollectionCell {
       }
     }
     title.append(attrString)
-    title.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, title.length))
+    title.addAttribute(.paragraphStyle, value: MDCSelfSizingStereoCell.paragraphStyle, range: NSMakeRange(0, title.length))
     titleLabel.attributedText = title
     titleLabel.accessibilityLabel = "\(post.text), posted by \(postAuthor.fullname)"
 
@@ -189,7 +189,7 @@ class FPCardCollectionViewCell: MDCCardCollectionCell {
       commentLabel.accessibilityLabel = "\(comment.from.fullname) said, \(comment.text)"
       let text = NSMutableAttributedString(string: comment.from.fullname, attributes: attributes)
       text.append(NSAttributedString(string: " " + comment.text))
-      text.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, text.length))
+      text.addAttribute(.paragraphStyle, value: MDCSelfSizingStereoCell.paragraphStyle, range: NSMakeRange(0, text.length))
       commentLabel.attributedText = text
     }
   }

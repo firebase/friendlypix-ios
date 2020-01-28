@@ -2,10 +2,9 @@ platform :ios, '10.0'
 target 'FriendlyPix' do
   use_frameworks!
 
-  pod 'Fabric'
-  pod 'Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
+  pod 'Firebase/Crashlytics'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
   pod 'Firebase/MLVision'

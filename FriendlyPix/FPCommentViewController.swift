@@ -119,7 +119,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
       return
     }
 
-    collectionView.register(FPCommentCell.self, forCellWithReuseIdentifier: "cell")
+    collectionView.register(MDCSelfSizingStereoCell.self, forCellWithReuseIdentifier: "cell")
 
     if #available(iOS 11.0, *) {
       bottomAreaInset = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
@@ -360,7 +360,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-    if let cell = cell as? FPCommentCell {
+    if let cell = cell as? MDCSelfSizingStereoCell {
       cell.titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                              action: #selector(handleTapOnComment(recognizer:))))
       cell.titleLabel.isUserInteractionEnabled = true

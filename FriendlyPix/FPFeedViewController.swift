@@ -212,7 +212,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
     if let currentUser = Auth.auth().currentUser  {
       self.currentUser = currentUser
       bottomBarView.floatingButton.isEnabled = !currentUser.isAnonymous
-      Crashlytics.sharedInstance().setUserIdentifier(uid)
+      Crashlytics.crashlytics().setUserID(uid)
       self.followingRef = database.reference(withPath: "people/\(uid)/following")
     } else {
       self.present(authViewController, animated: true, completion: nil)
@@ -361,7 +361,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
       if let index = self.posts.firstIndex(where: {$0.postID == postSnapshot.key}) {
         self.posts.remove(at: index)
         self.loadingPostCount -= 1
-        Crashlytics.sharedInstance().setObjectValue(self.posts.count, forKey: "listenDeletes")
+        Crashlytics.crashlytics().setCustomValue(self.posts.count, forKey: "listenDeletes")
         self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
       }
     })
@@ -388,7 +388,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
             if let index = self.posts.firstIndex(where: {$0.postID == post.postID}) {
               self.posts.remove(at: index)
               self.loadingPostCount -= 1
-              Crashlytics.sharedInstance().setObjectValue(self.posts.count, forKey: "updateDeletes")
+              Crashlytics.crashlytics().setCustomValue(self.posts.count, forKey: "updateDeletes")
               self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
               if self.posts.isEmpty {
                 self.collectionView?.backgroundView = self.emptyHomeLabel

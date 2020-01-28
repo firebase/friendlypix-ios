@@ -17,15 +17,15 @@
 import Firebase
 import MaterialComponents
 
-class FPCommentCell: MDCSelfSizingStereoCell {
+extension MDCSelfSizingStereoCell {
 
-  let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
-  let attributes2 = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
+  static let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
+  static let attributes2 = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
 
   func populateContent(from: FPUser, text: String, date: Date, index: Int) {
-    let attrText = NSMutableAttributedString(string: from.fullname , attributes: attributes)
-    attrText.append(NSAttributedString(string: " " + text, attributes: attributes2))
-    attrText.addAttribute(.paragraphStyle, value: FPCommentCell.paragraphStyle, range: NSMakeRange(0, attrText.length))
+    let attrText = NSMutableAttributedString(string: from.fullname , attributes: MDCSelfSizingStereoCell.attributes)
+    attrText.append(NSAttributedString(string: " " + text, attributes: MDCSelfSizingStereoCell.attributes2))
+    attrText.addAttribute(.paragraphStyle, value: MDCSelfSizingStereoCell.paragraphStyle, range: NSMakeRange(0, attrText.length))
     titleLabel.attributedText = attrText
     titleLabel.accessibilityLabel = "\(from.fullname) said, \(text)"
     if let profilePictureURL = from.profilePictureURL {
@@ -37,9 +37,8 @@ class FPCommentCell: MDCSelfSizingStereoCell {
     titleLabel.tag = index
     detailLabel.text = date.timeAgo()
   }
-}
 
-extension FPCommentCell {
+
   static let paragraphStyle = { () -> NSMutableParagraphStyle in
     let style = NSMutableParagraphStyle()
     style.lineSpacing = 2
