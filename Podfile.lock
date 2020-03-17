@@ -5,32 +5,32 @@ PODS:
   - AppAuth/Core (1.3.0)
   - AppAuth/ExternalUserAgent (1.3.0)
   - Cache (5.2.0)
-  - Firebase/Analytics (6.19.0):
+  - Firebase/Analytics (6.20.0):
     - Firebase/Core
-  - Firebase/Auth (6.19.0):
+  - Firebase/Auth (6.20.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 6.4.3)
-  - Firebase/Core (6.19.0):
+    - FirebaseAuth (~> 6.5.0)
+  - Firebase/Core (6.20.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.3.1)
-  - Firebase/CoreOnly (6.19.0):
+  - Firebase/CoreOnly (6.20.0):
     - FirebaseCore (= 6.6.4)
-  - Firebase/Crashlytics (6.19.0):
+  - Firebase/Crashlytics (6.20.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 4.0.0-beta.5)
-  - Firebase/Database (6.19.0):
+  - Firebase/Database (6.20.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 6.1.4)
-  - Firebase/Messaging (6.19.0):
+  - Firebase/Messaging (6.20.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 4.3.0)
-  - Firebase/MLVision (6.19.0):
+  - Firebase/MLVision (6.20.0):
     - Firebase/CoreOnly
     - FirebaseMLVision (~> 0.19.0)
-  - Firebase/Performance (6.19.0):
+  - Firebase/Performance (6.20.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 3.1.10)
-  - Firebase/Storage (6.19.0):
+  - Firebase/Storage (6.20.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.6.0)
   - FirebaseABTesting (3.2.0):
@@ -47,7 +47,7 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
   - FirebaseAnalyticsInterop (1.5.0)
-  - FirebaseAuth (6.4.3):
+  - FirebaseAuth (6.5.0):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.6)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
@@ -206,18 +206,18 @@ PODS:
   - leveldb-library (1.22)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
-  - MaterialComponents/AnimationTiming (107.2.0)
-  - MaterialComponents/Availability (107.2.0)
-  - MaterialComponents/BottomAppBar (107.2.0):
+  - MaterialComponents/AnimationTiming (107.3.0)
+  - MaterialComponents/Availability (107.3.0)
+  - MaterialComponents/BottomAppBar (107.3.0):
     - MaterialComponents/Buttons
     - MaterialComponents/NavigationBar
     - MaterialComponents/private/Math
     - MDFInternationalization
-  - MaterialComponents/ButtonBar (107.2.0):
+  - MaterialComponents/ButtonBar (107.3.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/Application
     - MDFInternationalization
-  - MaterialComponents/Buttons (107.2.0):
+  - MaterialComponents/Buttons (107.3.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -228,10 +228,10 @@ PODS:
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - "MaterialComponents/Buttons+ColorThemer (107.2.0)":
+  - "MaterialComponents/Buttons+ColorThemer (107.3.0)":
     - MaterialComponents/Buttons
     - MaterialComponents/schemes/Color
-  - MaterialComponents/Cards (107.2.0):
+  - MaterialComponents/Cards (107.3.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Icons/ic_check_circle
@@ -239,7 +239,7 @@ PODS:
     - MaterialComponents/Ripple
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Shapes
-  - MaterialComponents/Chips (107.2.0):
+  - MaterialComponents/Chips (107.3.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -251,7 +251,7 @@ PODS:
     - MaterialComponents/TextFields
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Dialogs (107.2.0):
+  - MaterialComponents/Dialogs (107.3.0):
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
     - MaterialComponents/private/KeyboardWatcher
@@ -260,19 +260,19 @@ PODS:
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - "MaterialComponents/Dialogs+ColorThemer (107.2.0)":
+  - "MaterialComponents/Dialogs+ColorThemer (107.3.0)":
     - "MaterialComponents/Buttons+ColorThemer"
     - MaterialComponents/Dialogs
     - MaterialComponents/Themes
-  - MaterialComponents/Elevation (107.2.0):
+  - MaterialComponents/Elevation (107.3.0):
     - MaterialComponents/Availability
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/Ink (107.2.0):
+  - MaterialComponents/Ink (107.3.0):
     - MaterialComponents/Availability
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/List (107.2.0):
+  - MaterialComponents/List (107.3.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
@@ -281,51 +281,51 @@ PODS:
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/NavigationBar (107.2.0):
+  - MaterialComponents/NavigationBar (107.3.0):
     - MaterialComponents/ButtonBar
     - MaterialComponents/Elevation
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/OverlayWindow (107.2.0):
+  - MaterialComponents/OverlayWindow (107.3.0):
     - MaterialComponents/Availability
     - MaterialComponents/private/Application
-  - MaterialComponents/Palettes (107.2.0)
-  - MaterialComponents/private/Application (107.2.0)
-  - MaterialComponents/private/Color (107.2.0):
+  - MaterialComponents/Palettes (107.3.0)
+  - MaterialComponents/private/Application (107.3.0)
+  - MaterialComponents/private/Color (107.3.0):
     - MaterialComponents/Availability
-  - MaterialComponents/private/Icons/Base (107.2.0)
-  - MaterialComponents/private/Icons/ic_check_circle (107.2.0):
+  - MaterialComponents/private/Icons/Base (107.3.0)
+  - MaterialComponents/private/Icons/ic_check_circle (107.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/KeyboardWatcher (107.2.0):
+  - MaterialComponents/private/KeyboardWatcher (107.3.0):
     - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (107.2.0)
-  - MaterialComponents/private/Overlay (107.2.0)
-  - MaterialComponents/Ripple (107.2.0):
+  - MaterialComponents/private/Math (107.3.0)
+  - MaterialComponents/private/Overlay (107.3.0)
+  - MaterialComponents/Ripple (107.3.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/schemes/Color (107.2.0):
+  - MaterialComponents/schemes/Color (107.3.0):
     - MaterialComponents/Availability
     - MaterialComponents/private/Color
-  - MaterialComponents/schemes/Typography (107.2.0):
+  - MaterialComponents/schemes/Typography (107.3.0):
     - "MaterialComponents/schemes/Typography+BasicFontScheme"
     - "MaterialComponents/schemes/Typography+Scheming"
     - MaterialComponents/Typography
-  - "MaterialComponents/schemes/Typography+BasicFontScheme (107.2.0)"
-  - "MaterialComponents/schemes/Typography+Scheming (107.2.0)"
-  - MaterialComponents/ShadowElevations (107.2.0)
-  - MaterialComponents/ShadowLayer (107.2.0):
+  - "MaterialComponents/schemes/Typography+BasicFontScheme (107.3.0)"
+  - "MaterialComponents/schemes/Typography+Scheming (107.3.0)"
+  - MaterialComponents/ShadowElevations (107.3.0)
+  - MaterialComponents/ShadowLayer (107.3.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/ShapeLibrary (107.2.0):
+  - MaterialComponents/ShapeLibrary (107.3.0):
     - MaterialComponents/private/Math
     - MaterialComponents/Shapes
-  - MaterialComponents/Shapes (107.2.0):
+  - MaterialComponents/Shapes (107.3.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/Snackbar (107.2.0):
+  - MaterialComponents/Snackbar (107.3.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Availability
     - MaterialComponents/Buttons
@@ -338,7 +338,7 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/TextFields (107.2.0):
+  - MaterialComponents/TextFields (107.3.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
@@ -346,10 +346,10 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Themes (107.2.0):
+  - MaterialComponents/Themes (107.3.0):
     - MaterialComponents/schemes/Color
     - MaterialComponents/schemes/Typography
-  - MaterialComponents/Typography (107.2.0):
+  - MaterialComponents/Typography (107.3.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
   - MDFInternationalization (2.0.0)
@@ -438,11 +438,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
-  Firebase: d55ddb0e0bb3207166cddc028647833d8a1b5b6f
+  Firebase: fe7f74012742ab403451dd283e6909b8f1fb348a
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
   FirebaseAnalytics: 572e467f3d977825266e8ccd52674aa3e6f47eac
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
-  FirebaseAuth: 5ce2b03a3d7fe56b7a6e4c5ec7ff1522890b1d6f
+  FirebaseAuth: 648892fd0afeb27ef97c1d2e667329855f1004bc
   FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
   FirebaseCore: ed0a24c758a57c2b88c5efa8e6a8195e868af589
   FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
@@ -471,7 +471,7 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
-  MaterialComponents: 4dd1927cd2257e564983018906e152d18cda0c03
+  MaterialComponents: 74efa6d0c39d54850404c94352c163c6acd6cd39
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
