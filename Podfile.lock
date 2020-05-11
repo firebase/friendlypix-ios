@@ -146,9 +146,9 @@ PODS:
   - FirebaseUI/Google (8.4.2):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 5.0)
-  - GoogleAPIClientForREST/Core (1.4.0):
+  - GoogleAPIClientForREST/Core (1.4.1):
     - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Vision (1.4.0):
+  - GoogleAPIClientForREST/Vision (1.4.1):
     - GoogleAPIClientForREST/Core
     - GTMSessionFetcher (>= 1.1.7)
   - GoogleAppMeasurement (6.5.0):
@@ -367,9 +367,9 @@ PODS:
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
-  - SDWebImage (5.7.4):
-    - SDWebImage/Core (= 5.7.4)
-  - SDWebImage/Core (5.7.4)
+  - SDWebImage (5.8.0):
+    - SDWebImage/Core (= 5.8.0)
+  - SDWebImage/Core (5.8.0)
 
 DEPENDENCIES:
   - Firebase/Analytics
@@ -464,7 +464,7 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 12669ca87e6d9cf87a6123cb8ad8a771a7b49c6b
   FirebaseStorage: f4f39ae834a7145963b913f54e2f24a9db1d8fac
   FirebaseUI: e57e9b9c4340631151fbe67a14206d23d0974f37
-  GoogleAPIClientForREST: a7623ff31da25cf4306922ef318977b48f275f0c
+  GoogleAPIClientForREST: e50dc3267b3131ee3a25e707c10204f6bec15ae9
   GoogleAppMeasurement: 4c644d86835d827bab30ab6aabb9ecaf1f500735
   GoogleDataTransport: f6f8eba931df03ebd2232ff4645aa85f8f47b5ab
   GoogleDataTransportCCTSupport: d70a561f7d236af529fee598835caad5e25f6d3d
@@ -483,7 +483,7 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  SDWebImage: 48b88379b798fd1e4298f95bb25d2cdabbf4deb3
+  SDWebImage: 84000f962cbfa70c07f19d2234cbfcf5d779b5dc
 
 PODFILE CHECKSUM: 605bf4ca07767c21275022fedac944b5465ac185
 
