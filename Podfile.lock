@@ -205,8 +205,8 @@ PODS:
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
   - ImagePicker (3.2.0)
-  - Imaginary (4.2.0):
-    - Cache (~> 5.0)
+  - Imaginary (4.3.1):
+    - Cache (~> 5.3.0)
   - leveldb-library (1.22)
   - Lightbox (2.3.0):
     - Imaginary (~> 4.0)
@@ -474,7 +474,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   ImagePicker: 1d950bbb2422548ed58791b4ec7f42fe42920511
-  Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
+  Imaginary: 18c5bba364229eef383b925199db442e71d175e1
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
   MaterialComponents: 7c5a7d77fbe08aca9383fc97aeb7423b1fbce6b4
