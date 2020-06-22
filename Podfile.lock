@@ -196,8 +196,8 @@ PODS:
   - Imaginary (4.3.1):
     - Cache (~> 5.3.0)
   - leveldb-library (1.22)
-  - Lightbox (2.3.0):
-    - Imaginary (~> 4.0)
+  - Lightbox (2.4.1):
+    - Imaginary (~> 4.3.1)
   - MaterialComponents/AnimationTiming (109.8.0)
   - MaterialComponents/Availability (109.8.0)
   - MaterialComponents/BottomAppBar (109.8.0):
@@ -458,7 +458,7 @@ SPEC CHECKSUMS:
   ImagePicker: 1d950bbb2422548ed58791b4ec7f42fe42920511
   Imaginary: 18c5bba364229eef383b925199db442e71d175e1
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
-  Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
+  Lightbox: cede4a64f2d864da1f7e7959aa78a8659a311e7c
   MaterialComponents: 00df0652f52cd6968b02d531bd2e6956b0f907b8
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
