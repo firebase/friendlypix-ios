@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '13.0'
 target 'FriendlyPix' do
   use_frameworks!
 

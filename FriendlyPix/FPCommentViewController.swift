@@ -30,6 +30,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
   let attributes = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body2)]
   let attributes2 = [NSAttributedString.Key.font: UIFont.mdc_preferredFont(forMaterialTextStyle: .body1)]
   var bottomConstraint: NSLayoutConstraint!
+  private let mdcSnackBarmanager = MDCSnackbarManager()
   var heightConstraint: NSLayoutConstraint!
   var inputBottomConstraint: NSLayoutConstraint!
   var sendBottomConstraint: NSLayoutConstraint!
@@ -91,7 +92,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
     }
     action.title = "Undo"
     commentDeleteText.action = action
-    MDCSnackbarManager.show(commentDeleteText)
+    mdcSnackBarmanager.show(commentDeleteText)
   }
 
   override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -178,7 +179,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
     super.viewWillAppear(animated)
     UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
                                     argument: collectionView)
-    MDCSnackbarManager.setBottomOffset(0)
+    mdcSnackBarmanager.setBottomOffset(0)
     isEditingComment = false
     let lastCommentId = comments.last?.commentID
     commentQuery = commentsRef
@@ -223,7 +224,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
     self.navigationController?.setToolbarHidden(true, animated: false)
     self.commentsRef.removeAllObservers()
     self.commentQuery.removeAllObservers()
-    MDCSnackbarManager.dismissAndCallCompletionBlocks(withCategory: nil)
+    mdcSnackBarmanager.dismissAndCallCompletionBlocks(withCategory: nil)
     requestWorkItem?.perform()
   }
 
@@ -273,7 +274,7 @@ class FPCommentViewController: UICollectionViewController, UITextViewDelegate {
               self.collectionView?.scrollToItem(at: indexPath!, at: .bottom, animated: true)
             }
           } else {
-            MDCSnackbarManager.setBottomOffset(0)
+            self.mdcSnackBarmanager.setBottomOffset(0)
             if let updatedLabel = self.updatedLabel {
               UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged,
                                               argument: updatedLabel)

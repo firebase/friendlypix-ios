@@ -70,7 +70,7 @@ class FPAccountViewController: UICollectionViewController, UICollectionViewDeleg
     if indexPath.section == 0 {
       return CGSize(width: collectionView.bounds.size.width, height: 112)
     }
-    let height = MDCCeil(((collectionView.bounds.width) - 14) * 0.325)
+    let height = ceil(((collectionView.bounds.width) - 14) * 0.325)
     return CGSize(width: height, height: height)
   }
 
@@ -294,7 +294,7 @@ class FPAccountViewController: UICollectionViewController, UICollectionViewDeleg
     if indexPath.section == 0 {
       return 112
     }
-    return MDCCeil(((self.collectionView?.bounds.width)! - 14) * 0.325)
+    return ceil(((self.collectionView?.bounds.width)! - 14) * 0.325)
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

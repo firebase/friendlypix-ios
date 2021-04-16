@@ -108,7 +108,7 @@ class FPSearchViewController: UICollectionViewController, UISearchBarDelegate, U
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    navigationController?.navigationBar.barTintColor = UIColor.init(hex: "0288D1")
+    navigationController?.navigationBar.barTintColor = UIColor(red: 12, green: 34, blue: 56, alpha: 1)
     navigationController?.navigationBar.tintColor = .white
   }
 

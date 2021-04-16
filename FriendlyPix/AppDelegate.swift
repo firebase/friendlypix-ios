@@ -25,6 +25,7 @@ private let kFirebaseTermsOfService = URL(string: "https://firebase.google.com/t
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   let mdcMessage = MDCSnackbarMessage()
+  let mdcSnackBarManager = MDCSnackbarManager()
   let mdcAction = MDCSnackbarMessageAction()
   var window: UIWindow?
   lazy var database = Database.database()
@@ -97,7 +98,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if let aps = userInfo[apsKey] as? [String: String], !aps.isEmpty, let message = aps[gcmMessage],
       let label = userInfo[gcmLabel] as? String {
       mdcMessage.text = "\(label): \(message)"
-      MDCSnackbarManager.show(mdcMessage)
+
+      mdcSnackBarManager.show(mdcMessage)
     }
   }
 
@@ -111,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       feed.showProfile(FPUser(dictionary: ["uid": userId]))
     }
     mdcMessage.action = mdcAction
-    MDCSnackbarManager.show(mdcMessage)
+    mdcSnackBarManager.show(mdcMessage)
   }
 
   @available(iOS 9.0, *)
@@ -175,13 +177,13 @@ extension AppDelegate: FUIAuthDelegate {
     case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.userCancelledSignIn.rawValue:
       print("User cancelled sign-in")
     case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.mergeConflict.rawValue:
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: "This identity is already associated with a different user account."))
+      mdcSnackBarManager.show(MDCSnackbarMessage(text: "This identity is already associated with a different user account."))
     case .some(let error as NSError) where UInt(error.code) == FUIAuthErrorCode.providerError.rawValue:
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: "There is an error with Google Sign in."))
+      mdcSnackBarManager.show(MDCSnackbarMessage(text: "There is an error with Google Sign in."))
     case .some(let error as NSError) where error.userInfo[NSUnderlyingErrorKey] != nil:
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: "\(error.userInfo[NSUnderlyingErrorKey]!)"))
+      mdcSnackBarManager.show(MDCSnackbarMessage(text: "\(error.userInfo[NSUnderlyingErrorKey]!)"))
     case .some(let error):
-      MDCSnackbarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
+      mdcSnackBarManager.show(MDCSnackbarMessage(text: error.localizedDescription))
     case .none:
       if let user = authDataResult?.user {
         signed(in: user)

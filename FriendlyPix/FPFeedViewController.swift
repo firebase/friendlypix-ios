@@ -21,6 +21,7 @@ import Lightbox
 import MaterialComponents
 
 class FPFeedViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, FPCardCollectionViewCellDelegate {
+  private var mdcSnackBarManager = MDCSnackbarManager()
   var currentUser: User!
   lazy var uid = currentUser.uid
   var followingRef: DatabaseReference?
@@ -204,7 +205,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
                                     width: size.width,
                                     height: size.height)
     bottomBarView.frame = bottomBarViewFrame
-    MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
+    mdcSnackBarManager.setBottomOffset(bottomBarView.frame.height)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -218,7 +219,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
       self.present(authViewController, animated: true, completion: nil)
       return
     }
-    MDCSnackbarManager.setBottomOffset(bottomBarView.frame.height)
+    mdcSnackBarManager.setBottomOffset(bottomBarView.frame.height)
     if let item = navigationItem.rightBarButtonItems?[0] {
       item.accessibilityLabel = "Profile"
       item.accessibilityHint = "Double-tap to open your profile."
@@ -250,7 +251,7 @@ class FPFeedViewController: UICollectionViewController, UICollectionViewDelegate
       observer.removeAllObservers()
     }
     observers = [DatabaseQuery]()
-    MDCSnackbarManager.setBottomOffset(0)
+    mdcSnackBarManager.setBottomOffset(0)
     if let spinner = spinner {
       removeSpinner(spinner)
     }

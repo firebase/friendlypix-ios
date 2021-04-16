@@ -197,7 +197,7 @@ class FPCardCollectionViewCell: MDCCardCollectionCell {
   override func updateConstraints() {
     super.updateConstraints()
 
-    let constant = MDCCeil((self.bounds.width - 2) * 0.65)
+    let constant = ceil((self.bounds.width - 2) * 0.65)
     if imageConstraint == nil {
       imageConstraint = postImageView.heightAnchor.constraint(equalToConstant: constant)
 

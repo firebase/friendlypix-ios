@@ -25,6 +25,7 @@ class FPUploadViewController: UIViewController, UITextViewDelegate {
   private var inputBottomConstraint: NSLayoutConstraint!
   private var sendBottomConstraint: NSLayoutConstraint!
   private var isKeyboardShown = false
+  private var mdcSnackBarManager = MDCSnackbarManager()
   private let messageInputContainerView: UIView = {
     let view = UIView()
     view.backgroundColor = .white
@@ -254,7 +255,7 @@ class FPUploadViewController: UIViewController, UITextViewDelegate {
     fullRef.putData(resizedImageData, metadata: metadata) { fullmetadata, error in
       if let error = error {
         message.text = "Error uploading image"
-        MDCSnackbarManager.show(message)
+        self.mdcSnackBarManager.show(message)
         self.button.isEnabled = true
         print("Error uploading image: \(error.localizedDescription)")
         return
@@ -275,7 +276,7 @@ class FPUploadViewController: UIViewController, UITextViewDelegate {
     thumbRef.putData(thumbnailImageData, metadata: metadata) { thumbmetadata, error in
       if let error = error {
         message.text = "Error uploading thumbnail"
-        MDCSnackbarManager.show(message)
+        self.mdcSnackBarManager.show(message)
         self.button.isEnabled = true
         print("Error uploading thumbnail: \(error.localizedDescription)")
         return

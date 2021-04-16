@@ -138,7 +138,7 @@ class FPHashTagViewController: UICollectionViewController, UICollectionViewDeleg
   }
 
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let height = MDCCeil(((self.collectionView.bounds.width) - 14) * 0.325)
+    let height = ceil(((self.collectionView.bounds.width) - 14) * 0.325)
     return CGSize(width: height, height: height)
   }
 
