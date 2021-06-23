@@ -201,11 +201,11 @@ PODS:
   - GTMAppAuth (1.2.2):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
-  - GTMSessionFetcher (1.5.0):
-    - GTMSessionFetcher/Full (= 1.5.0)
-  - GTMSessionFetcher/Core (1.5.0)
-  - GTMSessionFetcher/Full (1.5.0):
-    - GTMSessionFetcher/Core (= 1.5.0)
+  - GTMSessionFetcher (1.6.0):
+    - GTMSessionFetcher/Full (= 1.6.0)
+  - GTMSessionFetcher/Core (1.6.0)
+  - GTMSessionFetcher/Full (1.6.0):
+    - GTMSessionFetcher/Core (= 1.6.0)
   - ImagePicker (3.2.0)
   - Imaginary (5.0.0):
     - Cache (~> 6.0.0)
@@ -470,7 +470,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 471e0c05d39506e50e6398f46fa9a12ae0efeff9
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  GTMSessionFetcher: 4fc3310deb8ec49317a7ba4a35b3c9d6aadff351
   ImagePicker: 1d950bbb2422548ed58791b4ec7f42fe42920511
   Imaginary: cf5e3a7dd6ab1dcbd47ba8ce5edf2307c4e99eb3
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
