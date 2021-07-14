@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Xcodeproj.git
-  revision: 8daf5521d352b21078787195b6b8852f0d1cf6b4
+  revision: a5e4ee0c4a19b090ba646b14932f635fb0cad68a
   specs:
     xcodeproj (1.20.0)
       CFPropertyList (>= 2.3.3, < 4.0)
