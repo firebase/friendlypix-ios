@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/CocoaPods/CocoaPods.git
-  revision: 22ab8cfe9c0b0d5c054f6e987153b56fa3b0ab39
+  revision: 804eed5385053ef0bd67ed05672d0128ee5731be
   specs:
     cocoapods (1.10.1)
-      addressable (~> 2.6)
+      addressable (~> 2.8)
       claide (>= 1.0.2, < 2.0)
       cocoapods-core (= 1.10.1)
       cocoapods-deintegrate (>= 1.0.3, < 2.0)
@@ -23,11 +23,11 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Core.git
-  revision: a74cd59171d0095369641e764e67e7b39ef105e7
+  revision: 65301d4484802acd39eb70e2cdf75268607d1077
   specs:
     cocoapods-core (1.10.1)
       activesupport (>= 5.0, < 7)
-      addressable (~> 2.6)
+      addressable (~> 2.8)
       algoliasearch (~> 1.0)
       concurrent-ruby (~> 1.1)
       fuzzy_match (~> 2.0.4)
@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Xcodeproj.git
-  revision: 9ba094040a5a63b23e1becdef0afc80e7667ee9f
+  revision: eeccae7275645753cbaf45d96fc4b23e4b8b3b9f
   specs:
     xcodeproj (1.20.0)
       CFPropertyList (>= 2.3.3, < 4.0)
