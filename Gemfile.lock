@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CocoaPods/CocoaPods.git
-  revision: c1e5605ae5520a312851c7a201ce48f05c30c9bc
+  revision: 07ee1953bc274d54b397e6b42a7609369d61b120
   specs:
     cocoapods (1.10.2)
       addressable (~> 2.8)
@@ -19,7 +19,7 @@ GIT
       molinillo (~> 0.7.0)
       nap (~> 1.0)
       ruby-macho (>= 1.0, < 3.0)
-      xcodeproj (>= 1.19.0, < 2.0)
+      xcodeproj (>= 1.20.0, < 2.0)
 
 GIT
   remote: https://github.com/CocoaPods/Core.git
