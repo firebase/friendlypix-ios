@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          bundle install
+          gem install xcpretty
+          gem install xcodeproj
+          bundle exec pod install --repo-update
+          cp ./mock-GoogleService-Info.plist GoogleService-Info.plist
+          sed -i '' 's/YOUR_REVERSED_CLIENT_ID/com.googleusercontent.apps.123456789000-hjugbg6ud799v4c49dim8ce2usclthar/' Info.plist
+          ruby ./info_script.rb
+          ./test.sh
