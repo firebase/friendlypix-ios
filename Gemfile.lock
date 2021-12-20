@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Xcodeproj.git
-  revision: 9f0df2113b625d385dc9c063b05706a9921c2a5d
+  revision: 14c3954d05ca954ee7b43498def8077cc7495509
   specs:
     xcodeproj (1.21.0)
       CFPropertyList (>= 2.3.3, < 4.0)
@@ -51,9 +51,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    CFPropertyList (3.0.4)
+    CFPropertyList (3.0.5)
       rexml
-    activesupport (6.1.4.1)
+    activesupport (6.1.4.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -88,7 +88,7 @@ GEM
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     json (2.6.1)
-    minitest (5.14.4)
+    minitest (5.15.0)
     molinillo (0.8.0)
     nanaimo (0.3.0)
     nap (1.1.0)
@@ -111,4 +111,4 @@ DEPENDENCIES
   xcodeproj!
 
 BUNDLED WITH
-   2.2.30
+   2.2.33
