@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CocoaPods/CocoaPods.git
-  revision: f120f9fabda8bc7bea9995700e358ea22dd71cfe
+  revision: 6896aa979505035a6f2a61fa1583a89952388d99
   specs:
     cocoapods (1.11.2)
       addressable (~> 2.8)
