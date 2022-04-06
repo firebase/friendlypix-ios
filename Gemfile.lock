@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/CocoaPods/CocoaPods.git
-  revision: 72fd591b2d9e7ff3c95681cc22cdfc08175f6f78
+  revision: 3eb1bd365b97af2677e80531f77310c4bb69d9bd
   specs:
-    cocoapods (1.11.2)
+    cocoapods (1.11.3)
       addressable (~> 2.8)
       claide (>= 1.0.2, < 2.0)
-      cocoapods-core (= 1.11.2)
+      cocoapods-core (= 1.11.3)
       cocoapods-deintegrate (>= 1.0.3, < 2.0)
-      cocoapods-downloader (>= 1.4.0, < 2.0)
+      cocoapods-downloader (>= 1.6.0, < 2.0)
       cocoapods-plugins (>= 1.0.0, < 2.0)
       cocoapods-search (>= 1.0.0, < 2.0)
-      cocoapods-trunk (>= 1.4.0, < 2.0)
+      cocoapods-trunk (>= 1.6.0, < 2.0)
       cocoapods-try (>= 1.1.0, < 2.0)
       colored2 (~> 3.1)
       escape (~> 0.0.4)
@@ -18,14 +18,14 @@ GIT
       gh_inspector (~> 1.0)
       molinillo (~> 0.8.0)
       nap (~> 1.0)
-      ruby-macho (>= 1.0, < 3.0)
+      ruby-macho (>= 2.3.0, < 3.0)
       xcodeproj (>= 1.21.0, < 2.0)
 
 GIT
   remote: https://github.com/CocoaPods/Core.git
-  revision: f856fa726812c5a35e6ea664f3acc78285053f7e
+  revision: c00aed1dce1e757cbdd44c53115e8bbd23214776
   specs:
-    cocoapods-core (1.11.2)
+    cocoapods-core (1.11.3)
       activesupport (>= 5.0, < 7)
       addressable (~> 2.8)
       algoliasearch (~> 1.0)
@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Xcodeproj.git
-  revision: 14c3954d05ca954ee7b43498def8077cc7495509
+  revision: e9a88df9e86f6729296e373c01753339638d5067
   specs:
     xcodeproj (1.21.0)
       CFPropertyList (>= 2.3.3, < 4.0)
@@ -53,7 +53,7 @@ GEM
   specs:
     CFPropertyList (3.0.5)
       rexml
-    activesupport (6.1.4.6)
+    activesupport (6.1.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -76,7 +76,7 @@ GEM
       netrc (~> 0.11)
     cocoapods-try (1.2.0)
     colored2 (3.1.2)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     escape (0.0.4)
     ethon (0.15.0)
       ffi (>= 1.15.0)
@@ -111,4 +111,4 @@ DEPENDENCIES
   xcodeproj!
 
 BUNDLED WITH
-   2.3.8
+   2.3.10
