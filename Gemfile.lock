@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Xcodeproj.git
-  revision: b658adc5b74cecc892a55d53c04f02345cb4f64b
+  revision: 51fb78a03f31614103815ce21c56dc25c044a10d
   specs:
     xcodeproj (1.21.0)
       CFPropertyList (>= 2.3.3, < 4.0)
@@ -87,7 +87,7 @@ GEM
     httpclient (2.8.3)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    json (2.6.1)
+    json (2.6.2)
     minitest (5.15.0)
     molinillo (0.8.0)
     nanaimo (0.3.0)
@@ -111,4 +111,4 @@ DEPENDENCIES
   xcodeproj!
 
 BUNDLED WITH
-   2.3.13
+   2.3.14
