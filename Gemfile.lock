@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CocoaPods/CocoaPods.git
-  revision: f65ac1881cfcc78a6740c6e6e738933d560c2a55
+  revision: 98fc505fa0896ba61c0998b32ccae1c577077cc5
   specs:
     cocoapods (1.11.3)
       addressable (~> 2.8)
@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Core.git
-  revision: 8058017931ad9d4e0b2dc5f560ede864e9915677
+  revision: c6ac388ee43f0782fdb8e32386f41f96dbe29082
   specs:
     cocoapods-core (1.11.3)
       activesupport (>= 5.0, < 7)
@@ -88,7 +88,7 @@ GEM
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     json (2.6.2)
-    minitest (5.16.0)
+    minitest (5.16.1)
     molinillo (0.8.0)
     nanaimo (0.3.0)
     nap (1.1.0)
