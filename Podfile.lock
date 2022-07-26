@@ -373,7 +373,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (1.2.12)
-  - Protobuf (3.21.3)
+  - Protobuf (3.21.4)
   - SDWebImage (5.13.2):
     - SDWebImage/Core (= 5.13.2)
   - SDWebImage/Core (5.13.2)
@@ -481,7 +481,7 @@ SPEC CHECKSUMS:
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Protobuf: 25e5dd0944f6f05a4db360eed782af5dc9533633
+  Protobuf: 85a48c73d708782e2869564c0438e211aae98e7a
   SDWebImage: 72f86271a6f3139cc7e4a89220946489d4b9a866
 
 PODFILE CHECKSUM: 62e26ee75327b30dad5aeb09a2434392989e37d5
